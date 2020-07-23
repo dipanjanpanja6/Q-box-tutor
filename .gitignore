@@ -7,7 +7,7 @@
 /.vscode
 # testing
 /coverage
-
+/tutor.rar
 # production
 /build
 
