@@ -145,7 +145,6 @@ const UploadQBook = (props) => {
 		if (props.teacherAuth === null) {
 			props.checkTeacher()
 		}
-
 		axios.get(`${url}/api/course`).then(d => {
 			// console.log(d.data);
 			if (d.data.success) {
@@ -153,9 +152,6 @@ const UploadQBook = (props) => {
 			}
 		})
 	}, [])
-
-
-
 
 	const [courseValue, setCourseValue] = React.useState([]);
 	const [streamValue, setStreamValue] = React.useState('');
