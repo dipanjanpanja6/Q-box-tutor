@@ -143,13 +143,20 @@ const UploadQBook = (props) => {
 	const [subject, setSubject] = React.useState([])
 	const [chapter, setChapter] = React.useState([])
 	const [stream, setStream] = React.useState([])
+<<<<<<< HEAD
 	const [model, setModel] = useState(EditorState.createEmpty());
+=======
+
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 
 	useEffect(() => {
 		if (props.teacherAuth === null) {
 			props.checkTeacher()
 		}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 		axios.get(`${url}/api/course`).then(d => {
 			// console.log(d.data);
 			if (d.data.success) {
@@ -158,9 +165,12 @@ const UploadQBook = (props) => {
 		})
 	}, [])
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 	const [courseValue, setCourseValue] = React.useState([]);
 	const [streamValue, setStreamValue] = React.useState('');
 	const [subjectValue, setSubjectValue] = React.useState('');
@@ -317,6 +327,7 @@ const UploadQBook = (props) => {
 	}
 
 
+<<<<<<< HEAD
 	const onEditorStateChange = (newData) =>{
 		const f = draftToHtml(convertToRaw(newData.getCurrentContent()))
 		const h = JSON.stringify(f)
@@ -324,6 +335,9 @@ const UploadQBook = (props) => {
 
 		setModel(newData)
 	}
+=======
+
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 	const submit = () => {
 		if (QData.question === '' || QData.question === null) {
 			return alert('Please write some question first')
@@ -572,6 +586,7 @@ const UploadQBook = (props) => {
 								</div>
 							</Grid>
 						</Grid>
+<<<<<<< HEAD
 						<Grid container item xs={12} justify='center' >
 							{/*<Grid item sm={6} xs={12} className={sty.selectI} >*/}
 							{/*	<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Image (if any)</p>*/}
@@ -600,6 +615,35 @@ const UploadQBook = (props) => {
 
 							<Grid container justify="center">
 								<Grid container justify='center'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Video (if any)</p>
+=======
+						<Grid container item xs={12} justify='space-around'>
+							<Grid item sm={6} xs={12} className={sty.selectI} >
+								<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Image (if any)</p>
+									{/* {iup.processing && <Progress value={iup} />} */}
+								</Grid>
+								<div className={sty.inputDiv}>
+									<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
+										<input accept="image/jpeg, image/png" type='file' onChange={selectImage} style={{ width: '100%', padding: 6 }}></input>
+										{/* <Fab variant='extended' classes={{ label: "", }}
+										style={iup.uploadFinished === true ? {
+											backgroundColor: '#0f0', height: 35,
+											width: '40%',
+											borderRadius: 0,
+										} : {
+												height: 35,
+												width: '40%',
+												borderRadius: 0,
+
+											}}
+										onClick={imageUpload} >{iup.uploadFinished === true ? "Success" : "Upload Image"}</Fab> */}
+									</CardDepth>
+								</div>
+
+
+							</Grid>
+							<Grid item sm={6} xs={12} className={sty.selectI} >
+								<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Video (if any)</p>
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 									{/* {vup.processing && <Progress value={vup} />} */}
 								</Grid>
 								<div className={sty.inputDiv}>
@@ -618,11 +662,17 @@ const UploadQBook = (props) => {
 											}} onClick={videoUpload} >{vup.uploadFinished === true ? "Success" : "Upload Video"}</Fab> */}
 									</CardDepth>
 								</div>
+<<<<<<< HEAD
 							</Grid>
 
 
 
 
+=======
+
+
+							</Grid>
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 
 						</Grid>
 
@@ -642,6 +692,7 @@ const UploadQBook = (props) => {
 							<div className={sty.inputDivText}>
 
 								<CardDepth style={{ borderRadius: 12 }}>
+<<<<<<< HEAD
 									<Editor
 										editorState={model}
 										wrapperClassName="demo-wrapper"
@@ -660,6 +711,19 @@ const UploadQBook = (props) => {
 									{/*	multiline*/}
 									{/*	placeholder="Type your question here ..."*/}
 									{/*	classes={{ input: sty.input }}></Input>*/}
+=======
+									<Input
+										id="question"
+										value={QData.question}
+										onChange={handleChangeQ}
+										disableUnderline
+										fullWidth
+										rowsMax={8}
+										rows={8}
+										multiline
+										placeholder="Type your question here ..."
+										classes={{ input: sty.input }}></Input>
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 								</CardDepth>
 							</div>
 						</Grid>

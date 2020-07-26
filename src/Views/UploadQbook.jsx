@@ -113,7 +113,10 @@ const styles = makeStyles(t => ({
 }))
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 const UploadQBank = (props) => {
     const sty = styles()
     const history = useHistory()
@@ -141,8 +144,11 @@ const UploadQBank = (props) => {
     const [subject, setSubject] = React.useState([])
     const [chapter, setChapter] = React.useState([])
     const [stream, setStream] = React.useState([])
+<<<<<<< HEAD
     const [model, setModel] = useState(EditorState.createEmpty());
 
+=======
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 
 
     useEffect(() => {
@@ -166,7 +172,10 @@ const UploadQBank = (props) => {
     const [chapterValue, setChapterValue] = React.useState('');
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
     function filter(array, value, key) {
         return array.filter(key
             ? a => a[key] === value
@@ -318,6 +327,7 @@ const UploadQBank = (props) => {
 
 
 
+<<<<<<< HEAD
     const onEditorStateChange = (newData) =>{
         const f = draftToHtml(convertToRaw(newData.getCurrentContent()))
         const h = JSON.stringify(f)
@@ -326,6 +336,8 @@ const UploadQBank = (props) => {
         setModel(newData)
     }
 
+=======
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
     const submit = () => {
         if (QData.title === '' || QData.title === null) {
             return alert('Please write some topic title first.')
@@ -603,7 +615,10 @@ const UploadQBank = (props) => {
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
                     <Grid style={{ padding: '0 5%' }} item container justify='center' >
                         <div className={sty.inputDivText}>
 
@@ -621,6 +636,7 @@ const UploadQBank = (props) => {
                                     classes={{ input: sty.input }}></Input>
                             </CardDepth>
                         </div>
+<<<<<<< HEAD
 
 
 
@@ -652,6 +668,22 @@ const UploadQBank = (props) => {
                                 {/*    multiline*/}
                                 {/*    placeholder="Body ..."*/}
                                 {/*    classes={{ input: sty.input }}></Input>*/}
+=======
+                        <div className={sty.inputDivText}>
+
+                            <CardDepth style={{ borderRadius: 12 }}>
+                                <Input
+                                    id="body"
+                                    value={QData.body}
+                                    onChange={handleChangeQ}
+                                    disableUnderline
+                                    fullWidth
+                                    rowsMax={12}
+                                    rows={8}
+                                    multiline
+                                    placeholder="Body ..."
+                                    classes={{ input: sty.input }}></Input>
+>>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
                             </CardDepth>
                         </div>
                     </Grid>
