@@ -1,0 +1,5 @@
+ export const TEACHERAUTH = 'TEACHERAUTH'
+ 
+export const TEACHERLOGIN = 'TEACHERLOGIN'
+
+
