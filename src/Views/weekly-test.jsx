@@ -235,37 +235,36 @@ const UploadQBook = (props) => {
 
 
 	const submit = () => {
-		var x = JSON.parse(QData.question)
-		// var y = JSON.parse(QData.ans)
-		console.log(x.blocks.length);
 		if (QData.question === '' || QData.question === null) {
 			return alert('Please write some question first')
 		} else
-			if (x.blocks.length === 1 && x.blocks[0].text === "" && x.entityMap) {
-				return alert('Please write some question first')
+			if (QData.ans === '' || QData.ans === null) {
+				return alert('Please write at least one correct answer first at "correct answer" bellow Question field')
 			} else
-				if (QData.ans === '' || QData.ans === null) {
-					return alert('Please write at least one correct answer first at "correct answer" bellow Question field')
+				if (courseValue === []) {
+					return alert('Select Course first')
 				} else
-					if (QData.ans !== '' || QData.ans !== null) {
-
-						var y = JSON.parse(QData.question)
-						if (y.blocks.length === 1 && y.blocks[0].text === "" && y.entityMap) {
-							return alert('Please write at least one answer first')
-						}
+					if (streamValue === '' || streamValue === null) {
+						return alert('Select Stream first')
 					} else
-						if (courseValue === []) {
-							return alert('Select Course first')
+						if (subjectValue === '' || subjectValue === null) {
+							return alert('Select Subject first')
 						} else
-							if (streamValue === '' || streamValue === null) {
-								return alert('Select Stream first')
-							} else
-								if (subjectValue === '' || subjectValue === null) {
-									return alert('Select Subject first')
+							if (chapterValue === '' || chapterValue === null) {
+								return alert('Select chapter first')
+							} else {
+
+								var x = JSON.parse(QData.question)
+								var y = JSON.parse(QData.ans)
+								if (x.blocks.length === 1 && x.blocks[0].text === "" && x.entityMap) {
+									return alert('Please write some question first')
 								} else
-									if (chapterValue === '' || chapterValue === null) {
-										return alert('Select chapter first')
+									if (y.blocks.length === 1 && y.blocks[0].text === "" && y.entityMap) {
+										return alert('Please write at least one answer first')
 									} else {
+
+
+
 										const data = {
 											data: {
 												course: courseValue,
@@ -313,6 +312,7 @@ const UploadQBook = (props) => {
 											setLoading(false)
 										})
 									}
+							}
 	}
 	return (
 		<Grid container justify='center' alignItems='baseline' style={{ minHeight: "100vh", backgroundColor: '#fff' }}>
@@ -482,7 +482,7 @@ const UploadQBook = (props) => {
 								</div>
 							</Grid>
 						</Grid>
-						
+
 
 						<Grid style={{ padding: '0 5%' }} item container justify='center' >
 							<div className={sty.inputDivText}>
@@ -493,41 +493,41 @@ const UploadQBook = (props) => {
 							</div>
 						</Grid>
 
-					
-							<Grid item justify='space-between' container style={{ padding: ' 30px 5% 0 ' }} >
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-										<EditorJS onChange={(e) => { handleChangeQ(e, "ans") }} placeholder="Type your correct answer here ..." />
 
-									</CardDepth>
-								</div>
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-										<EditorJS onChange={(e) => { handleChangeQ(e, "ans1") }} placeholder="Type your wrong answer here ..." />
+						<Grid item justify='space-between' container style={{ padding: ' 30px 5% 0 ' }} >
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans") }} placeholder="Type your correct answer here ..." />
 
-									</CardDepth>
-								</div>
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-										<EditorJS onChange={(e) => { handleChangeQ(e, "ans2") }} placeholder="Type your wrong answer here ..." />
+								</CardDepth>
+							</div>
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans1") }} placeholder="Type your wrong answer here ..." />
 
-									</CardDepth>
-								</div>
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-										<EditorJS onChange={(e) => { handleChangeQ(e, "ans3") }} placeholder="Type your wrong answer here ..." />
+								</CardDepth>
+							</div>
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans2") }} placeholder="Type your wrong answer here ..." />
 
-									</CardDepth>
-								</div>
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-										<EditorJS onChange={(e) => { handleChangeQ(e, "ans4") }} placeholder="Type your wrong answer here ..." />
+								</CardDepth>
+							</div>
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans3") }} placeholder="Type your wrong answer here ..." />
 
-									</CardDepth>
-								</div>
-							</Grid>
+								</CardDepth>
+							</div>
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans4") }} placeholder="Type your wrong answer here ..." />
 
-						
+								</CardDepth>
+							</div>
+						</Grid>
+
+
 
 						<Grid container justify='space-evenly' style={{ paddingBottom: 22, paddingTop: 12 }} >
 							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={submit} >Submit</Fab>

@@ -113,7 +113,7 @@ const styles = makeStyles(t => ({
 
 const UploadQBank = (props) => {
     const sty = styles()
-    const history = useHistory() 
+    const history = useHistory()
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -219,12 +219,6 @@ const UploadQBank = (props) => {
 
     };
 
-    // const [image, setImage] = useState('')
-    // const selectImage = (e) => {
-    //     if (e.target.files[0] == null) {
-    //         setImage('')
-    //     } else { setImage(e.target.files[0]) }
-    // }
 
     const [video, setVideo] = useState('')
     const selectVideo = (e) => {
@@ -235,170 +229,98 @@ const UploadQBank = (props) => {
         }
     }
     let [iup, setImageUploadProgress] = useState({})
-    // let [vup, setVideoUploadProgress] = useState({})
 
-    // const imageUpload = () => {
-    // 	if (image === '') {
-    // 		return toast.warn('Select any Image first')
-    // 	} else {
-    // 		let formData = new FormData()
-    // 		formData.append('image', image);
-    // 		axios(`${url}/api/upload/image`, {
-    // 			method: 'POST',
-    // 			withCredentials: true,
-    // 			data: formData,
-    // 			onUploadProgress: progressEvent => {
-    // 				let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
-    // 				setImageUploadProgress({
-    // 					progress: percentCompleted,
-    // 					processing: true
-    // 				});
-    // 				if (percentCompleted === 100) {
-    // 					setImageUploadProgress({
-    // 						processing: false,
-    // 						uploadFinished: true,
-    // 						progress: 100
-    // 					});
-    // 				}
-
-    // 			},
-    // 			headers: {
-    // 				'Content-Type': 'multipart/form-data'
-    // 			},
-    // 		}).then(d => {
-    // 			console.log(d.data);
-
-    // 		}).catch(r => console.log(r))
-    // 	}
-    // }
-    // const videoUpload = () => {
-    // 	if (video === '') {
-    // 		return toast.warn('Select any Video first')
-    // 	} else {
-    // 		let formData = new FormData()
-    // 		formData.append('video', video);
-    // 		axios(`${url}/api/upload/video`,
-    // 			{
-    // 				method: 'POST',
-    // 				withCredentials: true,
-    // 				data: formData,
-    // 				onUploadProgress: progressEvent => {
-    // 					let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
-    // 					setVideoUploadProgress({
-    // 						progress: percentCompleted,
-    // 						processing: true
-    // 					});
-    // 					if (percentCompleted === 100) {
-    // 						setVideoUploadProgress({
-    // 							processing: false,
-    // 							uploadFinished: true,
-    // 							progress: 100
-    // 						});
-    // 					}
-    // 				},
-    // 				headers: {
-    // 					'Content-Type': 'multipart/form-data'
-    // 				},
-    // 			}).then(d => {
-    // 				console.log(d.data);
-
-    // 			}).catch(r => console.log(r))
-    // 	}
-    // }
     const [QData, setQData] = useState({ title: '', body: '' })
     const handleChangeQ = (e, i) => {
-		const h = JSON.stringify(e)
-		setQData({ ...QData, [i]: h })
-	}
-    const handleChangeTitle = (e) => { 
-		setQData({ ...QData, title: e.target.value })
-	}
+        const h = JSON.stringify(e)
+        setQData({ ...QData, [i]: h })
+    }
+    const handleChangeTitle = (e) => {
+        setQData({ ...QData, title: e.target.value })
+    }
 
-	console.log(QData);
- 
+    console.log(QData);
+
     const submit = () => {
-        var x = JSON.parse(QData.body)
         if (QData.title === '' || QData.title === null) {
             return alert('Please write some topic title first.')
         } else
-        if (x.blocks.length === 1 && x.blocks[0].text === "" && x.entityMap) {
-			return alert('Please write something !')
-		} else
-            // if (QData.ans === '' || QData.ans === null) {
-            // 	return alert('Please write at least one correct answer first at "correct answer" bellow Question field')
-            // } else
-            if (courseValue === []) {
-                return alert('Select Course first')
+            if (QData.body === '' || QData.body === null) {
+                return alert('Please write bellow body field')
             } else
-                if (streamValue === '' || streamValue === null) {
-                    return alert('Select Stream first')
+                if (courseValue === []) {
+                    return alert('Select Course first')
                 } else
-                    if (subjectValue === '' || subjectValue === null) {
-                        return alert('Select Subject first')
+                    if (streamValue === '' || streamValue === null) {
+                        return alert('Select Stream first')
                     } else
-                        if (chapterValue === '' || chapterValue === null) {
-                            return alert('Select chapter first')
-                        } else {
-                            var formData = new FormData();
+                        if (subjectValue === '' || subjectValue === null) {
+                            return alert('Select Subject first')
+                        } else
+                            if (chapterValue === '' || chapterValue === null) {
+                                return alert('Select chapter first')
+                            } else {
 
-                            const data = {
-                                course: courseValue,
-                                stream: streamValue,
-                                subject: subjectValue,
-                                chapter: chapterValue,
-                                noImage: true,
-                                noVideo: true,
-                                ...QData
+                                var x = JSON.parse(QData.body)
+                                if (x.blocks.length === 1 && x.blocks[0].text === "" && x.entityMap) {
+                                    return alert('Please write some question first')
+                                } else {
+
+
+                                    var formData = new FormData();
+
+                                    const data = {
+                                        course: courseValue,
+                                        stream: streamValue,
+                                        subject: subjectValue,
+                                        chapter: chapterValue,
+                                        noImage: true,
+                                        noVideo: true,
+                                        ...QData
+                                    } 
+                                    if (video !== '') {
+                                        data.noVideo = false
+                                        formData.append("video", video);
+                                    } 
+
+                                    formData.append("document", JSON.stringify(data));
+                                    setLoading(true)
+
+                                    axios(`${url}/api/upload/qbook`, {
+                                        method: 'POST',
+                                        withCredentials: true,
+                                        data: formData,
+                                        onUploadProgress: progressEvent => {
+                                            let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
+                                            setImageUploadProgress({
+                                                progress: percentCompleted,
+                                                processing: true
+                                            });
+                                            if (percentCompleted === 100) {
+                                                setImageUploadProgress({
+                                                    processing: false,
+                                                    uploadFinished: true,
+                                                    progress: 100
+                                                });
+                                            }
+                                        },
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'multipart/form-data',
+                                        },
+                                    }).then(d => {
+                                        setLoading(false)
+                                        toast.success("Successfully added.") 
+
+                                    }).catch(r => {
+                                        console.log(r)
+                                        toast.error("Failed!!! Reselect Video")
+                                        setVideo('')
+                                        setLoading(false)
+                                    })
+                                }
                             }
-                            // if (image !== '') {
-                            //     data.noImage = false
-                            //     formData.append("image", image);
-                            // }
-                            if (video !== '') {
-                                data.noVideo = false
-                                formData.append("video", video);
-                            }
-                            // console.log(data);
-
-                            formData.append("document", JSON.stringify(data));
-                            setLoading(true)
-
-                            axios(`${url}/api/upload/qbook`, {
-                                method: 'POST',
-                                withCredentials: true,
-                                data: formData,
-                                onUploadProgress: progressEvent => {
-                                    let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
-                                    setImageUploadProgress({
-                                        progress: percentCompleted,
-                                        processing: true
-                                    });
-                                    if (percentCompleted === 100) {
-                                        setImageUploadProgress({
-                                            processing: false,
-                                            uploadFinished: true,
-                                            progress: 100
-                                        });
-                                    }
-                                },
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'multipart/form-data',
-                                },
-                            }).then(d => {
-                                setLoading(false)
-                                toast.success("Successfully added.")
-                                // console.log(d.data);
-
-                            }).catch(r => {
-                                console.log(r)
-                                toast.error("Failed!!! Reselect Video")
-                                setVideo('')
-                                setLoading(false)
-                            })
-                        }
-    }
-    // console.log(iup);
+    } 
 
     return (
         <Grid container justify='center' alignItems='baseline' style={{ minHeight: "100vh", backgroundColor: '#fff' }}>
@@ -621,8 +543,8 @@ const UploadQBank = (props) => {
 
                             <CardDepth style={{ borderRadius: 12 }}>
                                 <div>
-                                <EditorJS onChange={(e)=>{handleChangeQ(e,"body")}} placeholder={"Write here..."} /> 
-                                </div> 
+                                    <EditorJS onChange={(e) => { handleChangeQ(e, "body") }} placeholder={"Write here..."} />
+                                </div>
                             </CardDepth>
                         </div>
                     </Grid>
