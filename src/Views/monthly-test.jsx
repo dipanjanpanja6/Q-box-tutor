@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Input from '@material-ui/core/Input';
-import { pxToVh, pxToVw, Theme } from '../theme';
+import { pxToVw, Theme } from '../theme';
 import CardDepth from '../Components/cardDepth';
 import CardComponent from '../Components/cardEmbossed';
 import Person from '@material-ui/icons/PersonRounded';
@@ -19,9 +19,6 @@ import { checkTeacher } from '../redux/actions/teacher'
 import PropTypes from 'prop-types'
 import Loading from '../Components/loading';
 import { useHistory } from 'react-router-dom';
-import {Editor} from "react-draft-wysiwyg";
-import draftToHtml from "draftjs-to-html";
-import {convertToRaw, EditorState} from "draft-js";
 
 import EditorJS from '../Components/Editor'
 
@@ -139,17 +136,12 @@ const UploadQBook = (props) => {
 	const [loading, setLoading] = React.useState(false)
 
 
-	const [hasOption, setHasOption] = React.useState(false)
+	// const [hasOption, setHasOption] = React.useState(false)
 
 	const [course, setCourse] = React.useState([])
 	const [subject, setSubject] = React.useState([])
 	const [chapter, setChapter] = React.useState([])
 	const [stream, setStream] = React.useState([])
-<<<<<<< HEAD
-	const [model, setModel] = useState("");
-=======
-
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 
 	useEffect(() => {
 		if (props.teacherAuth === null) {
@@ -231,194 +223,97 @@ const UploadQBook = (props) => {
 
 	};
 
-	const [image, setImage] = useState('')
-	const selectImage = (e) => {
-		if (e.target.files[0] == null) {
-			setImage('')
-		} else { setImage(e.target.files[0]) }
-	}
 
-	const [video, setVideo] = useState('')
-	const selectVideo = (e) => {
-		if (e.target.files[0] == null) {
-			setVideo('')
-		} else {
-			setVideo(e.target.files[0])
-		}
-	}
+
 	let [iup, setImageUploadProgress] = useState({})
-	// let [vup, setVideoUploadProgress] = useState({})
 
-	// const imageUpload = () => {
-	// 	if (image === '') {
-	// 		return toast.warn('Select any Image first')
-	// 	} else {
-	// 		let formData = new FormData()
-	// 		formData.append('image', image);
-	// 		axios(`${url}/api/upload/image`, {
-	// 			method: 'POST',
-	// 			withCredentials: true,
-	// 			data: formData,
-	// 			onUploadProgress: progressEvent => {
-	// 				let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
-	// 				setImageUploadProgress({
-	// 					progress: percentCompleted,
-	// 					processing: true
-	// 				});
-	// 				if (percentCompleted === 100) {
-	// 					setImageUploadProgress({
-	// 						processing: false,
-	// 						uploadFinished: true,
-	// 						progress: 100
-	// 					});
-	// 				}
-
-	// 			},
-	// 			headers: {
-	// 				'Content-Type': 'multipart/form-data'
-	// 			},
-	// 		}).then(d => {
-	// 			console.log(d.data);
-
-	// 		}).catch(r => console.log(r))
-	// 	}
-	// }
-	// const videoUpload = () => {
-	// 	if (video === '') {
-	// 		return toast.warn('Select any Video first')
-	// 	} else {
-	// 		let formData = new FormData()
-	// 		formData.append('video', video);
-	// 		axios(`${url}/api/upload/video`,
-	// 			{
-	// 				method: 'POST',
-	// 				withCredentials: true,
-	// 				data: formData,
-	// 				onUploadProgress: progressEvent => {
-	// 					let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
-	// 					setVideoUploadProgress({
-	// 						progress: percentCompleted,
-	// 						processing: true
-	// 					});
-	// 					if (percentCompleted === 100) {
-	// 						setVideoUploadProgress({
-	// 							processing: false,
-	// 							uploadFinished: true,
-	// 							progress: 100
-	// 						});
-	// 					}
-	// 				},
-	// 				headers: {
-	// 					'Content-Type': 'multipart/form-data'
-	// 				},
-	// 			}).then(d => {
-	// 				console.log(d.data);
-
-	// 			}).catch(r => console.log(r))
-	// 	}
-	// }
-	const [QData, setQData] = useState({})
-	const handleChangeQ = (e) => {
-<<<<<<< HEAD
-       // const f = draftToHtml(convertToRaw(newData.getCurrentContent()))
-       // const h = JSON.stringify(f)
-=======
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
-		setQData({ ...QData, [e.target.id]: e.target.value })
+	const [QData, setQData] = useState({ ans4: '', ans3: '', ans2: '', ans1: '', ans: '', question: '' })
+	const handleChangeQ = (e, i) => {
+		const h = JSON.stringify(e)
+		setQData({ ...QData, [i]: h })
 	}
 
+	console.log(QData);
 
 
 	const submit = () => {
+		// var y = JSON.parse(QData.ans) 
 		if (QData.question === '' || QData.question === null) {
 			return alert('Please write some question first')
 		} else
-			// if (QData.ans === '' || QData.ans === null) {
-			// 	return alert('Please write at least one correct answer first at "correct answer" bellow Question field')
-			// } else
-			if (courseValue == []) {
-				return alert('Select Course first')
+			if (QData.ans === '' || QData.ans === null) {
+				return alert('Please write at least one correct answer first at "correct answer" bellow Question field')
 			} else
-				if (streamValue === '' || streamValue === null) {
-					return alert('Select Stream first')
+				if (courseValue === []) {
+					return alert('Select Course first')
 				} else
-					if (subjectValue === '' || subjectValue === null) {
-						return alert('Select Subject first')
+					if (streamValue === '' || streamValue === null) {
+						return alert('Select Stream first')
 					} else
-						if (chapterValue === '' || chapterValue === null) {
-							return alert('Select chapter first')
-						} else {
-							var formData = new FormData();
+						if (subjectValue === '' || subjectValue === null) {
+							return alert('Select Subject first')
+						} else
+							if (chapterValue === '' || chapterValue === null) {
+								return alert('Select chapter first')
+							} else {
 
-							const data = {
-								course: courseValue,
-								stream: streamValue,
-								subject: subjectValue,
-								chapter: chapterValue,
-								noImage: true,
-								noVideo: true,
-								...QData
-							}
-							if (image !== '') {
-								data.noImage = false
-								formData.append("image", image);
-							}
-							if (video !== '') {
-								data.noVideo = false
-								formData.append("video", video);
-							}
-							// console.log(data);
+								var x = JSON.parse(QData.question)
+								var y = JSON.parse(QData.ans)
+								if (x.blocks.length === 1 && x.blocks[0].text === "" && x.entityMap) {
+									return alert('Please write some question first')
+								} else
+									if (y.blocks.length === 1 && y.blocks[0].text === "" && y.entityMap) {
+										return alert('Please write at least one answer first')
+									} else {
 
-							formData.append("document", JSON.stringify(data));
-                            setLoading(true)
 
-							axios(`${url}/api/upload/qbank`, {
-								method: 'POST',
-								withCredentials: true,
-								data: formData,
-								onUploadProgress: progressEvent => {
-									let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
-									setImageUploadProgress({
-										progress: percentCompleted,
-										processing: true
-									});
-									if (percentCompleted === 100) {
-										setImageUploadProgress({
-											processing: false,
-											uploadFinished: true,
-											progress: 100
-										});
+										const data = {
+											data: {
+												course: courseValue,
+												stream: streamValue,
+												subject: subjectValue,
+												chapter: chapterValue,
+												...QData
+											}
+										}
+										setLoading(true)
+
+										axios(`${url}/api/upload/monthly-test`, {
+											method: 'POST',
+											withCredentials: true,
+											data: JSON.stringify(data),
+											onUploadProgress: progressEvent => {
+												let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
+												setImageUploadProgress({
+													progress: percentCompleted,
+													processing: true
+												});
+												if (percentCompleted === 100) {
+													setImageUploadProgress({
+														processing: false,
+														uploadFinished: true,
+														progress: 100
+													});
+												}
+
+											},
+											headers: {
+												'Content-Type': 'application/json',
+											},
+										}).then(d => {
+											setLoading(false)
+											toast.success("Successfully added.")
+
+										}).catch(r => {
+											console.log(r)
+											toast.error("Failed!!! Try again.")
+											setLoading(false)
+										})
 									}
 
-								},
-								headers: {
-									'Accept': 'application/json',
-									'Content-Type': 'multipart/form-data',
-								},
-							}).then(d => {
-								setLoading(false)
-								toast.success("Successfully added.")
-
-							}).catch(r => {
-								console.log(r)
-								toast.error("Failed!!! Reselect Video")
-								setVideo('')
-								setLoading(false)
-							})
-						}
+							}
 	}
-	// console.log(iup);
-<<<<<<< HEAD
-	const onEditorChange = (newData) =>{
-		const f = draftToHtml(convertToRaw(newData.getCurrentContent()))
-		const h = JSON.stringify(f)
 
-
-		setModel(h)
-	};
-=======
-
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
 	return (
 		<Grid container justify='center' alignItems='baseline' style={{ minHeight: "100vh", backgroundColor: '#fff' }}>
 			<Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
@@ -587,309 +482,54 @@ const UploadQBook = (props) => {
 								</div>
 							</Grid>
 						</Grid>
-						<Grid container item xs={12} justify='space-around'>
-<<<<<<< HEAD
-							{/*<Grid item sm={6} xs={12} className={sty.selectI} >*/}
-							{/*	<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Image (if any)</p>*/}
-							{/*		/!* {iup.processing && <Progress value={iup} />} *!/*/}
-							{/*	</Grid>*/}
-							{/*	<div className={sty.inputDiv}>*/}
-							{/*		<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>*/}
-							{/*			<input accept="image/jpeg, image/png" type='file' onChange={selectImage} style={{ width: '100%', padding: 6 }}></input>*/}
-							{/*			/!* <Fab variant='extended' classes={{ label: "", }}*/}
-							{/*			style={iup.uploadFinished === true ? {*/}
-							{/*				backgroundColor: '#0f0', height: 35,*/}
-							{/*				width: '40%',*/}
-							{/*				borderRadius: 0,*/}
-							{/*			} : {*/}
-							{/*					height: 35,*/}
-							{/*					width: '40%',*/}
-							{/*					borderRadius: 0,*/}
-
-							{/*				}}*/}
-							{/*			onClick={imageUpload} >{iup.uploadFinished === true ? "Success" : "Upload Image"}</Fab> *!/*/}
-							{/*		</CardDepth>*/}
-							{/*	</div>*/}
 
 
-							{/*</Grid>*/}
-							{/*<Grid item sm={6} xs={12} className={sty.selectI} >*/}
-							{/*	<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Video (if any)</p>*/}
-							{/*		/!* {vup.processing && <Progress value={vup} />} *!/*/}
-							{/*	</Grid>*/}
-							{/*	<div className={sty.inputDiv}>*/}
-							{/*		<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>*/}
-							{/*			<input accept="video/*" type='file' onChange={selectVideo} style={{ width: '100%', padding: 6 }}></input>*/}
-							{/*			/!* <Fab variant='extended' classes={{ label: "", }}*/}
-							{/*			style={vup.uploadFinished === true ? {*/}
-							{/*				backgroundColor: '#0f0', height: 35,*/}
-							{/*				width: '40%',*/}
-							{/*				borderRadius: 0,*/}
-							{/*			} : {*/}
-							{/*					height: 35,*/}
-							{/*					width: '40%',*/}
-							{/*					borderRadius: 0,*/}
 
-							{/*				}} onClick={videoUpload} >{vup.uploadFinished === true ? "Success" : "Upload Video"}</Fab> *!/*/}
-							{/*		</CardDepth>*/}
-							{/*	</div>*/}
+						{/* <Grid container justify='space-around' style={{ padding: '12px 0 20px' }}>
 
-
-							{/*</Grid>*/}
-=======
-							<Grid item sm={6} xs={12} className={sty.selectI} >
-								<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Image (if any)</p>
-									{/* {iup.processing && <Progress value={iup} />} */}
-								</Grid>
-								<div className={sty.inputDiv}>
-									<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
-										<input accept="image/jpeg, image/png" type='file' onChange={selectImage} style={{ width: '100%', padding: 6 }}></input>
-										{/* <Fab variant='extended' classes={{ label: "", }}
-										style={iup.uploadFinished === true ? {
-											backgroundColor: '#0f0', height: 35,
-											width: '40%',
-											borderRadius: 0,
-										} : {
-												height: 35,
-												width: '40%',
-												borderRadius: 0,
-
-											}}
-										onClick={imageUpload} >{iup.uploadFinished === true ? "Success" : "Upload Image"}</Fab> */}
-									</CardDepth>
-								</div>
-
-
-							</Grid>
-							<Grid item sm={6} xs={12} className={sty.selectI} >
-								<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Video (if any)</p>
-									{/* {vup.processing && <Progress value={vup} />} */}
-								</Grid>
-								<div className={sty.inputDiv}>
-									<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
-										<input accept="video/*" type='file' onChange={selectVideo} style={{ width: '100%', padding: 6 }}></input>
-										{/* <Fab variant='extended' classes={{ label: "", }}
-										style={vup.uploadFinished === true ? {
-											backgroundColor: '#0f0', height: 35,
-											width: '40%',
-											borderRadius: 0,
-										} : {
-												height: 35,
-												width: '40%',
-												borderRadius: 0,
-
-											}} onClick={videoUpload} >{vup.uploadFinished === true ? "Success" : "Upload Video"}</Fab> */}
-									</CardDepth>
-								</div>
-
-
-							</Grid>
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
-
-						</Grid>
-
-
-						<Grid container justify='space-around' style={{ padding: '12px 0 20px' }}>
-
-							{/* <Grid item container sm={6} className={sty.upload} justify='space-around'>
-							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={imageUpload} >Upload Image</Fab>
-							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={uploadVideo} >Upload Video</Fab>
-						</Grid> */}
 							<Grid container justify='flex-start' style={{ paddingLeft: '7%' }} item >
 								<Checkbox disableRipple onChange={(e) => { setHasOption(e.target.checked) }} style={{ padding: '0 3px', color: '#fff', alignSelf: 'center' }} /><Typography style={{ alignSelf: 'center', color: '#fff' }}>Has Options</Typography>
 							</Grid>
-						</Grid>
+						</Grid> */}
 
 						<Grid style={{ padding: '0 5%' }} item container justify='center' >
 							<div className={sty.inputDivText}>
 
 								<CardDepth style={{ borderRadius: 12 }}>
-<<<<<<< HEAD
-									<EditorJS onChange={onEditorChange} placeholder={"Add Body..."}/>
-									{/*<Input*/}
-									{/*	id="question"*/}
-									{/*	value={QData.question}*/}
-									{/*	onChange={handleChangeQ}*/}
-									{/*	disableUnderline*/}
-									{/*	fullWidth*/}
-									{/*	rowsMax={8}*/}
-									{/*	rows={8}*/}
-									{/*	multiline*/}
-									{/*	placeholder="Type your question here ..."*/}
-									{/*	classes={{ input: sty.input }}></Input>*/}
-=======
-									<Input
-										id="question"
-										value={QData.question}
-										onChange={handleChangeQ}
-										disableUnderline
-										fullWidth
-										rowsMax={8}
-										rows={8}
-										multiline
-										placeholder="Type your question here ..."
-										classes={{ input: sty.input }}></Input>
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
+									<EditorJS onChange={(e) => { handleChangeQ(e, "question") }} placeholder={"Type your question here..."} />
 								</CardDepth>
 							</div>
 						</Grid>
 
-						{hasOption &&
-							<Grid item justify='space-between' container style={{ padding: ' 30px 5% 0 ' }} >
-								{/* <Grid container justify='space-between' > */}
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-<<<<<<< HEAD
-                                        <EditorJS onChange={handleChangeQ} placeholder={"Type your correct answer here ..."}/>
-										{/*<Input*/}
-										{/*	id="ans"*/}
-										{/*	value={QData.ans}*/}
-										{/*	onChange={handleChangeQ}*/}
-										{/*	disableUnderline*/}
-										{/*	fullWidth*/}
-										{/*	rowsMax={8}*/}
-										{/*	rows={3}*/}
-										{/*	multiline*/}
-										{/*	placeholder="Type your correct answer here ..."*/}
-										{/*	classes={{ input: sty.input }}></Input>*/}
-=======
-										<Input
-											id="ans"
-											value={QData.ans}
-											onChange={handleChangeQ}
-											disableUnderline
-											fullWidth
-											rowsMax={8}
-											rows={3}
-											multiline
-											placeholder="Type your correct answer here ..."
-											classes={{ input: sty.input }}></Input>
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
-									</CardDepth>
-								</div>
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-<<<<<<< HEAD
-										<EditorJS onChange={handleChangeQ} placeholder={"Type your wrong answer here .."}/>
-										{/*<Input*/}
-										{/*	id="ans1"*/}
-										{/*	value={QData.ans1}*/}
-										{/*	onChange={handleChangeQ}*/}
-										{/*	disableUnderline*/}
-										{/*	fullWidth*/}
-										{/*	rowsMax={8}*/}
-										{/*	rows={3}*/}
-										{/*	multiline*/}
-										{/*	placeholder="Type your wrong answer here ..."*/}
-										{/*	classes={{ input: sty.input }}></Input>*/}
-=======
-										<Input
-											id="ans1"
-											value={QData.ans1}
-											onChange={handleChangeQ}
-											disableUnderline
-											fullWidth
-											rowsMax={8}
-											rows={3}
-											multiline
-											placeholder="Type your wrong answer here ..."
-											classes={{ input: sty.input }}></Input>
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
-									</CardDepth>
-								</div>
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-<<<<<<< HEAD
-										<EditorJS onChange={handleChangeQ} placeholder={"Type your wrong answer here .."}/>
-										{/*<Input*/}
-										{/*	id="ans2"*/}
-										{/*	value={QData.ans2}*/}
-										{/*	onChange={handleChangeQ}*/}
-										{/*	disableUnderline*/}
-										{/*	fullWidth*/}
-										{/*	rowsMax={8}*/}
-										{/*	rows={3}*/}
-										{/*	multiline*/}
-										{/*	placeholder="Type your wrong answer here ..."*/}
-										{/*	classes={{ input: sty.input }}></Input>*/}
-=======
-										<Input
-											id="ans2"
-											value={QData.ans2}
-											onChange={handleChangeQ}
-											disableUnderline
-											fullWidth
-											rowsMax={8}
-											rows={3}
-											multiline
-											placeholder="Type your wrong answer here ..."
-											classes={{ input: sty.input }}></Input>
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
-									</CardDepth>
-								</div>
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-<<<<<<< HEAD
-										<EditorJS onChange={handleChangeQ} placeholder={"Type your wrong answer here .."}/>
-										{/*<Input*/}
-										{/*	id="ans3"*/}
-										{/*	value={QData.ans3}*/}
-										{/*	onChange={handleChangeQ}*/}
-										{/*	disableUnderline*/}
-										{/*	fullWidth*/}
-										{/*	rowsMax={8}*/}
-										{/*	rows={3}*/}
-										{/*	multiline*/}
-										{/*	placeholder="Type your wrong answer here ..."*/}
-										{/*	classes={{ input: sty.input }}></Input>*/}
-=======
-										<Input
-											id="ans3"
-											value={QData.ans3}
-											onChange={handleChangeQ}
-											disableUnderline
-											fullWidth
-											rowsMax={8}
-											rows={3}
-											multiline
-											placeholder="Type your wrong answer here ..."
-											classes={{ input: sty.input }}></Input>
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
-									</CardDepth>
-								</div>
-								<div className={sty.inputDivText}>
-									<CardDepth style={{ borderRadius: 12 }}>
-<<<<<<< HEAD
-										<EditorJS onChange={handleChangeQ} placeholder={"Type your wrong answer here .."}/>
-										{/*<Input*/}
-										{/*	id="ans4"*/}
-										{/*	value={QData.ans4}*/}
-										{/*	onChange={handleChangeQ}*/}
-										{/*	disableUnderline*/}
-										{/*	fullWidth*/}
-										{/*	rowsMax={8}*/}
-										{/*	rows={3}*/}
-										{/*	multiline*/}
-										{/*	placeholder="Type your wrong answer here .."*/}
-										{/*	classes={{ input: sty.input }}></Input>*/}
-=======
-										<Input
-											id="ans4"
-											value={QData.ans4}
-											onChange={handleChangeQ}
-											disableUnderline
-											fullWidth
-											rowsMax={8}
-											rows={3}
-											multiline
-											placeholder="Type your wrong answer here ..."
-											classes={{ input: sty.input }}></Input>
->>>>>>> 9c9c3c63081d25bb49fb9bd37ed0a5b5075c06a2
-									</CardDepth>
-								</div>
-							</Grid>
 
-						}
+						<Grid item justify='space-between' container style={{ padding: ' 30px 5% 0 ' }} >
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans") }} placeholder={"Type your correct answer here ..."} />
+								</CardDepth>
+							</div>
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans1") }} placeholder={"Type your wrong answer here .."} />
+								</CardDepth>
+							</div>
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans2") }} placeholder={"Type your wrong answer here .."} />
+								</CardDepth>
+							</div>
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans3") }} placeholder={"Type your wrong answer here .."} />
+								</CardDepth>
+							</div>
+							<div className={sty.inputDivText}>
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "ans4") }} placeholder={"Type your wrong answer here .."} />
+								</CardDepth>
+							</div>
+						</Grid>
+
 
 						<Grid container justify='space-evenly' style={{ paddingBottom: 22, paddingTop: 12 }} >
 							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={submit} >Submit</Fab>

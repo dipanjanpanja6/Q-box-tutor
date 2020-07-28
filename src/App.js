@@ -16,7 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Console from './Views/Console'
 
 // import Upload from './Views/selectUpload'
-import UploadBank from './Views/Upload'
+import UploadBank from './Views/UploadQBank'
 import UploadBook from './Views/UploadQbook'
 import Alert from './Views/alert'
 import WeeklyTest from './Views/weekly-test'
