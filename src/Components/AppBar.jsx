@@ -120,28 +120,6 @@ export default function PrimarySearchAppBar(props) {
         setOpen(!open);
     };
 
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-
-
-    const handleProfileMenuOpen = (event) => {
-        if (props.auth === true) {
-            setAnchorEl(event.currentTarget);
-        }
-        if (props.auth === false) {
-            history.push('/login')
-        }
-        if (props.auth === null) {
-            setLoading(true)
-        }
-
-    };
-
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
-
 
     const logout = () => {
         props.out()

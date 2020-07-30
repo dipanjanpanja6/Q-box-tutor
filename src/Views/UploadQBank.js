@@ -236,10 +236,9 @@ const UploadQBook = (props) => {
 		setQData({ ...QData, [i]: h })
 	}
 
-	console.log(QData);
+	// console.log(QData);
 
-	const submit = () => {
-		console.log("submit");
+	const submit = () => { 
 		if (QData.question === '' || QData.question === null) {
 			return alert('Please write some question first')
 		} else

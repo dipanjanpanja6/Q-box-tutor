@@ -233,7 +233,7 @@ const UploadQBook = (props) => {
 		setQData({ ...QData, [i]: h })
 	}
 
-	console.log(QData);
+	// console.log(QData);
 
 
 	const submit = () => {

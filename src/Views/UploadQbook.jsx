@@ -239,7 +239,7 @@ const UploadQBank = (props) => {
         setQData({ ...QData, title: e.target.value })
     }
 
-    console.log(QData);
+    // console.log(QData);
 
     const submit = () => {
         if (QData.title === '' || QData.title === null) {
