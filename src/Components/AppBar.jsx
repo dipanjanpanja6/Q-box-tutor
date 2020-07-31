@@ -14,7 +14,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import { Theme } from '../theme'
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { Link as RouterLink, useHistory, useLocation } from 'react-router-dom';
 import SvgIcon from '@material-ui/core/SvgIcon';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
@@ -105,15 +105,12 @@ const useStyles = makeStyles((theme) => ({
 export default function PrimarySearchAppBar(props) {
     const classes = useStyles();
     const history = useHistory()
+    const location=useLocation()
     const theme = useTheme()
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false); 
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
+    const handleDrawer = () => {
+        setOpen(false);
     };
 
     const handleDrawerClose = () => {
@@ -202,27 +199,8 @@ export default function PrimarySearchAppBar(props) {
                                 <div className={classes.button}>
                                     <PowerSettingsNewIcon />
                                 </div>
-                            </IconButton>}
-
-                        {/* <IconButton disabled={props.auth===null} onClick={handleProfileMenuOpen} color="inherit" >
-                                <div className={classes.button}>
-                                    <AccountCircle />
-                                </div>
-                            </IconButton> */}
-                    </div>
-
-
-                    {/* <div className={classes.sectionMobile}>
-                            <IconButton
-                                aria-label="show more"
-                                aria-controls={mobileMenuId}
-                                aria-haspopup="true"
-                                onClick={handleMobileMenuOpen}
-                                color="inherit"
-                            >
-                                <MenuIcon/>
-                            </IconButton>
-                        </div> */}
+                            </IconButton>} 
+                    </div> 
                 </Toolbar>
             </AppBar>
 
@@ -245,21 +223,25 @@ export default function PrimarySearchAppBar(props) {
 
                 <List>
 
-                    <ListItem button onClick={()=>{history.push('/q-book')}}>
+                    <ListItem button onClick={()=>{history.push('/q-book')
+                handleDrawer()}} selected={location.pathname==='/q-book'}>
                         <ListItemIcon >  <SvgIcon style={{color: 'rgba(0, 0, 0, 0.54)'}}>
                             <Q />
                         </SvgIcon></ListItemIcon>
                         <ListItemText primary={'Q-Book'} />
                     </ListItem>
-                    <ListItem button onClick={()=>{history.push('/q-bank')}}>
+                    <ListItem button onClick={()=>{history.push('/q-bank')
+                handleDrawer()}} selected={location.pathname==='/q-bank'}>
                         <ListItemIcon><FormatListBulletedIcon /> </ListItemIcon>
                         <ListItemText primary={'Q-Bank'} />
                     </ListItem>
-                    <ListItem button onClick={()=>{history.push('/weekly-test')}}>
+                    <ListItem button onClick={()=>{history.push('/weekly-test')
+                handleDrawer()}} selected={location.pathname==='/weekly-test'}>
                         <ListItemIcon><AssignmentIcon /> </ListItemIcon>
                         <ListItemText primary={'Weekly Test'} />
                     </ListItem>
-                    <ListItem button onClick={()=>{history.push('/monthly-test')}}>
+                    <ListItem button onClick={()=>{history.push('/monthly-test')
+                handleDrawer()}} selected={location.pathname==='/monthly-test'}>
                         <ListItemIcon><MenuBook /> </ListItemIcon>
                         <ListItemText primary={'Monthly Test'} />
                     </ListItem>
@@ -267,11 +249,13 @@ export default function PrimarySearchAppBar(props) {
                 <Divider />
                 <List>
 
-                    <ListItem button onClick={()=>{history.push('/saved')}}>
+                    <ListItem button onClick={()=>{history.push('/saved')
+                handleDrawer()}} selected={location.pathname==='/saved'}>
                         <ListItemIcon><SaveIcon/> </ListItemIcon>
                         <ListItemText primary={'Saved Item'} />
                     </ListItem>
-                    <ListItem button onClick={()=>{history.push('/alert')}}>
+                    <ListItem button onClick={()=>{history.push('/alert')
+               handleDrawer() }} selected={location.pathname==='/alert'}>
                         <ListItemIcon><NotificationImportantIcon/> </ListItemIcon>
                         <ListItemText primary={'Alert'} />
                     </ListItem>

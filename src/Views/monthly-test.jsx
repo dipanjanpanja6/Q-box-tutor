@@ -362,7 +362,7 @@ const UploadQBook = (props) => {
 
 						<Grid container item xs={12} justify='space-around'>
 							<Grid item sm={6} xs={12} className={sty.selectI}  >
-								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Course</p>
+								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Course (step 1)</p>
 								<div className={sty.inputDiv}>
 									<CardDepth >
 										<Select
@@ -395,7 +395,7 @@ const UploadQBook = (props) => {
 								</div>
 							</Grid>
 							<Grid item sm={6} xs={12} className={sty.selectI}>
-								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Stream</p>
+								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Stream (step 2)</p>
 								<div className={sty.inputDiv}>
 									<CardDepth >
 										<Select
@@ -424,7 +424,7 @@ const UploadQBook = (props) => {
 						</Grid>
 						<Grid container item xs={12} justify='space-around'>
 							<Grid item sm={6} xs={12} className={sty.selectI} >
-								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Subject</p>
+								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Subject (step 3)</p>
 								<div className={sty.inputDiv}>
 									<CardDepth >
 										<Select
@@ -452,7 +452,7 @@ const UploadQBook = (props) => {
 
 							</Grid>
 							<Grid item sm={6} xs={12} className={sty.selectI}>
-								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Chapter</p>
+								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Chapter (step 4)</p>
 								<div className={sty.inputDiv}>
 									<CardDepth >
 										<Select
