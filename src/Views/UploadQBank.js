@@ -278,8 +278,13 @@ const UploadQBook = (props) => {
 
 									if (video !== '') {
 										data.noVideo = false
-										data.videoType=video.type
-										data.videoSize=video.size
+										data.videoType = video.type
+                                        data.videoSize = video.size
+                                        
+                                        const lastDot = video.name.lastIndexOf('.');
+                                        
+                                        const ext = video.name.substring(lastDot + 1);
+                                        data.videoExt = ext
 										formData.append("video", video);
 									}
 									// console.log(data);
