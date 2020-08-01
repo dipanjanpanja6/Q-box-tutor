@@ -277,11 +277,19 @@ const UploadQBank = (props) => {
                                         noImage: true,
                                         noVideo: true,
                                         ...QData
-                                    } 
+                                    }
                                     if (video !== '') {
                                         data.noVideo = false
+                                        data.videoType = video.type
+                                        data.videoSize = video.size
+                                        
+                                        const lastDot = video.name.lastIndexOf('.');
+                                        
+                                        const ext = video.name.substring(lastDot + 1);
+                                        data.videoExt = ext
+
                                         formData.append("video", video);
-                                    } 
+                                    }
 
                                     formData.append("document", JSON.stringify(data));
                                     setLoading(true)
@@ -310,7 +318,7 @@ const UploadQBank = (props) => {
                                         },
                                     }).then(d => {
                                         setLoading(false)
-                                        toast.success("Successfully added.") 
+                                        toast.success("Successfully added.")
 
                                     }).catch(r => {
                                         console.log(r)
@@ -320,7 +328,7 @@ const UploadQBank = (props) => {
                                     })
                                 }
                             }
-    } 
+    }
 
     return (
         <Grid container justify='center' alignItems='baseline' style={{ minHeight: "100vh", backgroundColor: '#fff' }}>

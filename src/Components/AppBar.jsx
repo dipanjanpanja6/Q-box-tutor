@@ -262,8 +262,7 @@ export default function PrimarySearchAppBar(props) {
                 </List>
                 <Divider />
                 <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {console.log(theme.direction)}
+                    <IconButton onClick={handleDrawerClose}> 
                         {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </div>
