@@ -318,11 +318,11 @@ const UploadQBank = (props) => {
                                         },
                                     }).then(d => {
                                         setLoading(false)
-                                        toast.success("Successfully added.")
+										toast.success("Data successfully added. Video on progress.")
 
                                     }).catch(r => {
                                         console.log(r)
-                                        toast.error("Failed!!! Reselect Video")
+                                        toast.error("Failed!!! Try again")
                                         setVideo('')
                                         setLoading(false)
                                     })

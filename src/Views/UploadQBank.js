@@ -317,7 +317,7 @@ const UploadQBook = (props) => {
 										},
 									}).then(d => {
 										setLoading(false)
-										toast.success("Successfully added.")
+										toast.success("Data successfully added. Video on progress.")
 
 									}).catch(r => {
 										console.log(r)
