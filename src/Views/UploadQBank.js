@@ -529,7 +529,7 @@ const UploadQBook = (props) => {
 									</Grid>
 									<div className={sty.inputDiv}>
 										<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
-											<input accept="video/*" type='file' onChange={selectVideo} style={{ width: '100%', padding: 6 }}></input>
+											<input accept="video/mp4" type='file' onChange={selectVideo} style={{ width: '100%', padding: 6 }}></input>
 											{/* <Fab variant='extended' classes={{ label: "", }}
 										style={vup.uploadFinished === true ? {
 											backgroundColor: '#0f0', height: 35,
