@@ -40,10 +40,10 @@ const styles = makeStyles(t => ({
         paddingLeft: 12,
         margin: 0,
         height: '100%',
-        color: "#f00",
+        color: Theme.textColor.placeholder,
         fontWeight: 'bold',
         '&::placeholder': {
-            color: "#f00",
+            color: Theme.textColor.placeholder,
             // fontFamily: 'Poppins',
             fontSize: 15,
             opacity: '.6',
@@ -177,7 +177,7 @@ const LoginPage = (props) => {
                                                 <CardDepth
                                                     children={
                                                         <Person style={{
-                                                            color: '#f00',
+                                                            color: Theme.textColor.heading,
                                                             height: 44,
                                                             width: 44,
                                                         }}

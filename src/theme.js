@@ -9,7 +9,8 @@ export const Theme = {
 	primaryColor: '#A7205F',
 	boxColor2:		'transparent radial-gradient(farthest-corner at 100% 0%, #64B4D2 0%, #8167F2 31%, #8A51E4 69%, #8D3DDC 100%) 0% 0% no-repeat padding-box',
 	// boxColor:'radial-gradient(at 100% 0%, rgb(183, 28, 28) 0%, rgb(229, 57, 53) 31%, #EF6C00 69%, #FFC107 100%) 0% 0% no-repeat padding-box padding-box transparent',	
-	boxColor:'radial-gradient(at 100% 0%, #B71C1C 0%, #D32F2F 31%, #EF5350 69%, #F9A825 100%) 0% 0% no-repeat padding-box padding-box transparent',
+	boxColor:
+	'transparent radial-gradient(farthest-corner at 100% 0%, #64B4D2 0%, #8167F2 31%, #8A51E4 69%, #8D3DDC 100%) 0% 0% no-repeat padding-box',
 		textColor: {
 		color1: 'white',
 		color2: 'white',

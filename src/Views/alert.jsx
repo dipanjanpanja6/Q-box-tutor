@@ -1,112 +1,94 @@
 import React from 'react';
-import MaterialTable from 'material-table';
-import { Grid, Toolbar } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { Toolbar } from '@material-ui/core';
+import AlertQbook from '../Components/alert/AlertQbook';
 
-import { forwardRef } from 'react';
-
-import AddBox from '@material-ui/icons/AddBox';
-import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import Check from '@material-ui/icons/Check';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import Edit from '@material-ui/icons/Edit';
-import FilterList from '@material-ui/icons/FilterList';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
-import Remove from '@material-ui/icons/Remove';
-import SaveAlt from '@material-ui/icons/SaveAlt';
-import Search from '@material-ui/icons/Search';
-import ViewColumn from '@material-ui/icons/ViewColumn';
-
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-};
-
-export default function MaterialTableDemo() {
-  const [state, setState] = React.useState({
-    columns: [
-      { title: 'Questions', field: 'questions' },
-      { title: 'Category', field: 'category' },
-      // { title: 'Notes', field: 'notes', lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' }, },
-      { title: 'Notes', field: 'notes', },
-      { title: 'Created At', field: 'createdAt', type: 'numeric' },
-    ],
-    data: [
-      {
-        questions: 'This is a question?', category: 'Q-Book', createdAt: '12/07/2020', notes: 'Change title of the question. Its inappropriate for skdhbsvba'
-      },
-      {
-        questions: 'Zerya Betül no ok?', category: 'Weekly test', createdAt: '12/07/2020', notes: 34,
-      },
-    ],
-  });
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
   return (
-    <Grid style={{ paddingLeft: 56 }}
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
     >
-      <Toolbar />
-
-      <MaterialTable
-        icons={tableIcons}
-        title="Alert"
-        columns={state.columns}
-        data={state.data}
-        editable={{
-          // onRowAdd: (newData) =>
-          //   new Promise((resolve) => {
-          //     setTimeout(() => {
-          //       resolve();
-          //       setState((prevState) => {
-          //         const data = [...prevState.data];
-          //         data.push(newData);
-          //         return { ...prevState, data };
-          //       });
-          //     }, 600);
-          //   }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                if (oldData) {
-                  setState((prevState) => {
-                    const data = [...prevState.data];
-                    data[data.indexOf(oldData)] = newData;
-                    return { ...prevState, data };
-                  });
-                }
-              }, 600);
-            }),
-          onRowDelete: (oldData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data.splice(data.indexOf(oldData), 1);
-                  return { ...prevState, data };
-                });
-              }, 600);
-            }),
-        }}
-      />
-    </Grid>
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
   );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
+export default function ScrollableTabsButtonAuto() {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  return (<div style={{ paddingLeft: 56 }}>
+  <Toolbar/>
+    <div className={classes.root}>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="scrollable"
+          scrollButtons="auto" 
+        >
+          <Tab label="Q Book" {...a11yProps(0)} />
+          <Tab label="Q Bank" {...a11yProps(1)} />
+          <Tab label=" Weekly Test" {...a11yProps(2)} />
+          <Tab label=" Monthly Test" {...a11yProps(3)} /> 
+        </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0}>
+       <AlertQbook/>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        Q Bank
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        Weekly Test
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        Monthly Test
+      </TabPanel>
+     
+    </div>
+ </div> );
 }

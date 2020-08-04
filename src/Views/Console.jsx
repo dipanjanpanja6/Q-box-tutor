@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
-import { Grid, CardActions, CardContent, Button, Divider, } from '@material-ui/core';
+import { Grid, CardActions, CardContent, Button, Divider, CardActionArea, } from '@material-ui/core';
 import { Theme } from './../theme';
 import CardComponent from '../Components/cardEmbossed';
 import { Toolbar, makeStyles, Card } from '@material-ui/core';
@@ -14,15 +14,20 @@ import Loading from '../Components/loading';
 
 const styles = makeStyles(t => ({
 
-    header: { 
+    header: {
         padding: 20
     },
-    total:{
-        color:'#0d0'
+    total: {
+        color: '#0d0'
     },
-    card:{
-        background:'#f0f8ff',
-        margin:20
+    card: {
+        background: Theme.boxColor,
+        color: '#fff',
+        margin: 20,
+        // padding: 12
+    },
+    title: {
+        color: '#fff'
     }
 
 }))
@@ -45,92 +50,76 @@ const SelectUpload = (props) => {
             history.push('/upload/qbank', props.teacherAuth)
         }
     }
-
-    const style = { style: { width: '80%', height: 'auto', cursor: 'pointer' } }
+    var item = [
+        {
+            title: "Upload question for Q Book",
+            header: "Q Book",
+        },
+        {
+            title: "Upload question for Q Bank",
+            header: "Q Bank",
+        },
+        {
+            title: "Upload question for Weekly Test",
+            header: "Weekly Test",
+        },
+        {
+            title: "Upload question for Monthly Test",
+            header: "Monthly Test",
+        },
+    ]
+    var handelRedirect=(e)=>{
+        switch (e) {
+            case "Q Book":
+                history.push('/q-book')
+                break;
+            case "Q Bank":
+                history.push('/q-bank')
+                break;
+            case "Weekly Test":
+                history.push('/weekly-test')
+                break;
+            case "Monthly Test":
+                history.push('/monthly-test')
+                break;
+        
+            default:
+                break;
+        }
+    }
+    var CArd = item.map((p, i) => {
+        return (<Card className={sty.card}>
+            <CardActionArea onClick={()=>{handelRedirect(p.header)}}>
+                <CardContent >
+                    <Typography className={sty.title} gutterBottom>
+                        {p.title}
+                    </Typography>
+                    <Typography variant="h5" className={sty.title} component="h2">
+                        {p.header}
+                    </Typography>
+                    <Typography color="textSecondary">
+                        {/* total questions : 38 */}
+                    </Typography>
+                    <Typography variant="body2" className={sty.total} component="p">
+                        {/* Approve questions : 25  */}
+                    </Typography>
+                </CardContent>
+                <CardActions>
+                    <Button size="small">Learn More</Button>
+                </CardActions>
+            </CardActionArea>
+        </Card>)
+    })
+ 
     return (
-        <div style={{ minHeight: "100vh", backgroundColor: '#fff',paddingLeft:57 }}>
+        <div style={{ minHeight: "100vh", backgroundColor: '#fff', paddingLeft: 57 }}>
             <Toolbar style={{ background: Theme.boxColor }} />
             <Typography variant='h5' color="textSecondary" className={sty.header}>Welcome User,</Typography>
 
-            <Grid container style={{padding:20}}>
-                <Card className={sty.card}>
-                    <CardContent>
-                        <Typography className={sty.title} color="textSecondary" gutterBottom>
-                           Upload question for QBook
-                         </Typography>
-                        <Typography variant="h5" style={{color:Theme.textColor.heading}} component="h2">
-                            Q-BOOK
-                         </Typography>
-                        <Typography  color="textSecondary">
-                            total questions : 38
-                         </Typography>
-                        <Typography variant="body2" className={sty.total} component="p">
-                            Approve questions : 25 
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Learn More</Button>
-                    </CardActions>
-                </Card> 
-                <Card className={sty.card}>
-                    <CardContent>
-                        <Typography className={sty.title} color="textSecondary" gutterBottom>
-                           Upload question for QBank
-                         </Typography>
-                        <Typography variant="h5" style={{color:Theme.textColor.heading}} component="h2">
-                            Q-BANK
-                         </Typography>
-                        <Typography  color="textSecondary">
-                            total questions : 38
-                         </Typography>
-                        <Typography variant="body2" className={sty.total} component="p">
-                            Approve questions : 25 
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Learn More</Button>
-                    </CardActions>
-                </Card>
-                <Card className={sty.card}>
-                    <CardContent>
-                        <Typography className={sty.title} color="textSecondary" gutterBottom>
-                           Upload question for Weekly Test
-                         </Typography>
-                        <Typography variant="h5" style={{color:Theme.textColor.heading}} component="h2">
-                            Weekly Test
-                         </Typography>
-                        <Typography  color="textSecondary">
-                            total questions : 38
-                         </Typography>
-                        <Typography variant="body2" className={sty.total} component="p">
-                            Approve questions : 25 
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Learn More</Button>
-                    </CardActions>
-                </Card>
-                <Card className={sty.card}>
-                    <CardContent>
-                        <Typography className={sty.title} color="textSecondary" gutterBottom>
-                           Upload question for Monthly Test
-                         </Typography>
-                        <Typography variant="h5" style={{color:Theme.textColor.heading}} component="h2">
-                            Monthly Test
-                         </Typography>
-                        <Typography  color="textSecondary">
-                            total questions : 38
-                         </Typography>
-                        <Typography variant="body2" className={sty.total} component="p">
-                            Approve questions : 25 
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small">Learn More</Button>
-                    </CardActions>
-                </Card>
+            <Grid container style={{ padding: 20 }}>
+    {CArd }
             </Grid>
-            <Divider/>
+            <Divider />
             <Grid container>
 
             </Grid>

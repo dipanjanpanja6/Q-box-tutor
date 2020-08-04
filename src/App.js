@@ -48,8 +48,8 @@ const App = (props) => {
 				<Appbar auth={props.auth} out={out} />
 				<Switch>
 
-					<Route exact path="/q-book" component={UploadBook} />
-					<Route exact path="/q-bank" component={UploadBank} />
+					{/* <Route exact path="/q-book" component={UploadBook} /> */}
+					{/* <Route exact path="/q-bank" component={UploadBank} /> */}
 					{/* <Route exact path="/upload" component={Upload} /> */}
 					{/* <Route exact path="/monthly-test" component={WeeklyTest} />
 					<Route exact path="/weekly-test" component={WeeklyTest} /> */}
@@ -75,10 +75,10 @@ const App = (props) => {
 
 					<Route exact path="/" render={() => <TLogin islogin={props.auth} />} />
 
-					{/* <Route exact path="/console" component={
+					<Route exact path="/console" component={
 						({ location }) => props.auth === null ? <Loading />: props.auth === true ? <Console islogin={props.auth} /> : <Redirect to={{ pathname: "/", state: { from: location } }} /> 
-					} /> */}
-					<Route exact path="/console" render={() => <Console islogin={props.auth} />} />
+					} />
+					{/* <Route exact path="/console" render={() => <Console islogin={props.auth} />} /> */}
 
 					<Route exact component={E4} />
 
