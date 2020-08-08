@@ -2,52 +2,52 @@ import { PANDDINGCOURSE } from '../type';
 import { url } from '../../config/config';
 import { toast } from 'react-toastify';
 
-export const GetPanddingCourse = () => (dispatch) => {
-  fetch(`${url}/api/course/teacher/QBook/rejectedquestion`, {
+export const GetPanddingCourse = (sub) => (dispatch) => {
+  fetch(`${url}/api/course/teacher/${sub}/rejectedquestion`, {
     method: 'GET',
     credentials: 'include',
   })
     .then((res) => {
       res.json().then((d) => {
-        // console.log(d);
+        console.log(d);
         if (d.success === true) {
           dispatch({
             type: PANDDINGCOURSE,
             payload: d.data,
           });
         } else if (d.error === true) {
-          // console.log(d.message);
+          console.log(d.message);
+          toast.error(d.message)
           dispatch({
             type: PANDDINGCOURSE,
-            payload: false,
+            payload: [],
           });
         }
       });
     })
     .catch((r) => {
       console.log(r);
+      dispatch({
+        type: PANDDINGCOURSE,
+        payload: [],
+      });
       toast.error('Something went wrong ! Try again');
     });
 };
 
-export const DeletePanddingCourse = (e) => (dispatch) => {
-  fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${e}`, {
+export const DeleteCourse = (sub,e) => (dispatch) => {
+  fetch(`${url}/api/course/teacher/${sub}/rejectedquestion/${e}`, {
     method: 'DELETE',
     credentials: 'include',
   })
     .then((res) => {
       res.json().then((d) => {
         if (d.success === true) {
-          dispatch({
-            type: PANDDINGCOURSE,
-            payload: true,
-          });
-          toast.error(d.message);
+          dispatch(GetPanddingCourse(sub))
+          toast.success(d.message) 
         } else if (d.error === true) {
-          dispatch({
-            type: PANDDINGCOURSE,
-            payload: false,
-          });
+          console.log(d.message);
+          toast.error(d.message)
         }
       });
     })

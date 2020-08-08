@@ -15,13 +15,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useEffect } from 'react';
-import { url } from '../../config/config';
-import { toast } from 'react-toastify';
-import Loading from '../loading';
 import { connect } from 'react-redux';
 import {
   GetPanddingCourse,
-  DeletePanddingCourse,
+  DeleteCourse,
 } from '../../redux/actions/course';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,20 +39,22 @@ const ScrollableTabsButtonAuto = (props) => {
   const [state, setState] = React.useState(null);
 
   useEffect(() => {
-    props.GetPanddingCourse();
-    if (props.panddingcourse === false) {
-      setState([]);
-    } else setState(props.panddingcourse);
+    props.GetPanddingCourse(props.name);
+  }, []);
+
+  useEffect(() => {
+    if (props.panddingcourse) {
+      setState(props.panddingcourse);
+    }
   }, [props]);
 
   const edit = (e) => {
     console.log(e, 'edit');
-    history.push(`/q-book/${e}`);
+    history.push(`/${props.name}/${e}`);
   };
 
-  const remove = (e) => {
-    console.log(e, 'remove');
-    props.DeletePanddingCourse();
+  const remove = (e) => { 
+    props.DeleteCourse(props.name, e);
   };
 
   const listArray = state ? (
@@ -81,15 +80,15 @@ const ScrollableTabsButtonAuto = (props) => {
         </ListItem>
       ))
     ) : (
-      <Typography>No questions are rejected.</Typography>
-    )
+        <Typography>No questions are rejected.</Typography>
+      )
   ) : (
-    <div className={sty.skeleton}>
-      <Skeleton width={240} />
-      <Skeleton animation={false} />
-      <Skeleton animation="wave" />
-    </div>
-  );
+      <div className={sty.skeleton}>
+        <Skeleton width={240} />
+        <Skeleton animation={false} />
+        <Skeleton animation="wave" />
+      </div>
+    );
 
   return (
     <div className={sty.root}>
@@ -99,14 +98,16 @@ const ScrollableTabsButtonAuto = (props) => {
 };
 
 ScrollableTabsButtonAuto.propType = {
-  checkTeacher: PropTypes.func.isRequired,
-  teacherAuth: PropTypes.object.isRequired,
+  GetPanddingCourse: PropTypes.func.isRequired,
+  DeleteCourse: PropTypes.func.isRequired,
+  panddingcourse: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired
 };
 const mapToState = (state) => ({
   panddingcourse: state.admin.panddingcourse,
 });
 const mapToProps = {
   GetPanddingCourse,
-  DeletePanddingCourse,
+  DeleteCourse,
 };
 export default connect(mapToState, mapToProps)(ScrollableTabsButtonAuto);

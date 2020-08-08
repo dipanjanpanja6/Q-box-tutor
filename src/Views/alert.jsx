@@ -78,16 +78,16 @@ export default function ScrollableTabsButtonAuto() {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          <AlertQbook />
+          <AlertQbook name="QBook" />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Q Bank
+          <AlertQbook name="QBank" />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Weekly Test
+          <AlertQbook name="WeeklyTest" />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          Monthly Test
+          <AlertQbook name="MonthlyTest" />
         </TabPanel>
       </div>
     </div>

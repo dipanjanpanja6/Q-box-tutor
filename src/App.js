@@ -55,7 +55,7 @@ const App = (props) => {
 
           <Route
             exact
-            path="/q-book"
+            path="/QBook"
             component={({ location }) =>
               props.auth === null ? (
                 <Loading />
@@ -68,7 +68,7 @@ const App = (props) => {
           />
           <Route
             exact
-            path="/q-book/:id"
+            path="/QBook/:id"
             component={({ location }) =>
               props.auth === null ? (
                 <Loading />
@@ -81,7 +81,7 @@ const App = (props) => {
           />
           <Route
             exact
-            path="/q-bank"
+            path="/QBank"
             component={({ location }) =>
               props.auth === null ? (
                 <Loading />
@@ -94,7 +94,7 @@ const App = (props) => {
           />
           <Route
             exact
-            path="/monthly-test"
+            path="/MonthlyTest"
             component={({ location }) =>
               props.auth === null ? (
                 <Loading />
@@ -107,7 +107,7 @@ const App = (props) => {
           />
           <Route
             exact
-            path="/weekly-test"
+            path="/WeeklyTest"
             component={({ location }) =>
               props.auth === null ? (
                 <Loading />
