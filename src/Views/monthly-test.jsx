@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { checkTeacher } from '../redux/actions/teacher'
 import PropTypes from 'prop-types'
 import Loading from '../Components/loading';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import EditorJS from '../Components/Editor'
 
@@ -154,7 +154,7 @@ const UploadQBook = (props) => {
 				setCourse(d.data.data)
 			}
 		})
-	}, [])
+	}, [props])
 
 
 
@@ -313,7 +313,8 @@ const UploadQBook = (props) => {
 
 							}
 	}
-
+	var { id } = useParams();
+	var edit = id ? true : false;
 	return (
 		<Grid container justify='center' alignItems='baseline' style={{ minHeight: "100vh", backgroundColor: '#fff' }}>
 			<Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
@@ -366,6 +367,7 @@ const UploadQBook = (props) => {
 								<div className={sty.inputDiv}>
 									<CardDepth >
 										<Select
+											disabled={edit}
 											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
 											MenuProps={{
 												anchorOrigin: {
@@ -399,6 +401,7 @@ const UploadQBook = (props) => {
 								<div className={sty.inputDiv}>
 									<CardDepth >
 										<Select
+											disabled={edit}
 											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
 											MenuProps={{
 												anchorOrigin: {
@@ -410,6 +413,7 @@ const UploadQBook = (props) => {
 											onChange={handleChange2}
 											input={<Input />}
 											MenuProps={MenuProps}
+											displayEmpty
 										>
 											{stream.length !== 0 ? stream.map((name) => (
 												<MenuItem key={name.ID} value={name.name}>
@@ -428,6 +432,7 @@ const UploadQBook = (props) => {
 								<div className={sty.inputDiv}>
 									<CardDepth >
 										<Select
+											disabled={edit}
 											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
 											MenuProps={{
 												anchorOrigin: {
@@ -439,6 +444,7 @@ const UploadQBook = (props) => {
 											onChange={handleChange3}
 											input={<Input />}
 											MenuProps={MenuProps}
+											displayEmpty
 										>
 											{subject.length === 0 ?
 												<MenuItem value="loading">loading</MenuItem>
@@ -456,6 +462,7 @@ const UploadQBook = (props) => {
 								<div className={sty.inputDiv}>
 									<CardDepth >
 										<Select
+											disabled={edit}
 											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
 											MenuProps={{
 												anchorOrigin: {
@@ -467,6 +474,7 @@ const UploadQBook = (props) => {
 											onChange={handleChange4}
 											input={<Input />}
 											MenuProps={MenuProps}
+											displayEmpty
 										>
 											{chapter.length === 0 ?
 												<MenuItem value="loading">loading</MenuItem> :

@@ -439,6 +439,7 @@ const UploadQBank = (props) => {
                         onChange={handleChange2}
                         input={<Input />}
                         MenuProps={MenuProps}
+                        displayEmpty
                       >
                         {stream.length !== 0 ? (
                           stream.map((name) => (
@@ -447,10 +448,10 @@ const UploadQBank = (props) => {
                             </MenuItem>
                           ))
                         ) : (
-                          <MenuItem disabled value="loading">
-                            loading
-                          </MenuItem>
-                        )}
+                            <MenuItem disabled value="loading">
+                              loading
+                            </MenuItem>
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -475,16 +476,17 @@ const UploadQBank = (props) => {
                         onChange={handleChange3}
                         input={<Input />}
                         MenuProps={MenuProps}
+                        displayEmpty
                       >
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          subject.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            subject.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -506,16 +508,17 @@ const UploadQBank = (props) => {
                         onChange={handleChange4}
                         input={<Input />}
                         MenuProps={MenuProps}
+                        displayEmpty
                       >
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          chapter.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            chapter.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -599,8 +602,8 @@ const UploadQBank = (props) => {
           )}
         </Grid>
       ) : (
-        ''
-      )}
+              ''
+            )}
     </Grid>
   );
 };
