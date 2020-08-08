@@ -47,40 +47,22 @@ const App = (props) => {
       <Router>
         <Appbar auth={props.auth} out={out} />
         <Switch>
-          {/* <Route exact path="/q-book" component={UploadBook} /> */}
-          {/* <Route exact path="/q-bank" component={UploadBank} /> */}
-          {/* <Route exact path="/upload" component={Upload} /> */}
-          {/* <Route exact path="/monthly-test" component={WeeklyTest} />
-					<Route exact path="/weekly-test" component={WeeklyTest} /> */}
-
-          <Route
-            exact
-            path="/QBook"
-            component={({ location }) =>
-              props.auth === null ? (
-                <Loading />
-              ) : props.auth === true ? (
-                <UploadBook islogin={props.auth} />
-              ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
+          <Route exact sensitive path="/QBook" component={({ location }) =>
+            props.auth === null ? (<Loading />) : props.auth === true ? (
+              <UploadBook islogin={props.auth} />) : (<Redirect to={{ pathname: '/', state: { from: location } }} />
               )
-            }
+          }
           />
           <Route
             exact
             path="/QBook/:id"
-            component={({ location }) =>
-              props.auth === null ? (
-                <Loading />
-              ) : props.auth === true ? (
-                <UploadBook islogin={props.auth} />
-              ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+            component={({ location, }) =>props.auth === null ? <Loading /> : props.auth === true ? <UploadBook islogin={props.auth} /> : (
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
-            exact
+            exact sensitive
             path="/QBank"
             component={({ location }) =>
               props.auth === null ? (
@@ -88,12 +70,12 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <UploadBank islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
-            exact
+            exact sensitive
             path="/MonthlyTest"
             component={({ location }) =>
               props.auth === null ? (
@@ -101,12 +83,12 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <MonthlyTest islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
-            exact
+            exact sensitive
             path="/WeeklyTest"
             component={({ location }) =>
               props.auth === null ? (
@@ -114,8 +96,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <WeeklyTest islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -127,8 +109,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <Alert islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
 
@@ -147,8 +129,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <Console islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           {/* <Route exact path="/console" render={() => <Console islogin={props.auth} />} /> */}

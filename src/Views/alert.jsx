@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { Toolbar } from '@material-ui/core';
 import AlertQbook from '../Components/alert/AlertQbook';
+import AlertQbank from '../Components/alert/AlertQbank';
+import AlertWeekly from '../Components/alert/AlertWeekly';
+import AlertMonthly from '../Components/alert/AlertMonthly';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -22,7 +25,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          {children}
         </Box>
       )}
     </div>
@@ -81,13 +84,13 @@ export default function ScrollableTabsButtonAuto() {
           <AlertQbook name="QBook" />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <AlertQbook name="QBank" />
+          <AlertQbank name="QBank" />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <AlertQbook name="WeeklyTest" />
+          <AlertWeekly name="WeeklyTest" />
         </TabPanel>
         <TabPanel value={value} index={3}>
-          <AlertQbook name="MonthlyTest" />
+          <AlertMonthly name="MonthlyTest" />
         </TabPanel>
       </div>
     </div>

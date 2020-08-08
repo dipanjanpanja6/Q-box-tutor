@@ -1,8 +1,8 @@
-import { PANDDINGCOURSE } from '../type';
+import { REJECTQBook,REJECTQBank,REJECTMonthlyTest ,REJECTWeeklyTest } from '../type';
 import { url } from '../../config/config';
 import { toast } from 'react-toastify';
 
-export const GetPanddingCourse = (sub) => (dispatch) => {
+export const GetRejectCourse = (sub) => (dispatch) => {
   fetch(`${url}/api/course/teacher/${sub}/rejectedquestion`, {
     method: 'GET',
     credentials: 'include',
@@ -12,14 +12,13 @@ export const GetPanddingCourse = (sub) => (dispatch) => {
         console.log(d);
         if (d.success === true) {
           dispatch({
-            type: PANDDINGCOURSE,
+            type: `REJECT${sub}`,
             payload: d.data,
           });
         } else if (d.error === true) {
-          console.log(d.message);
-          toast.error(d.message)
+          console.log(d.message); 
           dispatch({
-            type: PANDDINGCOURSE,
+            type: `REJECT${sub}`,
             payload: [],
           });
         }
@@ -28,7 +27,7 @@ export const GetPanddingCourse = (sub) => (dispatch) => {
     .catch((r) => {
       console.log(r);
       dispatch({
-        type: PANDDINGCOURSE,
+        type: `REJECT${sub}`,
         payload: [],
       });
       toast.error('Something went wrong ! Try again');
@@ -43,7 +42,7 @@ export const DeleteCourse = (sub,e) => (dispatch) => {
     .then((res) => {
       res.json().then((d) => {
         if (d.success === true) {
-          dispatch(GetPanddingCourse(sub))
+          dispatch(GetRejectCourse(sub))
           toast.success(d.message) 
         } else if (d.error === true) {
           console.log(d.message);

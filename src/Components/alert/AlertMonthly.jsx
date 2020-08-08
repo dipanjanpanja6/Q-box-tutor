@@ -66,10 +66,9 @@ const ScrollableTabsButtonAuto = (props) => {
       state.map((e, i) => (
         <ListItem key={e.ID} button>
           <ListItemText
-            primary={e.title}
-            secondary={<Typography color='textSecondary'  variant='body2'>
-              Created at :{e.createdAt}, in {e.subject} chapter name: {e.chapter}<br/>Rejecting Comment is "{e.rejectingcomment}"
-            </Typography>}          />
+            primary={e.rejectingcomment}
+            secondary={`Created at :${e.createdAt}, in ${e.subject} chapter name: ${e.chapter} `}
+          />
           <ListItemSecondaryAction>
             <IconButton
               onClick={() => {
@@ -79,7 +78,7 @@ const ScrollableTabsButtonAuto = (props) => {
               <DeleteForeverIcon />
             </IconButton>
             <IconButton onClick={() => edit(e.ID)}>
-              <EditIcon />
+              <EditIcon  />
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
@@ -109,7 +108,7 @@ ScrollableTabsButtonAuto.propType = {
   name: PropTypes.string.isRequired
 };
 const mapToState = (state) => ({
-  panddingcourse: state.admin.rejectQBook,
+  panddingcourse: state.admin.rejectMonthly,
 });
 const mapToProps = {
   GetRejectCourse,

@@ -67,9 +67,10 @@ const ScrollableTabsButtonAuto = (props) => {
         <ListItem key={e.ID} button>
           <ListItemText
             primary={e.title}
-            secondary={<Typography color='textSecondary'  variant='body2'>
-              Created at :{e.createdAt}, in {e.subject} chapter name: {e.chapter}<br/>Rejecting Comment is "{e.rejectingcomment}"
-            </Typography>}          />
+            secondary={<Typography color='textSecondary' variant='body2'>
+              Created at :{e.createdAt}, in {e.subject} chapter name: {e.chapter}<br />Rejecting Comment is "{e.rejectingcomment}"
+            </Typography>}
+          />
           <ListItemSecondaryAction>
             <IconButton
               onClick={() => {
@@ -109,7 +110,7 @@ ScrollableTabsButtonAuto.propType = {
   name: PropTypes.string.isRequired
 };
 const mapToState = (state) => ({
-  panddingcourse: state.admin.rejectQBook,
+  panddingcourse: state.admin.rejectQBank,
 });
 const mapToProps = {
   GetRejectCourse,
