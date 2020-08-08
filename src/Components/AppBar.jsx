@@ -155,12 +155,9 @@ export default function PrimarySearchAppBar(props) {
                     </IconButton>
                     <Link to='/' underline='none' component={RouterLink} className={classes.title} variant="h6" noWrap>
                         RIOCTY BOX
-          </Link>
-                    <div className={classes.grow} />
-
-
-                    <div className={classes.sectionDesktop}>
-
+                    </Link>
+                    <div className={classes.grow} /> 
+                    <div className={classes.sectionDesktop}> 
                         {/* 
                             <IconButton color="inherit">
                                 <div className={classes.button}>
@@ -197,17 +194,15 @@ export default function PrimarySearchAppBar(props) {
                         }),
                     }}
                 >
-                    <Toolbar />
-
-                    <List>
-
+                    <Toolbar /> 
+                    <List> 
                         <ListItem button onClick={() => {
                             history.push('/QBook')
                             handleDrawer()
                         }} selected={location.pathname === '/QBook'}>
                             <ListItemIcon >   <Typography variant="h6" style={{ fontWeight: "bold" }}>
                                 Q+
-      </Typography></ListItemIcon>
+                            </Typography></ListItemIcon>
                             <ListItemText primary={'Q-Book'} />
                         </ListItem>
                         <ListItem button onClick={() => {
@@ -233,8 +228,7 @@ export default function PrimarySearchAppBar(props) {
                         </ListItem>
                     </List>
                     <Divider />
-                    <List>
-
+                    <List> 
                         {/* <ListItem button onClick={()=>{history.push('/saved')
                 handleDrawer()}} selected={location.pathname==='/saved'}>
                         <ListItemIcon><SaveIcon/> </ListItemIcon>

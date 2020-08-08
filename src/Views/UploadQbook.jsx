@@ -24,7 +24,7 @@ import { connect } from 'react-redux';
 import { checkTeacher } from '../redux/actions/teacher';
 import PropTypes from 'prop-types';
 import Loading from '../Components/loading';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import EditorJS from '../Components/Editor';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -120,14 +120,18 @@ const UploadQBank = (props) => {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
+    
+    transformOrigin:{ vertical: "", horizontal: 'left',},
     PaperProps: {
       style: {
         maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
         // width: 250,
         color: '#fff',
         width: pxToVw(564),
-        backgroundColor: Theme.textColor.heading,
+        background: Theme.boxColor,
         borderRadius: 41,
+        // left: '10%',
+        transform: 'translateY(41%)',
       },
     },
   };
@@ -322,7 +326,9 @@ const UploadQBank = (props) => {
       }
     }
   };
-
+  var { id } = useParams()
+var edit =id?true:false
+  console.log(id);
   return (
     <Grid
       container
@@ -331,299 +337,264 @@ const UploadQBank = (props) => {
       style={{ minHeight: '100vh', backgroundColor: '#fff' }}
     >
       <Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
-      {props.teacherAuth === false && history.push('/')}
-      {props.teacherAuth === null && <Loading />}
-      {props.teacherAuth === true && (
-        <Grid container justify="center" className={sty.content}>
-          {!!!loading && (
-            <CardComponent style={{ padding: 12 }}>
-              <div
-                style={{
-                  width: '100%',
-                  display: 'grid',
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
-                  boxSizing: 'border-box',
-                  paddingTop: '1%',
-                }}
-              >
-                <div
-                  style={{
-                    paddingTop: '6%',
+      {props.teacherAuth === false ? history.push('/') :
+        props.teacherAuth === null ? <Loading /> :
+          props.teacherAuth === true ?
+            <Grid container justify="center" className={sty.content}>
+              {!!!loading && (
+                <CardComponent style={{ padding: 12 }}>
+                  <div
+                    style={{
+                      width: '100%',
+                      display: 'grid',
+                      justifyContent: 'center',
+                      alignItems: 'flex-start',
+                      boxSizing: 'border-box',
+                      paddingTop: '1%',
+                    }}
+                  >
+                    <div
+                      style={{
+                        paddingTop: '6%',
 
-                    height: 54,
-                    width: 54,
-                  }}
-                >
-                  <CardComponent
-                    children={
-                      <div
-                        style={{
-                          height: '88%',
-                          width: '88%',
-                        }}
-                      >
-                        <CardDepth
-                          children={
-                            <Person
-                              style={{
-                                color: '#8d3ddc',
-                                height: 44,
-                                width: 44,
-                              }}
+                        height: 54,
+                        width: 54,
+                      }}
+                    >
+                      <CardComponent
+                        children={
+                          <div
+                            style={{
+                              height: '88%',
+                              width: '88%',
+                            }}
+                          >
+                            <CardDepth
+                              children={
+                                <Person
+                                  style={{
+                                    color: '#8d3ddc',
+                                    height: 44,
+                                    width: 44,
+                                  }}
+                                />
+                              }
                             />
-                          }
-                        />
-                      </div>
-                    }
-                  />
-                </div>
-              </div>
-
-              <Grid container item xs={12} justify="space-around">
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                    Select Course (step 1)
-                  </p>
-                  <div className={sty.inputDiv}>
-                    <CardDepth>
-                      <Select
-                        {...{
-                          disableUnderline: true,
-                          className: sty.select,
-                          classes: { select: sty.selectInput },
-                        }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
-                        labelId="demo-mutiple-checkbox-label"
-                        id="demo-mutiple-checkbox"
-                        multiple
-                        value={courseValue}
-                        onBlur={fetchStream}
-                        onChange={handleChange}
-                        input={<Input />}
-                        renderValue={(selected) => selected.join(', ')}
-                        MenuProps={MenuProps}
-                      >
-                        {course.map((name) => (
-                          <MenuItem key={name.ID} value={name.name}>
-                            <Checkbox
-                              checked={courseValue.indexOf(name.name) > -1}
-                            />
-                            <ListItemText primary={name.name} />
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </CardDepth>
-                  </div>
-                </Grid>
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                    Select Stream (step 2)
-                  </p>
-                  <div className={sty.inputDiv}>
-                    <CardDepth>
-                      <Select
-                        {...{
-                          disableUnderline: true,
-                          className: sty.select,
-                          classes: { select: sty.selectInput },
-                        }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
-                        value={stream.length !== 0 ? streamValue : 'loading'}
-                        onChange={handleChange2}
-                        input={<Input />}
-                        MenuProps={MenuProps}
-                      >
-                        {stream.length !== 0 ? (
-                          stream.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        ) : (
-                          <MenuItem disabled value="loading">
-                            loading
-                          </MenuItem>
-                        )}
-                      </Select>
-                    </CardDepth>
-                  </div>
-                </Grid>
-              </Grid>
-              <Grid container item xs={12} justify="space-around">
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                    {' '}
-                    Select Subject (step 3)
-                  </p>
-                  <div className={sty.inputDiv}>
-                    <CardDepth>
-                      <Select
-                        {...{
-                          disableUnderline: true,
-                          className: sty.select,
-                          classes: { select: sty.selectInput },
-                        }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
-                        value={subject.length === 0 ? 'loading' : subjectValue}
-                        onChange={handleChange3}
-                        input={<Input />}
-                        MenuProps={MenuProps}
-                      >
-                        {subject.length === 0 ? (
-                          <MenuItem value="loading">loading</MenuItem>
-                        ) : (
-                          subject.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                    </CardDepth>
-                  </div>
-                </Grid>
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                    Select Chapter (step 4)
-                  </p>
-                  <div className={sty.inputDiv}>
-                    <CardDepth>
-                      <Select
-                        {...{
-                          disableUnderline: true,
-                          className: sty.select,
-                          classes: { select: sty.selectInput },
-                        }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
-                        value={chapter.length === 0 ? 'loading' : chapterValue}
-                        onChange={handleChange4}
-                        input={<Input />}
-                        MenuProps={MenuProps}
-                      >
-                        {chapter.length === 0 ? (
-                          <MenuItem value="loading">loading</MenuItem>
-                        ) : (
-                          chapter.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
-                      </Select>
-                    </CardDepth>
-                  </div>
-                </Grid>
-              </Grid>
-              <Grid container item xs={12} justify="space-around">
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <Grid container justify="space-between">
-                    {' '}
-                    <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                      Video (if any)
-                    </p>
-                    {/* {vup.processing && <Progress value={vup} />} */}
-                  </Grid>
-                  <div className={sty.inputDiv}>
-                    <CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
-                      <input
-                        accept="video/mp4"
-                        type="file"
-                        onChange={selectVideo}
-                        style={{ width: '100%', padding: 6 }}
-                      ></input>
-                      {/* <Fab variant='extended' classes={{ label: "", }}
-										style={vup.uploadFinished === true ? {
-											backgroundColor: '#0f0', height: 35,
-											width: '40%',
-											borderRadius: 0,
-										} : {
-												height: 35,
-												width: '40%',
-												borderRadius: 0,
-
-											}} onClick={videoUpload} >{vup.uploadFinished === true ? "Success" : "Upload Video"}</Fab> */}
-                    </CardDepth>
-                  </div>
-                </Grid>
-              </Grid>
-
-              <Grid style={{ padding: '0 5%' }} item container justify="center">
-                <div className={sty.inputDivText}>
-                  <CardDepth style={{ borderRadius: 12 }}>
-                    <Input
-                      id="title"
-                      value={QData.title}
-                      onChange={handleChangeTitle}
-                      disableUnderline
-                      fullWidth
-                      rowsMax={5}
-                      rows={3}
-                      multiline
-                      placeholder="Title ..."
-                      classes={{ input: sty.input }}
-                    ></Input>
-                  </CardDepth>
-                </div>
-
-                <div className={sty.inputDivText}>
-                  <CardDepth style={{ borderRadius: 12 }}>
-                    <div>
-                      <EditorJS
-                        onChange={(e) => {
-                          handleChangeQ(e, 'body');
-                        }}
-                        placeholder={'Write here...'}
+                          </div>
+                        }
                       />
                     </div>
-                  </CardDepth>
-                </div>
-              </Grid>
+                  </div>
 
-              <Grid
-                container
-                justify="space-evenly"
-                style={{ paddingBottom: 22, paddingTop: 12 }}
-              >
-                <Fab
-                  variant="extended"
-                  classes={{ label: sty.label }}
-                  className={sty.released}
-                  onClick={submit}
-                >
-                  Submit
+                  <Grid container item xs={12} justify="space-around">
+                    <Grid item sm={6} xs={12} className={sty.selectI}>
+                      <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
+                        Select Course (step 1)
+                  </p>
+                      <div className={sty.inputDiv}>
+                        <CardDepth>
+                          <Select disabled={edit}
+                            {...{
+                              disableUnderline: true,
+                              className: sty.select,
+                              classes: { select: sty.selectInput },
+                            }} 
+                            id="demo-mutiple-checkbox"
+                            multiple
+                            value={courseValue}
+                            onBlur={fetchStream}
+                            onChange={handleChange}
+                            input={<Input />}
+                            renderValue={(selected) => selected.join(', ')}
+                            MenuProps={MenuProps}
+                          >
+                            {course.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                <Checkbox
+                                  checked={courseValue.indexOf(name.name) > -1}
+                                />
+                                <ListItemText primary={name.name} />
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </CardDepth>
+                      </div>
+                    </Grid>
+                    <Grid item sm={6} xs={12} className={sty.selectI}>
+                      <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
+                        Select Stream (step 2)
+                  </p>
+                      <div className={sty.inputDiv}>
+                        <CardDepth>
+                          <Select
+                            {...{
+                              disableUnderline: true,
+                              className: sty.select,
+                              classes: { select: sty.selectInput },
+                            }} 
+                            value={stream.length !== 0 ? streamValue : 'loading'}
+                            onChange={handleChange2}
+                            input={<Input />}
+                            MenuProps={MenuProps}
+                          >
+                            {stream.length !== 0 ? (
+                              stream.map((name) => (
+                                <MenuItem key={name.ID} value={name.name}>
+                                  {name.name}
+                                </MenuItem>
+                              ))
+                            ) : (
+                                <MenuItem disabled value="loading">
+                                  loading
+                                </MenuItem>
+                              )}
+                          </Select>
+                        </CardDepth>
+                      </div>
+                    </Grid>
+                  </Grid>
+                  <Grid container item xs={12} justify="space-around">
+                    <Grid item sm={6} xs={12} className={sty.selectI}>
+                      <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
+                        {' '}
+                    Select Subject (step 3)
+                  </p>
+                      <div className={sty.inputDiv}>
+                        <CardDepth>
+                          <Select
+                            {...{
+                              disableUnderline: true,
+                              className: sty.select,
+                              classes: { select: sty.selectInput },
+                            }} 
+                            value={subject.length === 0 ? 'loading' : subjectValue}
+                            onChange={handleChange3}
+                            input={<Input />}
+                            MenuProps={MenuProps}
+                          >
+                            {subject.length === 0 ? (
+                              <MenuItem value="loading">loading</MenuItem>
+                            ) : (
+                                subject.map((name) => (
+                                  <MenuItem key={name.ID} value={name.name}>
+                                    {name.name}
+                                  </MenuItem>
+                                ))
+                              )}
+                          </Select>
+                        </CardDepth>
+                      </div>
+                    </Grid>
+                    <Grid item sm={6} xs={12} className={sty.selectI}>
+                      <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
+                        Select Chapter (step 4)
+                  </p>
+                      <div className={sty.inputDiv}>
+                        <CardDepth>
+                          <Select
+                            {...{
+                              disableUnderline: true,
+                              className: sty.select,
+                              classes: { select: sty.selectInput },
+                            }} 
+                            value={chapter.length === 0 ? 'loading' : chapterValue}
+                            onChange={handleChange4}
+                            input={<Input />}
+                            MenuProps={MenuProps}
+                          >
+                            {chapter.length === 0 ? (
+                              <MenuItem value="loading">loading</MenuItem>
+                            ) : (
+                                chapter.map((name) => (
+                                  <MenuItem key={name.ID} value={name.name}>
+                                    {name.name}
+                                  </MenuItem>
+                                ))
+                              )}
+                          </Select>
+                        </CardDepth>
+                      </div>
+                    </Grid>
+                  </Grid>
+                  <Grid container item xs={12} justify="space-around">
+                    <Grid item sm={6} xs={12} className={sty.selectI}>
+                      <Grid container justify="space-between">
+                        {' '}
+                        <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
+                          Video (if any)
+                    </p>
+                        {/* {vup.processing && <Progress value={vup} />} */}
+                      </Grid>
+                      <div className={sty.inputDiv}>
+                        <CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
+                          <input
+                            accept="video/mp4"
+                            type="file"
+                            onChange={selectVideo}
+                            style={{ width: '100%', padding: 6 }}
+                          ></input> 
+                        </CardDepth>
+                      </div>
+                    </Grid>
+                  </Grid>
+
+                  <Grid style={{ padding: '0 5%' }} item container justify="center">
+                    <div className={sty.inputDivText}>
+                      <CardDepth style={{ borderRadius: 12 }}>
+                        <Input
+                          id="title"
+                          value={QData.title}
+                          onChange={handleChangeTitle}
+                          disableUnderline
+                          fullWidth
+                          rowsMax={5}
+                          rows={3}
+                          multiline
+                          placeholder="Title ..."
+                          classes={{ input: sty.input }}
+                        ></Input>
+                      </CardDepth>
+                    </div>
+
+                    <div className={sty.inputDivText}>
+                      <CardDepth style={{ borderRadius: 12 }}>
+                        <div>
+                          <EditorJS
+                            onChange={(e) => {
+                              handleChangeQ(e, 'body');
+                            }}
+                            placeholder={'Write here...'}
+                          />
+                        </div>
+                      </CardDepth>
+                    </div>
+                  </Grid>
+
+                  <Grid
+                    container
+                    justify="space-evenly"
+                    style={{ paddingBottom: 22, paddingTop: 12 }}
+                  >
+                    <Fab
+                      variant="extended"
+                      classes={{ label: sty.label }}
+                      className={sty.released}
+                      onClick={submit}
+                    >
+                      Submit
                 </Fab>
-              </Grid>
-            </CardComponent>
-          )}
+                  </Grid>
+                </CardComponent>
+              )}
 
-          {loading && (
-            <Grid container justify="center">
-              <Progress value={iup} />
+              {loading && (
+                <Grid container justify="center">
+                  <Progress value={iup} />
+                </Grid>
+              )}
             </Grid>
-          )}
-        </Grid>
-      )}{' '}
+            : ''
+      }
     </Grid>
   );
 };
