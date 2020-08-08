@@ -29,3 +29,30 @@ export const GetPanddingCourse = () => (dispatch) => {
       toast.error('Something went wrong ! Try again');
     });
 };
+
+export const DeletePanddingCourse = (e) => (dispatch) => {
+  fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${e}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  })
+    .then((res) => {
+      res.json().then((d) => {
+        if (d.success === true) {
+          dispatch({
+            type: PANDDINGCOURSE,
+            payload: true,
+          });
+          toast.error(d.message);
+        } else if (d.error === true) {
+          dispatch({
+            type: PANDDINGCOURSE,
+            payload: false,
+          });
+        }
+      });
+    })
+    .catch((r) => {
+      console.log(r);
+      toast.error('Something went wrong ! Try again');
+    });
+};

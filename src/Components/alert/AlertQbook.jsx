@@ -19,7 +19,10 @@ import { url } from '../../config/config';
 import { toast } from 'react-toastify';
 import Loading from '../loading';
 import { connect } from 'react-redux';
-import { GetPanddingCourse } from '../../redux/actions/course';
+import {
+  GetPanddingCourse,
+  DeletePanddingCourse,
+} from '../../redux/actions/course';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,35 +40,24 @@ const ScrollableTabsButtonAuto = (props) => {
   const history = useHistory();
 
   const [state, setState] = React.useState(null);
+
   useEffect(() => {
     props.GetPanddingCourse();
     if (props.panddingcourse === false) {
       setState([]);
     } else setState(props.panddingcourse);
   }, [props]);
+
   const edit = (e) => {
     console.log(e, 'edit');
     history.push(`/q-book/${e}`);
   };
+
   const remove = (e) => {
     console.log(e, 'remove');
-    fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${e}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
-      .then((res) => {
-        res.json().then((d) => {
-          console.log(d);
-          toast.error(d.message);
-        });
-      })
-      .catch((r) => {
-        console.log(r);
-        toast.error('Something went wrong ! Try again');
-      });
+    props.DeletePanddingCourse();
   };
 
-  // const listArray = Array.apply(null, { length: 12 }).map((e, i) => (
   const listArray = state ? (
     state.length !== 0 ? (
       state.map((e, i) => (
@@ -115,5 +107,6 @@ const mapToState = (state) => ({
 });
 const mapToProps = {
   GetPanddingCourse,
+  DeletePanddingCourse,
 };
 export default connect(mapToState, mapToProps)(ScrollableTabsButtonAuto);
