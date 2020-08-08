@@ -120,17 +120,21 @@ const UploadQBook = (props) => {
 	const ITEM_HEIGHT = 48;
 	const ITEM_PADDING_TOP = 8;
 	const MenuProps = {
+    
+		transformOrigin:{ vertical: "", horizontal: 'left',},
 		PaperProps: {
-			style: {
-				maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-				// width: 250,
-				color: '#fff',
-				width: pxToVw(564),
-				backgroundColor: Theme.textColor.heading,
-				borderRadius: 41
-			},
+		  style: {
+			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+			// width: 250,
+			color: '#fff',
+			width: pxToVw(564),
+			background: Theme.boxColor,
+			borderRadius: 41,
+			// left: '10%',
+			transform: 'translateY(41%)',
+		  },
 		},
-	};
+	  };
 	const [loading, setLoading] = React.useState(false)
 
 
@@ -367,12 +371,7 @@ const UploadQBook = (props) => {
 									<CardDepth >
 										<Select
 											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-											MenuProps={{
-												anchorOrigin: {
-													vertical: 'bottom',
-													horizontal: 'center',
-												}
-											}}
+											
 											labelId="demo-mutiple-checkbox-label"
 											id="demo-mutiple-checkbox"
 											multiple
@@ -400,12 +399,7 @@ const UploadQBook = (props) => {
 									<CardDepth >
 										<Select
 											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-											MenuProps={{
-												anchorOrigin: {
-													vertical: 'bottom',
-													horizontal: 'center',
-												}
-											}}
+											
 											value={stream.length !== 0 ? streamValue : 'loading'}
 											onChange={handleChange2}
 											input={<Input />}
@@ -429,12 +423,7 @@ const UploadQBook = (props) => {
 									<CardDepth >
 										<Select
 											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-											MenuProps={{
-												anchorOrigin: {
-													vertical: 'bottom',
-													horizontal: 'center',
-												}
-											}}
+											
 											value={subject.length === 0 ? 'loading' : subjectValue}
 											onChange={handleChange3}
 											input={<Input />}
@@ -457,12 +446,7 @@ const UploadQBook = (props) => {
 									<CardDepth >
 										<Select
 											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-											MenuProps={{
-												anchorOrigin: {
-													vertical: 'bottom',
-													horizontal: 'center',
-												}
-											}}
+											
 											value={chapter.length === 0 ? "loading" : chapterValue}
 											onChange={handleChange4}
 											input={<Input />}
