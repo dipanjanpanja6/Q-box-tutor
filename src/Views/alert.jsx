@@ -58,37 +58,38 @@ export default function ScrollableTabsButtonAuto() {
     setValue(newValue);
   };
 
-  return (<div style={{ paddingLeft: 56 }}>
-  <Toolbar/>
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="scrollable"
-          scrollButtons="auto" 
-        >
-          <Tab label="Q Book" {...a11yProps(0)} />
-          <Tab label="Q Bank" {...a11yProps(1)} />
-          <Tab label=" Weekly Test" {...a11yProps(2)} />
-          <Tab label=" Monthly Test" {...a11yProps(3)} /> 
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-       <AlertQbook/>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Q Bank
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Weekly Test
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Monthly Test
-      </TabPanel>
-     
+  return (
+    <div style={{ paddingLeft: 56 }}>
+      <Toolbar />
+      <div className={classes.root}>
+        <AppBar position="static" color="default">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="scrollable"
+            scrollButtons="auto"
+          >
+            <Tab label="Q Book" {...a11yProps(0)} />
+            <Tab label="Q Bank" {...a11yProps(1)} />
+            <Tab label=" Weekly Test" {...a11yProps(2)} />
+            <Tab label=" Monthly Test" {...a11yProps(3)} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <AlertQbook />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Q Bank
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Weekly Test
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          Monthly Test
+        </TabPanel>
+      </div>
     </div>
- </div> );
+  );
 }
