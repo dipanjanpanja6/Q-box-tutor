@@ -75,16 +75,16 @@ const SelectUpload = (props) => {
   var handelRedirect = (e) => {
     switch (e) {
       case 'Q Book':
-        history.push('/q-book');
+        history.push('/QBook');
         break;
       case 'Q Bank':
-        history.push('/q-bank');
+        history.push('/QBank');
         break;
       case 'Weekly Test':
-        history.push('/weekly-test');
+        history.push('/WeeklyTest');
         break;
       case 'Monthly Test':
-        history.push('/monthly-test');
+        history.push('/MonthlyTest');
         break;
 
       default:
