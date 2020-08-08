@@ -12,6 +12,7 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   IconButton,
+  Typography,
 } from '@material-ui/core';
 import { useEffect } from 'react';
 import { url } from '../../config/config';
@@ -35,7 +36,7 @@ export default function ScrollableTabsButtonAuto() {
 
   const [state, setState] = React.useState(); 
 useEffect(() => { 
-    fetch(`${url}/api/course/teacher/getqbookrejectedquestion`, {
+    fetch(`${url}/api/course/teacher/QBook/rejectedquestion`, {
       method: 'GET',
       credentials: 'include',
     }).then(res => {
@@ -57,7 +58,7 @@ useEffect(() => {
   const remove = (e) => {
     
     console.log(e, 'remove');
-    fetch(`${url}/api/course/teacher/getqbookrejectedquestion/${e}`, {
+    fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${e}`, {
       method: 'DELETE',
       credentials: 'include',
     }).then(res => {
@@ -84,11 +85,14 @@ useEffect(() => {
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
-  )):<div className={sty.skeleton}>
+  )):<Typography>
+    No questions are rejected.
+  </Typography>
+  :<div className={sty.skeleton}>
   <Skeleton width={240}/>
   <Skeleton animation={false} />
   <Skeleton animation="wave" />
-</div>;
+</div>
 
   return (
     <div className={sty.root}>
