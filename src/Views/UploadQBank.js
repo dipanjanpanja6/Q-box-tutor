@@ -214,7 +214,7 @@ const UploadQBank = (props) => {
       container
       justify="center"
       alignItems="baseline"
-      style={{ minHeight: '100vh', backgroundColor: '#fff' }}
+      style={{ backgroundColor: '#fff' }}
     >
       <Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
       {props.teacherAuth === false && history.push('/')}

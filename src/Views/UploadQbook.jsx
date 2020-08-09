@@ -16,11 +16,10 @@ import { checkTeacher } from '../redux/actions/teacher';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import Videojs from "../Components/videoPlayer";
-
-
-
+import Loading from '../Components/loading';
 import EditorJS from '../Components/edit/Readeditor';
  import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { useHistory } from 'react-router-dom';
 
 const style = makeStyles((t) => ({
   content: {
@@ -185,6 +184,7 @@ const UploadQBank = (props) => {
   const classes = style();
   var { id } = useParams();
   // var edit = id ? true : false;
+  const history = useHistory();
 
 const [questionData,SetquestionData] = React.useState([])
 
@@ -204,9 +204,19 @@ const [questionData,SetquestionData] = React.useState([])
   }, [props]);
 
   return (
-    <Grid container justify='center' alignItems='baseline' style={{backgroundColor:'#fff'}}>
+    <Grid
+      container
+      justify="center"
+      alignItems="baseline"
+      style={{ backgroundColor: '#fff' }}
+    >
       <Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
-    <Grid container className={classes.content}>
+      {props.teacherAuth === false ? (
+        history.push('/')
+      ) : props.teacherAuth === null ? (
+        <Loading />
+      ) : props.teacherAuth === true ? (
+        <Grid container className={classes.content}>
         <CardComponent>
           <Box container className={classes.question}>
             <Box display="flex" justifyContent="space-between" mt={1}>
@@ -300,6 +310,9 @@ const [questionData,SetquestionData] = React.useState([])
           </Box>
         </CardComponent>
       </Grid>
+      ) : (
+              ''
+            )}
     </Grid>
   );
 };
