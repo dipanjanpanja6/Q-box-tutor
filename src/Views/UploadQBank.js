@@ -20,6 +20,8 @@ import PropTypes from 'prop-types';
 import Loading from '../Components/loading';
 import { useHistory, useParams } from 'react-router-dom';
 import Videojs from "../Components/videoPlayer";
+import Progress from '../Components/circularProgressBar';
+
 
 import EditorJS from '../Components/edit/Readeditor';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -201,9 +203,10 @@ const UploadQBank = (props) => {
       : "No Option",
   ];
   const [courseValue, setCourseValue] = React.useState([]);
-
+  let [iup, setImageUploadProgress] = React.useState({});
 
   const [value, setValue] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   const handleChange = async (event) => {
     setCourseValue(event.target.value);
@@ -221,117 +224,124 @@ const UploadQBank = (props) => {
       {props.teacherAuth === null && <Loading />}
       {props.teacherAuth === true && (
         <Grid container className={classes.content}>
-          <CardComponent>
-            <Box container className={classes.question}>
-              <Typography
-                variant="h6"
-                style={{ color: "white", marginBottom: 10 }}
-              >
-                <strong>Question : </strong>
-                {questionData.question !== undefined ? (
-                  <EditorJS data={JSON.parse(questionData.question)} />
-                ) : (
-                    // ? JSON.parse(questionData.question).blocks[0].text
-                    "Loading..."
-                  )}
-              </Typography>
-              <Box display="flex" justifyContent="space-between" mt={1}>
-                <Typography variant="p" style={{ color: "white" }}>
-                  <strong>Stream : </strong>
-                  {questionData.stream !== undefined
-                    ? questionData.stream
-                    : "Loading..."}
-                </Typography>
-                <Typography variant="p" style={{ color: "white" }}>
-                  <strong>Subject : </strong>
-                  {questionData.subject !== undefined
-                    ? questionData.subject
-                    : "Loading..."}
-                </Typography>
-                <Typography variant="p" style={{ color: "white" }}>
-                  <strong>Chapter : </strong>
-                  {questionData.chapter !== undefined
-                    ? questionData.chapter
-                    : "Loading..."}
-                </Typography>
-              </Box>
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Box style={{ color: "#fff" }} mt={1} mb={2}>
-                  <strong>Course : </strong>
-                  {questionData.course !== undefined
-                    ? questionData.course.map((data, index) => {
-                      return (
-                        <Typography
-                          variant="p"
-                          style={{
-                            color: "#000",
-                            backgroundColor: "#eee",
-                            padding: 2.5,
-                            paddingRight: 5,
-                            paddingLeft: 5,
-                            borderRadius: 10,
-                            marginLeft: 10,
-                          }}
-                        >
-                          {data}
-                        </Typography>
-                      );
-                    })
-                    : "No Course"}
-                </Box>
-
-                <Typography variant="p" style={{ color: "white" }}>
-                  <strong>Created At : </strong>
-                  {questionData.createdAt !== undefined
-                    ? questionData.createdAt
-                    : "Loading..."}
-                </Typography>
-              </Box>
-            </Box>
-
-            <Box container className={classes.optionContainer}>
-              <Box>
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender1"
-                  value={value}
-                  onChange={handleChange}
-                  className={classes.radioGroupStyle}
+          {!!!loading && (
+            <CardComponent>
+              <Box container className={classes.question}>
+                <Typography
+                  variant="h6"
+                  style={{ color: "white", marginBottom: 10 }}
                 >
-                  {option.map((data, index) => {
-                    return (
-                      <FormControlLabel
-                        value={data}
-                        className={classes.radioLabelStyle}
-                        control={<Radio className={classes.radioButtonStyle} />}
-                        label={data}
-                      />
-                    );
-                  })}
-                </RadioGroup>
-              </Box>
-              {!questionData.noVideo && (
-                <Box className={classes.videoContainer}>
-                  <Videojs {...videoJsOptions} />
+                  <strong>Question : </strong>
+                  {questionData.question !== undefined ? (
+                    <EditorJS data={JSON.parse(questionData.question)} />
+                  ) : (
+                      // ? JSON.parse(questionData.question).blocks[0].text
+                      "Loading..."
+                    )}
+                </Typography>
+                <Box display="flex" justifyContent="space-between" mt={1}>
+                  <Typography variant="p" style={{ color: "white" }}>
+                    <strong>Stream : </strong>
+                    {questionData.stream !== undefined
+                      ? questionData.stream
+                      : "Loading..."}
+                  </Typography>
+                  <Typography variant="p" style={{ color: "white" }}>
+                    <strong>Subject : </strong>
+                    {questionData.subject !== undefined
+                      ? questionData.subject
+                      : "Loading..."}
+                  </Typography>
+                  <Typography variant="p" style={{ color: "white" }}>
+                    <strong>Chapter : </strong>
+                    {questionData.chapter !== undefined
+                      ? questionData.chapter
+                      : "Loading..."}
+                  </Typography>
                 </Box>
-              )}
-            </Box>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Box style={{ color: "#fff" }} mt={1} mb={2}>
+                    <strong>Course : </strong>
+                    {questionData.course !== undefined
+                      ? questionData.course.map((data, index) => {
+                        return (
+                          <Typography
+                            variant="p"
+                            style={{
+                              color: "#000",
+                              backgroundColor: "#eee",
+                              padding: 2.5,
+                              paddingRight: 5,
+                              paddingLeft: 5,
+                              borderRadius: 10,
+                              marginLeft: 10,
+                            }}
+                          >
+                            {data}
+                          </Typography>
+                        );
+                      })
+                      : "No Course"}
+                  </Box>
 
-            <br></br>
-            <Box mt={5} mb={5}>
-              <Typography variant="p" style={{ color: "white" }}>
-                <strong>Correct Answer : </strong>
-                {questionData.ans
-                  ? JSON.parse(questionData.ans).blocks[0].text
-                  : "No Option"}
-              </Typography>
-            </Box>
+                  <Typography variant="p" style={{ color: "white" }}>
+                    <strong>Created At : </strong>
+                    {questionData.createdAt !== undefined
+                      ? questionData.createdAt
+                      : "Loading..."}
+                  </Typography>
+                </Box>
+              </Box>
 
-          </CardComponent>
+              <Box container className={classes.optionContainer}>
+                <Box>
+                  <RadioGroup
+                    aria-label="gender"
+                    name="gender1"
+                    value={value}
+                    onChange={handleChange}
+                    className={classes.radioGroupStyle}
+                  >
+                    {option.map((data, index) => {
+                      return (
+                        <FormControlLabel
+                          value={data}
+                          className={classes.radioLabelStyle}
+                          control={<Radio className={classes.radioButtonStyle} />}
+                          label={data}
+                        />
+                      );
+                    })}
+                  </RadioGroup>
+                </Box>
+                {!questionData.noVideo && (
+                  <Box className={classes.videoContainer}>
+                    <Videojs {...videoJsOptions} />
+                  </Box>
+                )}
+              </Box>
+
+              <br></br>
+              <Box mt={5} mb={5}>
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Correct Answer : </strong>
+                  {questionData.ans
+                    ? JSON.parse(questionData.ans).blocks[0].text
+                    : "No Option"}
+                </Typography>
+              </Box>
+
+            </CardComponent>
+          )}
+          {loading && (
+            <Grid container justify="center">
+              <Progress value={iup} />
+            </Grid>
+          )}
         </Grid>
       )}
     </Grid>
