@@ -19,6 +19,7 @@ import { checkTeacher } from '../redux/actions/teacher';
 import PropTypes from 'prop-types';
 import Loading from '../Components/loading';
 import { useHistory, useParams } from 'react-router-dom';
+import Progress from '../Components/circularProgressBar';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import EditorJS from '../Components/edit/Readeditor';
@@ -151,7 +152,8 @@ const WeeklyTest = (props) => {
   const history = useHistory();
   var { id } = useParams();
 
-const [questionData,SetquestionData] = React.useState([])
+  const [questionData,SetquestionData] = React.useState([])
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     if (props.teacherAuth === null) {
@@ -184,6 +186,7 @@ const [questionData,SetquestionData] = React.useState([])
   ];
 
   const [value, setValue] = React.useState("");
+  let [iup, setImageUploadProgress] = React.useState({});
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -202,6 +205,8 @@ const [questionData,SetquestionData] = React.useState([])
       {props.teacherAuth === null && <Loading />}
       {props.teacherAuth === true && (
         <Grid container className={classes.content}>
+          {!!!loading &&(
+
         <CardComponent>
           <Box container className={classes.question}>
             <Typography
@@ -308,7 +313,13 @@ const [questionData,SetquestionData] = React.useState([])
 
           
         </CardComponent>
-      </Grid>
+          )}
+        {loading && (
+            <Grid container justify="center">
+              <Progress value={iup} />
+            </Grid>
+          )}
+     </Grid>
       )}
     </Grid>
   );
