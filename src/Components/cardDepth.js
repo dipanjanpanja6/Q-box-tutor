@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { pxToVh, pxToVw, Theme } from '../theme';
+import { pxToVh, Theme } from '../theme';
 import { makeStyles } from '@material-ui/core';
 
 const styles = makeStyles(t => ({
@@ -10,14 +10,14 @@ const styles = makeStyles(t => ({
 		height: '100%',
 		width: '100%',
 		borderRadius: pxToVh(80),
-		[t.breakpoints.down('xs')]: { 
+		[t.breakpoints.down('xs')]: {
 			borderRadius: pxToVh(70),
 
 		}
 	},
 }))
 
-const CardDepth = (props) => { 
+const CardDepth = (props) => {
 	const classes = styles()
 	return (
 		<Grid

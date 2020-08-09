@@ -1,4 +1,3 @@
-import { REJECTQBook,REJECTQBank,REJECTMonthlyTest ,REJECTWeeklyTest } from '../type';
 import { url } from '../../config/config';
 import { toast } from 'react-toastify';
 
@@ -9,14 +8,12 @@ export const GetRejectCourse = (sub) => (dispatch) => {
   })
     .then((res) => {
       res.json().then((d) => {
-        console.log(d);
         if (d.success === true) {
           dispatch({
             type: `REJECT${sub}`,
             payload: d.data,
           });
         } else if (d.error === true) {
-          console.log(d.message); 
           dispatch({
             type: `REJECT${sub}`,
             payload: [],
@@ -25,7 +22,7 @@ export const GetRejectCourse = (sub) => (dispatch) => {
       });
     })
     .catch((r) => {
-      console.log(r);
+      console.log(r, 'getRejectCourse');
       dispatch({
         type: `REJECT${sub}`,
         payload: [],
@@ -34,7 +31,7 @@ export const GetRejectCourse = (sub) => (dispatch) => {
     });
 };
 
-export const DeleteCourse = (sub,e) => (dispatch) => {
+export const DeleteCourse = (sub, e) => (dispatch) => {
   fetch(`${url}/api/course/teacher/${sub}/rejectedquestion/${e}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -43,15 +40,15 @@ export const DeleteCourse = (sub,e) => (dispatch) => {
       res.json().then((d) => {
         if (d.success === true) {
           dispatch(GetRejectCourse(sub))
-          toast.success(d.message) 
+          toast.success(d.message)
         } else if (d.error === true) {
-          console.log(d.message);
+          // console.log(d.message);
           toast.error(d.message)
         }
       });
     })
     .catch((r) => {
-      console.log(r);
+      console.log(r, 'deltecourse');
       toast.error('Something went wrong ! Try again');
     });
 };

@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Loading from './Components/loading';
 
-import TLogin from './Views/teacherLogin';
-
-// import Dashboard from './Views/Dashboard';
+import TeacherLogin from './Views/teacherLogin';
 
 import Appbar from './Components/AppBar';
 
-import E4 from './Views/E4';
+import NotFound from './Views/NotFound';
 import {
   BrowserRouter as Router,
   Route,
@@ -19,7 +17,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Console from './Views/Console';
 
-// import Upload from './Views/selectUpload'
 import UploadBank from './Views/UploadQBank';
 import UploadBook from './Views/UploadQbook';
 import Alert from './Views/alert';
@@ -29,7 +26,6 @@ import MonthlyTest from './Views/monthly-test';
 import { connect } from 'react-redux';
 import { checkTeacher, logout } from './redux/actions/teacher';
 import PropType from 'prop-types';
-import { url } from './config/config';
 
 const App = (props) => {
   useEffect(() => {
@@ -37,32 +33,44 @@ const App = (props) => {
   }, [props]);
 
   const out = () => {
-    console.log('auth');
     props.logout();
   };
-  console.log(props);
 
   return (
     <div>
       <Router>
         <Appbar auth={props.auth} out={out} />
         <Switch>
-          <Route exact sensitive path="/QBook" component={({ location }) =>
-            props.auth === null ? (<Loading />) : props.auth === true ? (
-              <UploadBook islogin={props.auth} />) : (<Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
-          }
-          />
           <Route
             exact
-            path="/QBook/:id"
-            component={({ location, }) =>props.auth === null ? <Loading /> : props.auth === true ? <UploadBook islogin={props.auth} /> : (
+            sensitive
+            path="/QBook"
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <UploadBook islogin={props.auth} />
+              ) : (
                     <Redirect to={{ pathname: '/', state: { from: location } }} />
                   )
             }
           />
           <Route
-            exact sensitive
+            exact
+            path="/QBook/:id"
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <UploadBook islogin={props.auth} />
+              ) : (
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
+            }
+          />
+          <Route
+            exact
+            sensitive
             path="/QBank"
             component={({ location }) =>
               props.auth === null ? (
@@ -75,7 +83,21 @@ const App = (props) => {
             }
           />
           <Route
-            exact sensitive
+            exact
+            path="/QBank/:id"
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <UploadBank islogin={props.auth} />
+              ) : (
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
+            }
+          />
+          <Route
+            exact
+            sensitive
             path="/MonthlyTest"
             component={({ location }) =>
               props.auth === null ? (
@@ -88,8 +110,37 @@ const App = (props) => {
             }
           />
           <Route
-            exact sensitive
+            exact
+            sensitive
+            path="/MonthlyTest/:id"
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <MonthlyTest islogin={props.auth} />
+              ) : (
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
+            }
+          />
+          <Route
+            exact
+            sensitive
             path="/WeeklyTest"
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <WeeklyTest islogin={props.auth} />
+              ) : (
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
+            }
+          />
+          <Route
+            exact
+            sensitive
+            path="/WeeklyTest/:id"
             component={({ location }) =>
               props.auth === null ? (
                 <Loading />
@@ -117,7 +168,7 @@ const App = (props) => {
           <Route
             exact
             path="/"
-            render={() => <TLogin islogin={props.auth} />}
+            render={() => <TeacherLogin islogin={props.auth} />}
           />
 
           <Route
@@ -135,7 +186,7 @@ const App = (props) => {
           />
           {/* <Route exact path="/console" render={() => <Console islogin={props.auth} />} /> */}
 
-          <Route exact component={E4} />
+          <Route exact component={NotFound} />
         </Switch>
       </Router>
       <ToastContainer />

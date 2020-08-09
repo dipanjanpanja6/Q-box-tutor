@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Input from '@material-ui/core/Input';
-import { pxToVh, pxToVw, Theme } from './../theme';
+import { pxToVw, Theme } from './../theme';
 import CardDepth from '../Components/cardDepth';
 import CardComponent from '../Components/cardEmbossed';
 import Person from '@material-ui/icons/PersonRounded';
@@ -28,6 +28,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import EditorJS from '../Components/Editor';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 const styles = makeStyles((t) => ({
   baseStyle: {
     borderRadius: '50%',
@@ -141,18 +142,38 @@ const UploadQBank = (props) => {
   const [subject, setSubject] = React.useState([]);
   const [chapter, setChapter] = React.useState([]);
   const [stream, setStream] = React.useState([]);
+  const [QData, setQData] = useState({ title: '', body: '' });
 
   useEffect(() => {
     if (props.teacherAuth === null) {
       props.checkTeacher();
     }
     axios.get(`${url}/api/course`).then((d) => {
-      console.log(d.data);
+      // console.log(d.data);
       if (d.data.success) {
         setCourse(d.data.data);
       }
     });
   }, [props]);
+  var { id } = useParams();
+  var edit = id ? true : false;
+  useEffect(() => {
+    if (id) {
+      fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+      })
+        .then((res) => {
+          res.json().then((d) => {
+            setQData({ title: d.data.title, body: d.data.body });
+            console.log(d);
+          });
+        })
+        .catch((r) => {
+          console.log(r, 'error');
+        });
+    }
+  }, []);
 
   const [courseValue, setCourseValue] = React.useState([]);
   const [streamValue, setStreamValue] = React.useState('');
@@ -171,7 +192,7 @@ const UploadQBank = (props) => {
     axios
       .post(`${url}/api/getstream`, { courseValue: courseValue })
       .then((d) => {
-        console.log(d.data);
+        // console.log(d.data);
         if (d.data.success) {
           setStream(d.data.data);
         }
@@ -231,7 +252,6 @@ const UploadQBank = (props) => {
   };
   let [iup, setImageUploadProgress] = useState({});
 
-  const [QData, setQData] = useState({ title: '', body: '' });
   const handleChangeQ = (e, i) => {
     const h = JSON.stringify(e);
     setQData({ ...QData, [i]: h });
@@ -239,8 +259,6 @@ const UploadQBank = (props) => {
   const handleChangeTitle = (e) => {
     setQData({ ...QData, title: e.target.value });
   };
-
-  // console.log(QData);
 
   const submit = () => {
     if (QData.title === '' || QData.title === null) {
@@ -325,9 +343,7 @@ const UploadQBank = (props) => {
       }
     }
   };
-  var { id } = useParams();
-  var edit = id ? true : false;
-  console.log(id);
+
   return (
     <Grid
       container
@@ -439,6 +455,7 @@ const UploadQBank = (props) => {
                         onChange={handleChange2}
                         input={<Input />}
                         MenuProps={MenuProps}
+                        displayEmpty
                       >
                         {stream.length !== 0 ? (
                           stream.map((name) => (
@@ -475,6 +492,7 @@ const UploadQBank = (props) => {
                         onChange={handleChange3}
                         input={<Input />}
                         MenuProps={MenuProps}
+                        displayEmpty
                       >
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
@@ -506,6 +524,7 @@ const UploadQBank = (props) => {
                         onChange={handleChange4}
                         input={<Input />}
                         MenuProps={MenuProps}
+                        displayEmpty
                       >
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>

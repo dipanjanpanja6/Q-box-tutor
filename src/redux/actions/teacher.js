@@ -11,7 +11,6 @@ export const login = (data) => (dispatch) => {
   })
     .then((res) => {
       res.json().then((d) => {
-        console.log(d);
         if (d.success === true) {
           dispatch({
             type: TEACHERAUTH,
@@ -37,7 +36,6 @@ export const checkTeacher = () => (dispatch) => {
     res
       .json()
       .then((d) => {
-        console.log(d);
         if (d.success === true) {
           dispatch({
             type: TEACHERAUTH,

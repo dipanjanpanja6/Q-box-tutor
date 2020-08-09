@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { withStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import {
   Grid,
@@ -10,13 +9,11 @@ import {
   CardActionArea,
 } from '@material-ui/core';
 import { Theme } from './../theme';
-import CardComponent from '../Components/cardEmbossed';
 import { Toolbar, makeStyles, Card } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { checkTeacher } from '../redux/actions/teacher';
 import PropTypes from 'prop-types';
-import Loading from '../Components/loading';
 
 const styles = makeStyles((t) => ({
   header: {
@@ -36,24 +33,24 @@ const styles = makeStyles((t) => ({
   },
 }));
 
-const SelectUpload = (props) => {
-  console.log(props);
-
+const Console = (props) => {
   const sty = styles();
   const history = useHistory();
+
   useEffect(() => {
     if (props.teacherAuth === null) {
       props.checkTeacher();
     }
   }, [props]);
-  const handleChange = (e) => {
-    if (e == 'qbook') {
-      history.push('/upload/qbook', props.teacherAuth);
-    }
-    if (e == 'qbank') {
-      history.push('/upload/qbank', props.teacherAuth);
-    }
-  };
+
+  // const handleChange = (e) => {
+  //   if (e == 'qbook') {
+  //     history.push('/upload/qbook', props.teacherAuth);
+  //   }
+  //   if (e == 'qbank') {
+  //     history.push('/upload/qbank', props.teacherAuth);
+  //   }
+  // };
   var item = [
     {
       title: 'Upload question for Q Book',
@@ -91,7 +88,7 @@ const SelectUpload = (props) => {
         break;
     }
   };
-  var CArd = item.map((p, i) => {
+  var CardData = item.map((p, i) => {
     return (
       <Card className={sty.card} key={i}>
         <CardActionArea
@@ -131,7 +128,7 @@ const SelectUpload = (props) => {
       </Typography>
 
       <Grid container style={{ padding: 20 }}>
-        {CArd}
+        {CardData}
       </Grid>
       <Divider />
       <Grid container></Grid>
@@ -139,7 +136,7 @@ const SelectUpload = (props) => {
   );
 };
 
-SelectUpload.propType = {
+Console.propType = {
   checkTeacher: PropTypes.func.isRequired,
   teacherAuth: PropTypes.object.isRequired,
 };
@@ -149,4 +146,4 @@ const mapToState = (state) => ({
 const mapToProps = {
   checkTeacher,
 };
-export default connect(mapToState, mapToProps)(SelectUpload);
+export default connect(mapToState, mapToProps)(Console);
