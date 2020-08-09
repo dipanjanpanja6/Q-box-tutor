@@ -15,6 +15,7 @@ import {
   Select,
   ListItemText,
   Fab,
+  CircularProgress,
 } from '@material-ui/core';
 import { useEffect } from 'react';
 import { url } from '../config/config';
@@ -26,8 +27,8 @@ import PropTypes from 'prop-types';
 import Loading from '../Components/loading';
 import { useHistory, useParams } from 'react-router-dom';
 
-import EditorJS from '../Components/Editor';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import EditorJS from '../Components/edit/Editor';
+ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const styles = makeStyles((t) => ({
   baseStyle: {
@@ -142,8 +143,15 @@ const UploadQBank = (props) => {
   const [subject, setSubject] = React.useState([]);
   const [chapter, setChapter] = React.useState([]);
   const [stream, setStream] = React.useState([]);
-  const [QData, setQData] = useState({ title: '', body: '' });
+  const [QData, setQData] = useState({ title: '', body: '' }); 
 
+
+  const [courseValue, setCourseValue] = React.useState([]);
+  const [streamValue, setStreamValue] = React.useState('');
+  const [subjectValue, setSubjectValue] = React.useState('');
+  const [chapterValue, setChapterValue] = React.useState('');
+
+  console.log(streamValue);
   useEffect(() => {
     if (props.teacherAuth === null) {
       props.checkTeacher();
@@ -155,30 +163,9 @@ const UploadQBank = (props) => {
       }
     });
   }, [props]);
-  var { id } = useParams();
-  var edit = id ? true : false;
-  useEffect(() => {
-    if (id) {
-      fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${id}`, {
-        method: 'GET',
-        credentials: 'include',
-      })
-        .then((res) => {
-          res.json().then((d) => {
-            setQData({ title: d.data.title, body: d.data.body });
-            console.log(d);
-          });
-        })
-        .catch((r) => {
-          console.log(r, 'error');
-        });
-    }
-  }, []);
 
-  const [courseValue, setCourseValue] = React.useState([]);
-  const [streamValue, setStreamValue] = React.useState('');
-  const [subjectValue, setSubjectValue] = React.useState('');
-  const [chapterValue, setChapterValue] = React.useState('');
+
+
 
   function filter(array, value, key) {
     return array.filter(
@@ -214,6 +201,7 @@ const UploadQBank = (props) => {
   const handleChange2 = (event) => {
     setStreamValue(event.target.value);
     if (event.target.value !== '') {
+
       axios
         .post(`${url}/api/getsubject`, { streamValue: event.target.value })
         .then((d) => {
@@ -222,15 +210,12 @@ const UploadQBank = (props) => {
             setSubject(d.data.data);
           }
           if (d.data.error) {
-            setSubject([]);
-            setSubjectValue('');
-            setChapterValue('');
-            setChapter([]);
             toast.warn(d.data.message);
           }
         });
     }
   };
+
   const handleChange3 = (event) => {
     setSubjectValue(event.target.value);
     if (event.target.value !== '') {
@@ -261,6 +246,7 @@ const UploadQBank = (props) => {
   };
 
   const submit = () => {
+
     if (QData.title === '' || QData.title === null) {
       return alert('Please write some topic title first.');
     } else if (QData.body === '' || QData.body === null) {
@@ -411,7 +397,7 @@ const UploadQBank = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+
                         {...{
                           disableUnderline: true,
                           className: sty.select,
@@ -445,7 +431,7 @@ const UploadQBank = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+
                         {...{
                           disableUnderline: true,
                           className: sty.select,
@@ -464,10 +450,10 @@ const UploadQBank = (props) => {
                             </MenuItem>
                           ))
                         ) : (
-                          <MenuItem disabled value="loading">
-                            loading
-                          </MenuItem>
-                        )}
+                            <MenuItem disabled value="loading">
+                              loading
+                            </MenuItem>
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -482,7 +468,7 @@ const UploadQBank = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+
                         {...{
                           disableUnderline: true,
                           className: sty.select,
@@ -497,12 +483,12 @@ const UploadQBank = (props) => {
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          subject.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            subject.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -514,7 +500,7 @@ const UploadQBank = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+
                         {...{
                           disableUnderline: true,
                           className: sty.select,
@@ -529,12 +515,12 @@ const UploadQBank = (props) => {
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          chapter.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            chapter.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -583,7 +569,9 @@ const UploadQBank = (props) => {
                 <div className={sty.inputDivText}>
                   <CardDepth style={{ borderRadius: 12 }}>
                     <div>
+
                       <EditorJS
+                        // Data={edit ? editBody ? JSON.parse(editBody) : null : null}
                         onChange={(e) => {
                           handleChangeQ(e, 'body');
                         }}
@@ -618,8 +606,8 @@ const UploadQBank = (props) => {
           )}
         </Grid>
       ) : (
-        ''
-      )}
+              ''
+            )}
     </Grid>
   );
 };

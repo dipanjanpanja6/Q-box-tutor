@@ -16,6 +16,7 @@ import {
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { GetRejectCourse, DeleteCourse } from '../../redux/actions/course';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -84,7 +85,7 @@ const AlertQbook = (props) => {
               <DeleteForeverIcon />
             </IconButton>
             <IconButton onClick={() => edit(e.ID)}>
-              <EditIcon />
+              <VisibilityIcon />
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>

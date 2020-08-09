@@ -26,7 +26,7 @@ import PropTypes from 'prop-types';
 import Loading from '../Components/loading';
 import { useHistory, useParams } from 'react-router-dom';
 
-import EditorJS from '../Components/Editor';
+import EditorJS from '../Components/edit/Editor';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
@@ -314,8 +314,7 @@ const MonthlyTest = (props) => {
       }
     }
   };
-  var { id } = useParams();
-  var edit = id ? true : false;
+
   return (
     <Grid
       container
@@ -381,18 +380,13 @@ const MonthlyTest = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+
                         labelId="demo-mutiple-checkbox-label"
                         id="demo-mutiple-checkbox"
                         multiple
@@ -422,18 +416,13 @@ const MonthlyTest = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+
                         value={stream.length !== 0 ? streamValue : 'loading'}
                         onChange={handleChange2}
                         input={<Input />}
@@ -447,10 +436,10 @@ const MonthlyTest = (props) => {
                             </MenuItem>
                           ))
                         ) : (
-                          <MenuItem disabled value="loading">
-                            loading
-                          </MenuItem>
-                        )}
+                            <MenuItem disabled value="loading">
+                              loading
+                            </MenuItem>
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -464,18 +453,13 @@ const MonthlyTest = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+
                         value={subject.length === 0 ? 'loading' : subjectValue}
                         onChange={handleChange3}
                         input={<Input />}
@@ -485,12 +469,12 @@ const MonthlyTest = (props) => {
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          subject.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            subject.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -502,18 +486,13 @@ const MonthlyTest = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+
                         value={chapter.length === 0 ? 'loading' : chapterValue}
                         onChange={handleChange4}
                         input={<Input />}
@@ -523,25 +502,17 @@ const MonthlyTest = (props) => {
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          chapter.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            chapter.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
                 </Grid>
               </Grid>
-
-              {/* <Grid container justify='space-around' style={{ padding: '12px 0 20px' }}>
-
-							<Grid container justify='flex-start' style={{ paddingLeft: '7%' }} item >
-								<Checkbox disableRipple onChange={(e) => { setHasOption(e.target.checked) }} style={{ padding: '0 3px', color: '#fff', alignSelf: 'center' }} /><Typography style={{ alignSelf: 'center', color: '#fff' }}>Has Options</Typography>
-							</Grid>
-						</Grid> */}
-
               <Grid style={{ padding: '0 5%' }} item container justify="center">
                 <div className={sty.inputDivText}>
                   <CardDepth style={{ borderRadius: 12 }}>

@@ -27,7 +27,7 @@ import Loading from '../Components/loading';
 import { useHistory, useParams } from 'react-router-dom';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import EditorJS from '../Components/Editor';
+import EditorJS from '../Components/edit/Editor';
 const styles = makeStyles((t) => ({
   baseStyle: {
     borderRadius: '50%',
@@ -315,8 +315,7 @@ const WeeklyTest = (props) => {
       }
     }
   };
-  var { id } = useParams();
-  var edit = id ? true : false;
+  
   return (
     <Grid
       container
@@ -382,18 +381,13 @@ const WeeklyTest = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+                        
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+                       
                         labelId="demo-mutiple-checkbox-label"
                         id="demo-mutiple-checkbox"
                         multiple
@@ -423,18 +417,13 @@ const WeeklyTest = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+                        
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+                       
                         value={stream.length !== 0 ? streamValue : 'loading'}
                         onChange={handleChange2}
                         input={<Input />}
@@ -448,10 +437,10 @@ const WeeklyTest = (props) => {
                             </MenuItem>
                           ))
                         ) : (
-                          <MenuItem disabled value="loading">
-                            loading
-                          </MenuItem>
-                        )}
+                            <MenuItem disabled value="loading">
+                              loading
+                            </MenuItem>
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -465,18 +454,13 @@ const WeeklyTest = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+                        
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+                       
                         value={subject.length === 0 ? 'loading' : subjectValue}
                         onChange={handleChange3}
                         input={<Input />}
@@ -486,12 +470,12 @@ const WeeklyTest = (props) => {
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          subject.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            subject.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -503,18 +487,13 @@ const WeeklyTest = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+                        
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+                       
                         value={chapter.length === 0 ? 'loading' : chapterValue}
                         onChange={handleChange4}
                         input={<Input />}
@@ -524,12 +503,12 @@ const WeeklyTest = (props) => {
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          chapter.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            chapter.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>

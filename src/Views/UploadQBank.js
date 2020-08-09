@@ -27,7 +27,7 @@ import PropTypes from 'prop-types';
 import Loading from '../Components/loading';
 import { useHistory, useParams } from 'react-router-dom';
 
-import EditorJS from '../Components/Editor';
+import EditorJS from '../Components/edit/Editor';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 const styles = makeStyles((t) => ({
   baseStyle: {
@@ -332,8 +332,7 @@ const UploadQBank = (props) => {
       }
     }
   };
-  var { id } = useParams();
-  var edit = id ? true : false;
+ 
   return (
     <Grid
       container
@@ -399,7 +398,7 @@ const UploadQBank = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+                        
                         {...{
                           disableUnderline: true,
                           className: sty.select,
@@ -440,18 +439,13 @@ const UploadQBank = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+                        
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+                       
                         value={stream.length !== 0 ? streamValue : 'loading'}
                         onChange={handleChange2}
                         input={<Input />}
@@ -482,18 +476,13 @@ const UploadQBank = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+                        
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+                      
                         value={subject.length === 0 ? 'loading' : subjectValue}
                         onChange={handleChange3}
                         input={<Input />}
@@ -520,18 +509,13 @@ const UploadQBank = (props) => {
                   <div className={sty.inputDiv}>
                     <CardDepth>
                       <Select
-                        disabled={edit}
+                        
                         {...{
                           disableUnderline: true,
                           className: sty.select,
                           classes: { select: sty.selectInput },
                         }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
+                        
                         value={chapter.length === 0 ? 'loading' : chapterValue}
                         onChange={handleChange4}
                         input={<Input />}
@@ -553,38 +537,14 @@ const UploadQBank = (props) => {
                 </Grid>
               </Grid>
               <Grid container item xs={12} justify="center">
-                {/*<Grid item sm={6} xs={12} className={sty.selectI} >*/}
-                {/*	<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Image (if any)</p>*/}
-                {/*		/!* {iup.processing && <Progress value={iup} />} *!/*/}
-                {/*	</Grid>*/}
-                {/*	<div className={sty.inputDiv}>*/}
-                {/*		<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>*/}
-                {/*			<input accept="image/jpeg, image/png" type='file' onChange={selectImage} style={{ width: '100%', padding: 6 }}></input>*/}
-                {/*			/!* <Fab variant='extended' classes={{ label: "", }}*/}
-                {/*			style={iup.uploadFinished === true ? {*/}
-                {/*				backgroundColor: '#0f0', height: 35,*/}
-                {/*				width: '40%',*/}
-                {/*				borderRadius: 0,*/}
-                {/*			} : {*/}
-                {/*					height: 35,*/}
-                {/*					width: '40%',*/}
-                {/*					borderRadius: 0,*/}
-
-                {/*				}}*/}
-                {/*			onClick={imageUpload} >{iup.uploadFinished === true ? "Success" : "Upload Image"}</Fab> *!/*/}
-                {/*		</CardDepth>*/}
-                {/*	</div>*/}
-
-                {/*</Grid>*/}
-
+             
                 <Grid container justify="center">
                   <Grid container justify="center">
                     {' '}
                     <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
                       Video (if any)
                     </p>
-                    {/* {vup.processing && <Progress value={vup} />} */}
-                  </Grid>
+                   </Grid>
                   <div className={sty.inputDiv}>
                     <CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
                       <input
@@ -592,18 +552,7 @@ const UploadQBank = (props) => {
                         type="file"
                         onChange={selectVideo}
                         style={{ width: '100%', padding: 6 }}
-                      ></input>
-                      {/* <Fab variant='extended' classes={{ label: "", }}
-										style={vup.uploadFinished === true ? {
-											backgroundColor: '#0f0', height: 35,
-											width: '40%',
-											borderRadius: 0,
-										} : {
-												height: 35,
-												width: '40%',
-												borderRadius: 0,
-
-											}} onClick={videoUpload} >{vup.uploadFinished === true ? "Success" : "Upload Video"}</Fab> */}
+                      ></input> 
                     </CardDepth>
                   </div>
                 </Grid>
@@ -613,11 +562,7 @@ const UploadQBank = (props) => {
                 container
                 justify="space-around"
                 style={{ padding: '12px 0 20px' }}
-              >
-                {/* <Grid item container sm={6} className={sty.upload} justify='space-around'>
-							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={imageUpload} >Upload Image</Fab>
-							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={uploadVideo} >Upload Video</Fab>
-						</Grid> */}
+              > 
                 <Grid
                   container
                   justify="flex-start"

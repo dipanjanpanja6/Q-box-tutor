@@ -8,14 +8,16 @@ const EditorJS = (props) => {
         props.onChange(newData);
         // console.log(newData)
     }
-
+    // console.log(props.data);
     return (
-        <Editor
+        <Editor 
             wrapperClassName="demo-wrapper"
             editorClassName="demo-editor"
             placeholder={props.placeholder}
             onContentStateChange={onEditorStateChange}
         />
+
     )
 }
 export default EditorJS
+ 
