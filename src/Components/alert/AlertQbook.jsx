@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ScrollableTabsButtonAuto = (props) => {
+const AlertQbook = (props) => {
   const sty = useStyles();
   const history = useHistory();
 
@@ -46,7 +45,6 @@ const ScrollableTabsButtonAuto = (props) => {
   }, [props]);
 
   const edit = (e) => {
-    console.log(e, 'edit');
     history.push(`/${props.name}/${e}`);
   };
 
@@ -109,7 +107,7 @@ const ScrollableTabsButtonAuto = (props) => {
   );
 };
 
-ScrollableTabsButtonAuto.propType = {
+AlertQbook.propType = {
   GetRejectCourse: PropTypes.func.isRequired,
   DeleteCourse: PropTypes.func.isRequired,
   panddingcourse: PropTypes.object.isRequired,
@@ -122,4 +120,4 @@ const mapToProps = {
   GetRejectCourse,
   DeleteCourse,
 };
-export default connect(mapToState, mapToProps)(ScrollableTabsButtonAuto);
+export default connect(mapToState, mapToProps)(AlertQbook);

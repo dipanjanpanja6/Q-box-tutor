@@ -6,7 +6,6 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { useHistory } from 'react-router-dom';
 import { Skeleton } from '@material-ui/lab';
 import {
-  Toolbar,
   List,
   ListItem,
   ListItemText,
@@ -16,10 +15,7 @@ import {
 } from '@material-ui/core';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import {
-  GetRejectCourse,
-  DeleteCourse,
-} from '../../redux/actions/course';
+import { GetRejectCourse, DeleteCourse } from '../../redux/actions/course';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ScrollableTabsButtonAuto = (props) => {
+const AlertQbank = (props) => {
   const sty = useStyles();
   const history = useHistory();
 
@@ -49,12 +45,15 @@ const ScrollableTabsButtonAuto = (props) => {
   }, [props]);
 
   const edit = (e) => {
-    console.log(e, 'edit');
     history.push(`/${props.name}/${e}`);
   };
 
   const remove = (e) => {
-    if (window.confirm("Are you sure you want to delete this questions. This action can not be undone.")) {
+    if (
+      window.confirm(
+        'Are you sure you want to delete this questions. This action can not be undone.'
+      )
+    ) {
       props.DeleteCourse(props.name, e);
     } else {
       return;
@@ -67,9 +66,14 @@ const ScrollableTabsButtonAuto = (props) => {
         <ListItem key={e.ID} button>
           <ListItemText
             primary={e.title}
-            secondary={<Typography color='textSecondary' variant='body2'>
-              Created at :{e.createdAt}, in {e.subject} chapter name: {e.chapter}<br />Rejecting Comment is "{e.rejectingcomment}"
-            </Typography>}
+            secondary={
+              <Typography color="textSecondary" variant="body2">
+                Created at :{e.createdAt}, in {e.subject} chapter name:{' '}
+                {e.chapter}
+                <br />
+                Rejecting Comment is "{e.rejectingcomment}"
+              </Typography>
+            }
           />
           <ListItemSecondaryAction>
             <IconButton
@@ -86,15 +90,15 @@ const ScrollableTabsButtonAuto = (props) => {
         </ListItem>
       ))
     ) : (
-        <Typography>No questions are rejected.</Typography>
-      )
+      <Typography>No questions are rejected.</Typography>
+    )
   ) : (
-      <div className={sty.skeleton}>
-        <Skeleton width={240} />
-        <Skeleton animation={false} />
-        <Skeleton animation="wave" />
-      </div>
-    );
+    <div className={sty.skeleton}>
+      <Skeleton width={240} />
+      <Skeleton animation={false} />
+      <Skeleton animation="wave" />
+    </div>
+  );
 
   return (
     <div className={sty.root}>
@@ -103,11 +107,11 @@ const ScrollableTabsButtonAuto = (props) => {
   );
 };
 
-ScrollableTabsButtonAuto.propType = {
+AlertQbank.propType = {
   GetRejectCourse: PropTypes.func.isRequired,
   DeleteCourse: PropTypes.func.isRequired,
   panddingcourse: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };
 const mapToState = (state) => ({
   panddingcourse: state.admin.rejectQBank,
@@ -116,4 +120,4 @@ const mapToProps = {
   GetRejectCourse,
   DeleteCourse,
 };
-export default connect(mapToState, mapToProps)(ScrollableTabsButtonAuto);
+export default connect(mapToState, mapToProps)(AlertQbank);

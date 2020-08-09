@@ -5,7 +5,7 @@ import TeacherLogin from './Views/teacherLogin';
 
 import Appbar from './Components/AppBar';
 
-import E4 from './Views/E4';
+import NotFound from './Views/NotFound';
 import {
   BrowserRouter as Router,
   Route,
@@ -33,10 +33,8 @@ const App = (props) => {
   }, [props]);
 
   const out = () => {
-    console.log('auth');
     props.logout();
   };
-  console.log(props);
 
   return (
     <div>
@@ -188,7 +186,7 @@ const App = (props) => {
           />
           {/* <Route exact path="/console" render={() => <Console islogin={props.auth} />} /> */}
 
-          <Route exact component={E4} />
+          <Route exact component={NotFound} />
         </Switch>
       </Router>
       <ToastContainer />

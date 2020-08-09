@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Input from '@material-ui/core/Input';
-import { pxToVh, pxToVw, Theme } from './../theme';
+import { pxToVw, Theme } from './../theme';
 import CardDepth from '../Components/cardDepth';
 import CardComponent from '../Components/cardEmbossed';
 import Person from '@material-ui/icons/PersonRounded';
@@ -114,7 +113,7 @@ const styles = makeStyles((t) => ({
   },
 }));
 
-const UploadQBook = (props) => {
+const WeeklyTest = (props) => {
   const sty = styles();
   const history = useHistory();
 
@@ -449,10 +448,10 @@ const UploadQBook = (props) => {
                             </MenuItem>
                           ))
                         ) : (
-                            <MenuItem disabled value="loading">
-                              loading
-                            </MenuItem>
-                          )}
+                          <MenuItem disabled value="loading">
+                            loading
+                          </MenuItem>
+                        )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -487,12 +486,12 @@ const UploadQBook = (props) => {
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                            subject.map((name) => (
-                              <MenuItem key={name.ID} value={name.name}>
-                                {name.name}
-                              </MenuItem>
-                            ))
-                          )}
+                          subject.map((name) => (
+                            <MenuItem key={name.ID} value={name.name}>
+                              {name.name}
+                            </MenuItem>
+                          ))
+                        )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -525,12 +524,12 @@ const UploadQBook = (props) => {
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                            chapter.map((name) => (
-                              <MenuItem key={name.ID} value={name.name}>
-                                {name.name}
-                              </MenuItem>
-                            ))
-                          )}
+                          chapter.map((name) => (
+                            <MenuItem key={name.ID} value={name.name}>
+                              {name.name}
+                            </MenuItem>
+                          ))
+                        )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -634,7 +633,8 @@ const UploadQBook = (props) => {
     </Grid>
   );
 };
-UploadQBook.propType = {
+
+WeeklyTest.propType = {
   checkTeacher: PropTypes.func.isRequired,
   teacherAuth: PropTypes.object.isRequired,
 };
@@ -644,4 +644,4 @@ const mapToState = (state) => ({
 const mapToProps = {
   checkTeacher,
 };
-export default connect(mapToState, mapToProps)(UploadQBook);
+export default connect(mapToState, mapToProps)(WeeklyTest);

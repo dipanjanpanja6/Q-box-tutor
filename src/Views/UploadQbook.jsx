@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Input from '@material-ui/core/Input';
-import { pxToVh, pxToVw, Theme } from './../theme';
+import { pxToVw, Theme } from './../theme';
 import CardDepth from '../Components/cardDepth';
 import CardComponent from '../Components/cardEmbossed';
 import Person from '@material-ui/icons/PersonRounded';
@@ -161,17 +160,19 @@ const UploadQBank = (props) => {
     if (id) {
       fetch(`http://localhost:7000/api/course/admin/getqbookquestion`, {
         method: 'GET',
-        credentials: 'include'
-      }).then((res) => {
-        res.json().then(d => {
-          setQData({ title: d.data[0].title, body: d.data[0].body })
-          console.log(d)
-        })
-      }).catch(r => {
-        console.log(r, 'error')
+        credentials: 'include',
       })
+        .then((res) => {
+          res.json().then((d) => {
+            setQData({ title: d.data[0].title, body: d.data[0].body });
+            console.log(d);
+          });
+        })
+        .catch((r) => {
+          console.log(r, 'error');
+        });
     }
-  }, [])
+  }, []);
 
   const [courseValue, setCourseValue] = React.useState([]);
   const [streamValue, setStreamValue] = React.useState('');
@@ -344,8 +345,6 @@ const UploadQBank = (props) => {
     }
   };
 
-  // console.log(id);
-
   return (
     <Grid
       container
@@ -466,10 +465,10 @@ const UploadQBank = (props) => {
                             </MenuItem>
                           ))
                         ) : (
-                            <MenuItem disabled value="loading">
-                              loading
-                            </MenuItem>
-                          )}
+                          <MenuItem disabled value="loading">
+                            loading
+                          </MenuItem>
+                        )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -499,12 +498,12 @@ const UploadQBank = (props) => {
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                            subject.map((name) => (
-                              <MenuItem key={name.ID} value={name.name}>
-                                {name.name}
-                              </MenuItem>
-                            ))
-                          )}
+                          subject.map((name) => (
+                            <MenuItem key={name.ID} value={name.name}>
+                              {name.name}
+                            </MenuItem>
+                          ))
+                        )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -531,12 +530,12 @@ const UploadQBank = (props) => {
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                            chapter.map((name) => (
-                              <MenuItem key={name.ID} value={name.name}>
-                                {name.name}
-                              </MenuItem>
-                            ))
-                          )}
+                          chapter.map((name) => (
+                            <MenuItem key={name.ID} value={name.name}>
+                              {name.name}
+                            </MenuItem>
+                          ))
+                        )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -620,8 +619,8 @@ const UploadQBank = (props) => {
           )}
         </Grid>
       ) : (
-              ''
-            )}
+        ''
+      )}
     </Grid>
   );
 };
