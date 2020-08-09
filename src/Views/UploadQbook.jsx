@@ -14,7 +14,7 @@ import { url } from '../config/config';
 import { connect } from 'react-redux';
 import { checkTeacher } from '../redux/actions/teacher';
 import PropTypes from 'prop-types';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Videojs from "../Components/videoPlayer";
 
 

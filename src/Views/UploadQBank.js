@@ -1,338 +1,214 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import axios from 'axios';
-import Input from '@material-ui/core/Input';
-import { pxToVw, Theme } from '../theme';
-import CardDepth from '../Components/cardDepth';
+import { pxToVh, Theme } from '../theme';
 import CardComponent from '../Components/cardEmbossed';
-import Person from '@material-ui/icons/PersonRounded';
+
 import {
-  MenuItem,
-  Checkbox,
+  Box,
   Toolbar,
-  Select,
-  ListItemText,
-  Fab,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from '@material-ui/core';
 import { useEffect } from 'react';
 import { url } from '../config/config';
-import { toast } from 'react-toastify';
-import Progress from '../Components/circularProgressBar';
-
 import { connect } from 'react-redux';
 import { checkTeacher } from '../redux/actions/teacher';
 import PropTypes from 'prop-types';
 import Loading from '../Components/loading';
 import { useHistory, useParams } from 'react-router-dom';
+import Videojs from "../Components/videoPlayer";
 
-import EditorJS from '../Components/edit/Editor';
+import EditorJS from '../Components/edit/Readeditor';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-const styles = makeStyles((t) => ({
-  baseStyle: {
-    borderRadius: '50%',
-  },
-  boxStyle: {
-    borderRadius: '0%',
-  },
-  input: {
-    color: Theme.textColor.placeholder,
-    fontFamily: 'Poppins',
-    fontSize: 15,
-    fontWeight: '500',
 
-    paddingLeft: pxToVw(15),
-    paddingRight: pxToVw(15),
-    margin: 0,
-    height: '100%',
-    '&::placeholder': {
-      color: Theme.textColor.placeholder,
-      fontFamily: 'Poppins',
-      fontWeight: '500',
-      opacity: '1',
-      paddingLeft: pxToVw(10),
-      margin: 0,
-      height: '100%',
-    },
-  },
+const style = makeStyles((t) => ({
   content: {
-    backgroundColor: 'white',
-    width: '80%',
+    width: "95%",
+    // minHeight:'100vh',
+    // backgroundColor: 'white',
+    alignItems: "center",
+    justifyContent: "center",
+    paddingLeft: 30,
+    paddingRight: 30,
+    marginLeft: 50,
+    marginRight: 20,
     paddingTop: 12,
-    paddingBottom: 12,
-    [t.breakpoints.down('xs')]: {
-      width: '95%',
+    [t.breakpoints.down("sm")]: {
+      marginLeft: 50,
+    },
+    [t.breakpoints.down("xs")]: {
+      padding: 12,
     },
   },
-  inputDiv: {
-    padding: 12,
+  checkbox: {
+    color: "white",
   },
-  inputDivText: {
-    height: '100%',
-    width: '100%',
-    padding: '30px 0',
-  },
-  select: {
-    width: '100%',
-    color: Theme.textColor.heading,
-    '& :focus': {
-      backgroundColor: 'transparent',
-    },
-  },
-  course: {
-    width: '100%',
-  },
-  released: {
-    height: 40,
-    backgroundColor: '#fff',
+  button: {
+    background: Theme.textColor.color1,
+    marginBottom: 12,
+    width: 150,
     boxShadow: `4px 4px 5px 1px rgba(00,00,00,0.2),-4px -4px 5px 1px rgba(255,255,255,0.2)`,
-    [t.breakpoints.down('xs')]: {
-      width: '100%',
-      margin: '8% 0',
-    },
-    [t.breakpoints.down('sm')]: {
-      width: '70%',
-      margin: '5% 0',
+    [t.breakpoints.down("xs")]: {
+      width: "90%",
     },
   },
-  label: {
+  buttonLabel: {
     color: Theme.textColor.heading,
-    fontWeight: 'thin',
-    padding: '0 12px',
+    fontWeight: "bold",
+    textTransform: "uppercase",
   },
-  selectI: {
-    padding: '0 5%',
+  options: {
+    [t.breakpoints.down("xs")]: {
+      flexDirection: "column-reverse",
+    },
   },
-  selectInput: {
-    paddingLeft: 12,
+
+  question: {
+    minHeight: "40%",
+    width: "100%",
+    alignItems: "center",
+    padding: "5% 5% 12px",
+    [t.breakpoints.down("xs")]: {
+      paddingBottom: 12,
+      paddingLeft: "8%",
+    },
   },
-  upload: {
-    [t.breakpoints.down('xs')]: {
-      padding: '0 9%',
+  directionIcon: {
+    color: Theme.textColor.color1,
+    fontSize: 40,
+    cursor: "pointer",
+    padding: 0,
+    margin: 0,
+  },
+  questionNumberStyle: {
+    display: "flex",
+    alignItems: "center",
+  },
+  practiceNumberStyle: {
+    display: "flex",
+    alignItems: "center",
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+  numOfQueStyle: {
+    color: Theme.textColor.color1,
+    [t.breakpoints.down("sm")]: {
+      fontSize: 15,
+      margin: 0,
+      padding: 0,
+    },
+  },
+  radioButtonStyle: {
+    color: Theme.textColor.color1,
+    backgroundColor: "#fff",
+    marginRight: 15,
+    padding: 0,
+  },
+  radioGroupStyle: {
+    padding: 0,
+    width: "100%",
+  },
+  optionContainer: {
+    width: "100%",
+    marginLeft: "5%",
+    marginRight: "5%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    [t.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
+  },
+  radioLabelStyle: {
+    color: Theme.textColor.color1,
+    marginTop: 15,
+  },
+  videoContainer: {
+    width: "35%",
+    backgroundColor: Theme.textColor.color1,
+    // borderRadius: 16,
+    boxShadow: `4px 4px 5px 1px rgba(00,00,00,0.2),-4px -4px 5px 1px rgba(255,255,255,0.2)`,
+    borderRadius: pxToVh(80),
+    border: "solid 7px blueviolet",
+    overflow: "hidden",
+    [t.breakpoints.down("xs")]: {
+      borderRadius: pxToVh(60),
+    },
+    [t.breakpoints.down("md")]: {
+      marginTop: "25px",
+      width: "60%",
+    },
+    [t.breakpoints.down("sm")]: {
+      width: "95%",
     },
   },
 }));
+const videoJsOptions = {
+  autoplay: false,
+  playbackRates: [0.3, 0.5, 1, 1.25, 1.5, 2, 2.5],
+  width: 720,
+  height: 300,
+  controls: true,
+  fluid: true,
+
+  cacheEncryptionKeys: true,
+  //   aspectRatio: '1:1',
+  sources: [{}],
+  html5: {
+    vhs: {
+      withCredentials: true,
+    },
+  },
+  // poster: require('../static/400.svg')
+};
 
 const UploadQBank = (props) => {
-  const sty = styles();
+  const classes = style();
   const history = useHistory();
-
-  const ITEM_HEIGHT = 48;
-  const ITEM_PADDING_TOP = 8;
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        // width: 250,
-        color: '#fff',
-        width: pxToVw(564),
-        backgroundColor: Theme.textColor.heading,
-        borderRadius: 41,
-      },
-    },
-  };
-  const [loading, setLoading] = React.useState(false);
-
-  const [hasOption, setHasOption] = React.useState(false);
-
-  const [course, setCourse] = React.useState([]);
-  const [subject, setSubject] = React.useState([]);
-  const [chapter, setChapter] = React.useState([]);
-  const [stream, setStream] = React.useState([]);
+  const [questionData, SetquestionData] = React.useState([])
+  var { id } = useParams();
 
   useEffect(() => {
     if (props.teacherAuth === null) {
       props.checkTeacher();
     }
-    axios.get(`${url}/api/course`).then((d) => {
-      // console.log(d.data);
-      if (d.data.success) {
-        setCourse(d.data.data);
-      }
+    fetch(`${url}/api/course/teacher/QBank/rejectedquestion/${id}`, {
+      method: 'GET',
+      credentials: 'include',
+    }).then((res) => {
+      res.json().then((d) => {
+        console.log(d, 'uploadqbank')
+        SetquestionData(d.data)
+      })
     });
   }, [props]);
-
+  const option = [
+    // JSON.parse(questionData.ans1).blocks[0].text,
+    questionData.ans1
+      ? JSON.parse(questionData.ans1).blocks[0].text
+      : "No Option",
+    questionData.ans2
+      ? JSON.parse(questionData.ans2).blocks[0].text
+      : "No Option",
+    questionData.ans3
+      ? JSON.parse(questionData.ans3).blocks[0].text
+      : "No Option",
+    questionData.ans4
+      ? JSON.parse(questionData.ans4).blocks[0].text
+      : "No Option",
+  ];
   const [courseValue, setCourseValue] = React.useState([]);
-  const [streamValue, setStreamValue] = React.useState('');
-  const [subjectValue, setSubjectValue] = React.useState('');
-  const [chapterValue, setChapterValue] = React.useState('');
 
-  function filter(array, value, key) {
-    return array.filter(
-      key
-        ? (a) => a[key] === value
-        : (a) => Object.keys(a).some((k) => a[k] === value)
-    );
-  }
 
-  const fetchStream = () => {
-    axios
-      .post(`${url}/api/getstream`, { courseValue: courseValue })
-      .then((d) => {
-        // console.log(d.data);
-        if (d.data.success) {
-          setStream(d.data.data);
-        }
-        if (d.data.error) {
-          setStream([]);
-          setSubject([]);
-          setStreamValue('');
-          setSubjectValue('');
-          setChapterValue('');
-          setChapter([]);
-          toast.warn(d.data.message);
-        }
-      });
-  };
+  const [value, setValue] = React.useState("");
 
   const handleChange = async (event) => {
     setCourseValue(event.target.value);
   };
-  const handleChange2 = (event) => {
-    setStreamValue(event.target.value);
-    if (event.target.value !== '') {
-      axios
-        .post(`${url}/api/getsubject`, { streamValue: event.target.value })
-        .then((d) => {
-          // console.log(d.data);
-          if (d.data.success) {
-            setSubject(d.data.data);
-          }
-          if (d.data.error) {
-            setSubject([]);
-            setSubjectValue('');
-            setChapterValue('');
-            setChapter([]);
-            toast.warn(d.data.message);
-          }
-        });
-    }
-  };
-  const handleChange3 = (event) => {
-    setSubjectValue(event.target.value);
-    if (event.target.value !== '') {
-      // console.log(filter(subject, event.target.value))
-      setChapter(filter(subject, event.target.value)[0].chapter);
-    }
-  };
-  const handleChange4 = (event) => {
-    setChapterValue(event.target.value);
-  };
 
-  const [video, setVideo] = useState('');
-  const selectVideo = (e) => {
-    if (e.target.files[0] == null) {
-      setVideo('');
-    } else {
-      setVideo(e.target.files[0]);
-    }
-  };
-  let [iup, setImageUploadProgress] = useState({});
-
-  const [QData, setQData] = useState({
-    ans4: '',
-    ans3: '',
-    ans2: '',
-    ans1: '',
-    ans: '',
-    question: '',
-  });
-  const handleChangeQ = (e, i) => {
-    const h = JSON.stringify(e);
-    setQData({ ...QData, [i]: h });
-  };
-
-  // console.log(QData);
-
-  const submit = () => {
-    if (QData.question === '' || QData.question === null) {
-      return alert('Please write some question first');
-    }
-
-    // if (QData.ans === '' || QData.ans === null) {
-    // 	return alert('Please write at least one correct answer first at "correct answer" bellow Question field')
-    // } else
-    else if (courseValue === []) {
-      return alert('Select Course first');
-    } else if (streamValue === '' || streamValue === null) {
-      return alert('Select Stream first');
-    } else if (subjectValue === '' || subjectValue === null) {
-      return alert('Select Subject first');
-    } else if (chapterValue === '' || chapterValue === null) {
-      return alert('Select chapter first');
-    } else {
-      var x = JSON.parse(QData.question);
-      if (x.blocks.length === 1 && x.blocks[0].text === '' && x.entityMap) {
-        return alert('Please write some question first');
-      } else {
-        var formData = new FormData();
-
-        const data = {
-          course: courseValue,
-          stream: streamValue,
-          subject: subjectValue,
-          chapter: chapterValue,
-          noImage: true,
-          noVideo: true,
-          ...QData,
-        };
-
-        if (video !== '') {
-          data.noVideo = false;
-          data.videoType = video.type;
-          data.videoSize = video.size;
-
-          const lastDot = video.name.lastIndexOf('.');
-
-          const ext = video.name.substring(lastDot + 1);
-          data.videoExt = ext;
-          formData.append('video', video);
-        }
-        // console.log(data);
-
-        formData.append('document', JSON.stringify(data));
-        setLoading(true);
-
-        axios(`${url}/api/upload/qbank`, {
-          method: 'POST',
-          withCredentials: true,
-          data: formData,
-          onUploadProgress: (progressEvent) => {
-            let percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setImageUploadProgress({
-              progress: percentCompleted,
-              processing: true,
-            });
-            if (percentCompleted === 100) {
-              setImageUploadProgress({
-                processing: false,
-                uploadFinished: true,
-                progress: 100,
-              });
-            }
-          },
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-          .then((d) => {
-            setLoading(false);
-            toast.success('Data successfully added. Video on progress.');
-          })
-          .catch((r) => {
-            console.log(r);
-            toast.error('Failed!!! Try again.');
-            setVideo('');
-            setLoading(false);
-          });
-      }
-    }
-  };
- 
   return (
     <Grid
       container
@@ -344,342 +220,118 @@ const UploadQBank = (props) => {
       {props.teacherAuth === false && history.push('/')}
       {props.teacherAuth === null && <Loading />}
       {props.teacherAuth === true && (
-        <Grid container justify="center" className={sty.content}>
-          {!!!loading && (
-            <CardComponent style={{ padding: 12 }}>
-              <div
-                style={{
-                  width: '100%',
-                  display: 'grid',
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
-                  boxSizing: 'border-box',
-                  paddingTop: '1%',
-                }}
+        <Grid container className={classes.content}>
+          <CardComponent>
+            <Box container className={classes.question}>
+              <Typography
+                variant="h6"
+                style={{ color: "white", marginBottom: 10 }}
               >
-                <div
-                  style={{
-                    paddingTop: '6%',
+                <strong>Question : </strong>
+                {questionData.question !== undefined ? (
+                  <EditorJS data={JSON.parse(questionData.question)} />
+                ) : (
+                    // ? JSON.parse(questionData.question).blocks[0].text
+                    "Loading..."
+                  )}
+              </Typography>
+              <Box display="flex" justifyContent="space-between" mt={1}>
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Stream : </strong>
+                  {questionData.stream !== undefined
+                    ? questionData.stream
+                    : "Loading..."}
+                </Typography>
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Subject : </strong>
+                  {questionData.subject !== undefined
+                    ? questionData.subject
+                    : "Loading..."}
+                </Typography>
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Chapter : </strong>
+                  {questionData.chapter !== undefined
+                    ? questionData.chapter
+                    : "Loading..."}
+                </Typography>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Box style={{ color: "#fff" }} mt={1} mb={2}>
+                  <strong>Course : </strong>
+                  {questionData.course !== undefined
+                    ? questionData.course.map((data, index) => {
+                      return (
+                        <Typography
+                          variant="p"
+                          style={{
+                            color: "#000",
+                            backgroundColor: "#eee",
+                            padding: 2.5,
+                            paddingRight: 5,
+                            paddingLeft: 5,
+                            borderRadius: 10,
+                            marginLeft: 10,
+                          }}
+                        >
+                          {data}
+                        </Typography>
+                      );
+                    })
+                    : "No Course"}
+                </Box>
 
-                    height: 54,
-                    width: 54,
-                  }}
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Created At : </strong>
+                  {questionData.createdAt !== undefined
+                    ? questionData.createdAt
+                    : "Loading..."}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Box container className={classes.optionContainer}>
+              <Box>
+                <RadioGroup
+                  aria-label="gender"
+                  name="gender1"
+                  value={value}
+                  onChange={handleChange}
+                  className={classes.radioGroupStyle}
                 >
-                  <CardComponent
-                    children={
-                      <div
-                        style={{
-                          height: '88%',
-                          width: '88%',
-                        }}
-                      >
-                        <CardDepth
-                          children={
-                            <Person
-                              style={{
-                                color: '#8d3ddc',
-                                height: 44,
-                                width: 44,
-                              }}
-                            />
-                          }
-                        />
-                      </div>
-                    }
-                  />
-                </div>
-              </div>
-
-              <Grid container item xs={12} justify="space-around">
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                    Select Course (step 1)
-                  </p>
-                  <div className={sty.inputDiv}>
-                    <CardDepth>
-                      <Select
-                        
-                        {...{
-                          disableUnderline: true,
-                          className: sty.select,
-                          classes: { select: sty.selectInput },
-                        }}
-                        MenuProps={{
-                          anchorOrigin: {
-                            vertical: 'bottom',
-                            horizontal: 'center',
-                          },
-                        }}
-                        labelId="demo-mutiple-checkbox-label"
-                        id="demo-mutiple-checkbox"
-                        multiple
-                        value={courseValue}
-                        onBlur={fetchStream}
-                        onChange={handleChange}
-                        input={<Input />}
-                        renderValue={(selected) => selected.join(', ')}
-                        MenuProps={MenuProps}
-                      >
-                        {course.map((name) => (
-                          <MenuItem key={name.ID} value={name.name}>
-                            <Checkbox
-                              checked={courseValue.indexOf(name.name) > -1}
-                            />
-                            <ListItemText primary={name.name} />
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </CardDepth>
-                  </div>
-                </Grid>
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                    Select Stream (step 2)
-                  </p>
-                  <div className={sty.inputDiv}>
-                    <CardDepth>
-                      <Select
-                        
-                        {...{
-                          disableUnderline: true,
-                          className: sty.select,
-                          classes: { select: sty.selectInput },
-                        }}
-                       
-                        value={stream.length !== 0 ? streamValue : 'loading'}
-                        onChange={handleChange2}
-                        input={<Input />}
-                        MenuProps={MenuProps}
-                        displayEmpty
-                      >
-                        {stream.length !== 0 ? (
-                          stream.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        ) : (
-                            <MenuItem disabled value="loading">
-                              loading
-                            </MenuItem>
-                          )}
-                      </Select>
-                    </CardDepth>
-                  </div>
-                </Grid>
-              </Grid>
-              <Grid container item xs={12} justify="space-around">
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                    Select Subject (step 3)
-                  </p>
-                  <div className={sty.inputDiv}>
-                    <CardDepth>
-                      <Select
-                        
-                        {...{
-                          disableUnderline: true,
-                          className: sty.select,
-                          classes: { select: sty.selectInput },
-                        }}
-                      
-                        value={subject.length === 0 ? 'loading' : subjectValue}
-                        onChange={handleChange3}
-                        input={<Input />}
-                        MenuProps={MenuProps}
-                        displayEmpty
-                      >
-                        {subject.length === 0 ? (
-                          <MenuItem value="loading">loading</MenuItem>
-                        ) : (
-                            subject.map((name) => (
-                              <MenuItem key={name.ID} value={name.name}>
-                                {name.name}
-                              </MenuItem>
-                            ))
-                          )}
-                      </Select>
-                    </CardDepth>
-                  </div>
-                </Grid>
-                <Grid item sm={6} xs={12} className={sty.selectI}>
-                  <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                    Select Chapter (step 4)
-                  </p>
-                  <div className={sty.inputDiv}>
-                    <CardDepth>
-                      <Select
-                        
-                        {...{
-                          disableUnderline: true,
-                          className: sty.select,
-                          classes: { select: sty.selectInput },
-                        }}
-                        
-                        value={chapter.length === 0 ? 'loading' : chapterValue}
-                        onChange={handleChange4}
-                        input={<Input />}
-                        MenuProps={MenuProps}
-                        displayEmpty
-                      >
-                        {chapter.length === 0 ? (
-                          <MenuItem value="loading">loading</MenuItem>
-                        ) : (
-                            chapter.map((name) => (
-                              <MenuItem key={name.ID} value={name.name}>
-                                {name.name}
-                              </MenuItem>
-                            ))
-                          )}
-                      </Select>
-                    </CardDepth>
-                  </div>
-                </Grid>
-              </Grid>
-              <Grid container item xs={12} justify="center">
-             
-                <Grid container justify="center">
-                  <Grid container justify="center">
-                    {' '}
-                    <p style={{ margin: '0 0 0 25px', color: '#fff' }}>
-                      Video (if any)
-                    </p>
-                   </Grid>
-                  <div className={sty.inputDiv}>
-                    <CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
-                      <input
-                        accept="video/mp4"
-                        type="file"
-                        onChange={selectVideo}
-                        style={{ width: '100%', padding: 6 }}
-                      ></input> 
-                    </CardDepth>
-                  </div>
-                </Grid>
-              </Grid>
-
-              <Grid
-                container
-                justify="space-around"
-                style={{ padding: '12px 0 20px' }}
-              > 
-                <Grid
-                  container
-                  justify="flex-start"
-                  style={{ paddingLeft: '7%' }}
-                  item
-                >
-                  <Checkbox
-                    disableRipple
-                    onChange={(e) => {
-                      setHasOption(e.target.checked);
-                    }}
-                    style={{
-                      padding: '0 3px',
-                      color: '#fff',
-                      alignSelf: 'center',
-                    }}
-                  />
-                  <Typography style={{ alignSelf: 'center', color: '#fff' }}>
-                    Has Options
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              <Grid style={{ padding: '0 5%' }} item container justify="center">
-                <div className={sty.inputDivText}>
-                  <CardDepth style={{ borderRadius: 12 }}>
-                    <EditorJS
-                      onChange={(e) => {
-                        handleChangeQ(e, 'question');
-                      }}
-                      placeholder={'Type your question here ...'}
-                    />
-                  </CardDepth>
-                </div>
-              </Grid>
-
-              {hasOption && (
-                <Grid
-                  item
-                  justify="space-between"
-                  container
-                  style={{ padding: ' 30px 5% 0 ' }}
-                >
-                  <div className={sty.inputDivText}>
-                    <CardDepth style={{ borderRadius: 12 }}>
-                      <EditorJS
-                        onChange={(e) => {
-                          handleChangeQ(e, 'ans');
-                        }}
-                        placeholder={'Type your correct answer here ...'}
+                  {option.map((data, index) => {
+                    return (
+                      <FormControlLabel
+                        value={data}
+                        className={classes.radioLabelStyle}
+                        control={<Radio className={classes.radioButtonStyle} />}
+                        label={data}
                       />
-                    </CardDepth>
-                  </div>
-                  <div className={sty.inputDivText}>
-                    <CardDepth style={{ borderRadius: 12 }}>
-                      <EditorJS
-                        onChange={(e) => {
-                          handleChangeQ(e, 'ans1');
-                        }}
-                        placeholder={'Type your correct answer here ...'}
-                      />
-                    </CardDepth>
-                  </div>
-                  <div className={sty.inputDivText}>
-                    <CardDepth style={{ borderRadius: 12 }}>
-                      <EditorJS
-                        onChange={(e) => {
-                          handleChangeQ(e, 'ans2');
-                        }}
-                        placeholder={'Type your correct answer here ...'}
-                      />
-                    </CardDepth>
-                  </div>
-                  <div className={sty.inputDivText}>
-                    <CardDepth style={{ borderRadius: 12 }}>
-                      <EditorJS
-                        onChange={(e) => {
-                          handleChangeQ(e, 'ans3');
-                        }}
-                        placeholder={'Type your correct answer here ...'}
-                      />
-                    </CardDepth>
-                  </div>
-                  <div className={sty.inputDivText}>
-                    <CardDepth style={{ borderRadius: 12 }}>
-                      <EditorJS
-                        onChange={(e) => {
-                          handleChangeQ(e, 'ans4');
-                        }}
-                        placeholder={'Type your correct answer here ...'}
-                      />
-                    </CardDepth>
-                  </div>
-                </Grid>
+                    );
+                  })}
+                </RadioGroup>
+              </Box>
+              {!questionData.noVideo && (
+                <Box className={classes.videoContainer}>
+                  <Videojs {...videoJsOptions} />
+                </Box>
               )}
+            </Box>
 
-              <Grid
-                container
-                justify="space-evenly"
-                style={{ paddingBottom: 22, paddingTop: 12 }}
-              >
-                <Fab
-                  variant="extended"
-                  classes={{ label: sty.label }}
-                  className={sty.released}
-                  onClick={submit}
-                >
-                  Submit
-                </Fab>
-              </Grid>
-            </CardComponent>
-          )}
-          {loading && (
-            <Grid container justify="center">
-              <Progress value={iup} />
-            </Grid>
-          )}
+            <br></br>
+            <Box mt={5} mb={5}>
+              <Typography variant="p" style={{ color: "white" }}>
+                <strong>Correct Answer : </strong>
+                {questionData.ans
+                  ? JSON.parse(questionData.ans).blocks[0].text
+                  : "No Option"}
+              </Typography>
+            </Box>
+
+          </CardComponent>
         </Grid>
       )}
     </Grid>
