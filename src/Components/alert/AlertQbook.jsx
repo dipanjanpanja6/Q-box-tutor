@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
@@ -67,9 +68,9 @@ const ScrollableTabsButtonAuto = (props) => {
         <ListItem key={e.ID} button>
           <ListItemText
             primary={e.title}
-            secondary={<Typography color='textSecondary'  variant='body2'>
-              Created at :{e.createdAt}, in {e.subject} chapter name: {e.chapter}<br/>Rejecting Comment is "{e.rejectingcomment}"
-            </Typography>}          />
+            secondary={<Typography color='textSecondary' variant='body2'>
+              Created at :{e.createdAt}, in {e.subject} chapter name: {e.chapter}<br />Rejecting Comment is "{e.rejectingcomment}"
+            </Typography>} />
           <ListItemSecondaryAction>
             <IconButton
               onClick={() => {

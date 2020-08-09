@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Typography from '@material-ui/core/Typography';
@@ -141,18 +142,36 @@ const UploadQBank = (props) => {
   const [subject, setSubject] = React.useState([]);
   const [chapter, setChapter] = React.useState([]);
   const [stream, setStream] = React.useState([]);
+  const [QData, setQData] = useState({ title: '', body: '' });
 
   useEffect(() => {
     if (props.teacherAuth === null) {
       props.checkTeacher();
     }
     axios.get(`${url}/api/course`).then((d) => {
-      console.log(d.data);
+      // console.log(d.data);
       if (d.data.success) {
         setCourse(d.data.data);
       }
     });
   }, [props]);
+  var { id } = useParams();
+  var edit = id ? true : false;
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:7000/api/course/admin/getqbookquestion`, {
+        method: 'GET',
+        credentials: 'include'
+      }).then((res) => {
+        res.json().then(d => {
+          setQData({ title: d.data[0].title, body: d.data[0].body })
+          console.log(d)
+        })
+      }).catch(r => {
+        console.log(r, 'error')
+      })
+    }
+  }, [])
 
   const [courseValue, setCourseValue] = React.useState([]);
   const [streamValue, setStreamValue] = React.useState('');
@@ -171,7 +190,7 @@ const UploadQBank = (props) => {
     axios
       .post(`${url}/api/getstream`, { courseValue: courseValue })
       .then((d) => {
-        console.log(d.data);
+        // console.log(d.data);
         if (d.data.success) {
           setStream(d.data.data);
         }
@@ -231,7 +250,6 @@ const UploadQBank = (props) => {
   };
   let [iup, setImageUploadProgress] = useState({});
 
-  const [QData, setQData] = useState({ title: '', body: '' });
   const handleChangeQ = (e, i) => {
     const h = JSON.stringify(e);
     setQData({ ...QData, [i]: h });
@@ -240,7 +258,7 @@ const UploadQBank = (props) => {
     setQData({ ...QData, title: e.target.value });
   };
 
-  // console.log(QData);
+  console.log(QData, 'qdata');
 
   const submit = () => {
     if (QData.title === '' || QData.title === null) {
@@ -325,9 +343,9 @@ const UploadQBank = (props) => {
       }
     }
   };
-  var { id } = useParams();
-  var edit = id ? true : false;
-  console.log(id);
+
+  // console.log(id);
+
   return (
     <Grid
       container

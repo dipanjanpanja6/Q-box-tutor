@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Input from '@material-ui/core/Input';
-import {  pxToVw, Theme } from '../theme';
+import { pxToVw, Theme } from '../theme';
 import CardDepth from '../Components/cardDepth';
 import CardComponent from '../Components/cardEmbossed';
 import Person from '@material-ui/icons/PersonRounded';
@@ -151,7 +151,7 @@ const UploadQBook = (props) => {
 				setCourse(d.data.data)
 			}
 		})
-	}, [])
+	}, [props])
 
 
 
@@ -238,7 +238,7 @@ const UploadQBook = (props) => {
 
 	// console.log(QData);
 
-	const submit = () => { 
+	const submit = () => {
 		if (QData.question === '' || QData.question === null) {
 			return alert('Please write some question first')
 		} else
@@ -260,277 +260,277 @@ const UploadQBook = (props) => {
 							return alert('Select chapter first')
 						} else {
 
-								var x = JSON.parse(QData.question)
-								if (x.blocks.length === 1 && x.blocks[0].text === "" && x.entityMap) {
-									return alert('Please write some question first')
-								} else {
-									var formData = new FormData();
+							var x = JSON.parse(QData.question)
+							if (x.blocks.length === 1 && x.blocks[0].text === "" && x.entityMap) {
+								return alert('Please write some question first')
+							} else {
+								var formData = new FormData();
 
-									const data = {
-										course: courseValue,
-										stream: streamValue,
-										subject: subjectValue,
-										chapter: chapterValue,
-										noImage: true,
-										noVideo: true,
-										...QData
-									}
-
-									if (video !== '') {
-										data.noVideo = false
-										data.videoType = video.type
-                                        data.videoSize = video.size
-                                        
-                                        const lastDot = video.name.lastIndexOf('.');
-                                        
-                                        const ext = video.name.substring(lastDot + 1);
-                                        data.videoExt = ext
-										formData.append("video", video);
-									}
-									// console.log(data);
-
-									formData.append("document", JSON.stringify(data));
-									setLoading(true)
-
-									axios(`${url}/api/upload/qbank`, {
-										method: 'POST',
-										withCredentials: true,
-										data: formData,
-										onUploadProgress: progressEvent => {
-											let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
-											setImageUploadProgress({
-												progress: percentCompleted,
-												processing: true
-											});
-											if (percentCompleted === 100) {
-												setImageUploadProgress({
-													processing: false,
-													uploadFinished: true,
-													progress: 100
-												});
-											}
-
-										},
-										headers: {
-											'Accept': 'application/json',
-											'Content-Type': 'multipart/form-data',
-										},
-									}).then(d => {
-										setLoading(false)
-										toast.success("Data successfully added. Video on progress.")
-
-									}).catch(r => {
-										console.log(r)
-										toast.error("Failed!!! Try again.")
-										setVideo('')
-										setLoading(false)
-									})
+								const data = {
+									course: courseValue,
+									stream: streamValue,
+									subject: subjectValue,
+									chapter: chapterValue,
+									noImage: true,
+									noVideo: true,
+									...QData
 								}
+
+								if (video !== '') {
+									data.noVideo = false
+									data.videoType = video.type
+									data.videoSize = video.size
+
+									const lastDot = video.name.lastIndexOf('.');
+
+									const ext = video.name.substring(lastDot + 1);
+									data.videoExt = ext
+									formData.append("video", video);
+								}
+								// console.log(data);
+
+								formData.append("document", JSON.stringify(data));
+								setLoading(true)
+
+								axios(`${url}/api/upload/qbank`, {
+									method: 'POST',
+									withCredentials: true,
+									data: formData,
+									onUploadProgress: progressEvent => {
+										let percentCompleted = (Math.round((progressEvent.loaded * 100) / progressEvent.total))
+										setImageUploadProgress({
+											progress: percentCompleted,
+											processing: true
+										});
+										if (percentCompleted === 100) {
+											setImageUploadProgress({
+												processing: false,
+												uploadFinished: true,
+												progress: 100
+											});
+										}
+
+									},
+									headers: {
+										'Accept': 'application/json',
+										'Content-Type': 'multipart/form-data',
+									},
+								}).then(d => {
+									setLoading(false)
+									toast.success("Data successfully added. Video on progress.")
+
+								}).catch(r => {
+									console.log(r)
+									toast.error("Failed!!! Try again.")
+									setVideo('')
+									setLoading(false)
+								})
 							}
 						}
+	}
 
-		return (
-			<Grid container justify='center' alignItems='baseline' style={{ minHeight: "100vh", backgroundColor: '#fff' }}>
-				<Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
-				{props.teacherAuth === false && history.push('/')}
-				{props.teacherAuth === null && <Loading />}
-				{props.teacherAuth === true &&
-					<Grid container justify='center' className={sty.content}>
-						{!!!loading && <CardComponent style={{ padding: 12 }}>
-							<div
-								style={{
+	return (
+		<Grid container justify='center' alignItems='baseline' style={{ minHeight: "100vh", backgroundColor: '#fff' }}>
+			<Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
+			{props.teacherAuth === false && history.push('/')}
+			{props.teacherAuth === null && <Loading />}
+			{props.teacherAuth === true &&
+				<Grid container justify='center' className={sty.content}>
+					{!!!loading && <CardComponent style={{ padding: 12 }}>
+						<div
+							style={{
 
-									width: '100%',
-									display: 'grid',
-									justifyContent: 'center',
-									alignItems: 'flex-start',
-									boxSizing: 'border-box',
-									paddingTop: '1%',
-								}}>
-								<div style={{
-									paddingTop: '6%',
+								width: '100%',
+								display: 'grid',
+								justifyContent: 'center',
+								alignItems: 'flex-start',
+								boxSizing: 'border-box',
+								paddingTop: '1%',
+							}}>
+							<div style={{
+								paddingTop: '6%',
 
-									height: 54,
-									width: 54,
-								}}>
-									<CardComponent
-										children={
-											<div style={{
-												height: '88%',
-												width: '88%',
-											}}>
-												<CardDepth
-													children={
-														<Person style={{
-															color: '#8d3ddc',
-															height: 44,
-															width: 44,
-														}}
-														/>
-													}
-												/>
-											</div>
-										}
-									/>
-								</div>
+								height: 54,
+								width: 54,
+							}}>
+								<CardComponent
+									children={
+										<div style={{
+											height: '88%',
+											width: '88%',
+										}}>
+											<CardDepth
+												children={
+													<Person style={{
+														color: '#8d3ddc',
+														height: 44,
+														width: 44,
+													}}
+													/>
+												}
+											/>
+										</div>
+									}
+								/>
 							</div>
+						</div>
 
-							<Grid container item xs={12} justify='space-around'>
-								<Grid item sm={6} xs={12} className={sty.selectI}  >
-									<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Course (step 1)</p>
-									<div className={sty.inputDiv}>
-										<CardDepth >
-											<Select
-												{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-												MenuProps={{
-													anchorOrigin: {
-														vertical: 'bottom',
-														horizontal: 'center',
-													}
-												}}
-												labelId="demo-mutiple-checkbox-label"
-												id="demo-mutiple-checkbox"
-												multiple
-												value={courseValue}
-												onBlur={fetchStream}
-												onChange={handleChange}
-												input={<Input />}
-												renderValue={(selected) => selected.join(', ')}
-												MenuProps={MenuProps}
-											>
-												{course.map((name) => (
-													<MenuItem key={name.ID} value={name.name}>
-														<Checkbox checked={courseValue.indexOf(name.name) > -1} />
-														<ListItemText primary={name.name} />
+						<Grid container item xs={12} justify='space-around'>
+							<Grid item sm={6} xs={12} className={sty.selectI}  >
+								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Course (step 1)</p>
+								<div className={sty.inputDiv}>
+									<CardDepth >
+										<Select
+											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
+											MenuProps={{
+												anchorOrigin: {
+													vertical: 'bottom',
+													horizontal: 'center',
+												}
+											}}
+											labelId="demo-mutiple-checkbox-label"
+											id="demo-mutiple-checkbox"
+											multiple
+											value={courseValue}
+											onBlur={fetchStream}
+											onChange={handleChange}
+											input={<Input />}
+											renderValue={(selected) => selected.join(', ')}
+											MenuProps={MenuProps}
+										>
+											{course.map((name) => (
+												<MenuItem key={name.ID} value={name.name}>
+													<Checkbox checked={courseValue.indexOf(name.name) > -1} />
+													<ListItemText primary={name.name} />
 
-													</MenuItem>
+												</MenuItem>
+											))}
+										</Select>
+									</CardDepth>
+								</div>
+							</Grid>
+							<Grid item sm={6} xs={12} className={sty.selectI}>
+								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Stream (step 2)</p>
+								<div className={sty.inputDiv}>
+									<CardDepth >
+										<Select
+											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
+											MenuProps={{
+												anchorOrigin: {
+													vertical: 'bottom',
+													horizontal: 'center',
+												}
+											}}
+											value={stream.length !== 0 ? streamValue : 'loading'}
+											onChange={handleChange2}
+											input={<Input />}
+											MenuProps={MenuProps}
+										>
+											{stream.length !== 0 ? stream.map((name) => (
+												<MenuItem key={name.ID} value={name.name}>
+													{name.name}
+
+												</MenuItem>
+											)) : <MenuItem disabled value='loading' >loading</MenuItem>}
+										</Select>
+									</CardDepth>
+								</div>
+							</Grid>
+						</Grid>
+						<Grid container item xs={12} justify='space-around'>
+							<Grid item sm={6} xs={12} className={sty.selectI} >
+								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Subject (step 3)</p>
+								<div className={sty.inputDiv}>
+									<CardDepth >
+										<Select
+											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
+											MenuProps={{
+												anchorOrigin: {
+													vertical: 'bottom',
+													horizontal: 'center',
+												}
+											}}
+											value={subject.length === 0 ? 'loading' : subjectValue}
+											onChange={handleChange3}
+											input={<Input />}
+											MenuProps={MenuProps}
+										>
+											{subject.length === 0 ?
+												<MenuItem value="loading">loading</MenuItem>
+												: subject.map((name) => (
+													<MenuItem key={name.ID} value={name.name}>{name.name}</MenuItem>
 												))}
-											</Select>
-										</CardDepth>
-									</div>
-								</Grid>
-								<Grid item sm={6} xs={12} className={sty.selectI}>
-									<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Stream (step 2)</p>
-									<div className={sty.inputDiv}>
-										<CardDepth >
-											<Select
-												{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-												MenuProps={{
-													anchorOrigin: {
-														vertical: 'bottom',
-														horizontal: 'center',
-													}
-												}}
-												value={stream.length !== 0 ? streamValue : 'loading'}
-												onChange={handleChange2}
-												input={<Input />}
-												MenuProps={MenuProps}
-											>
-												{stream.length !== 0 ? stream.map((name) => (
+										</Select>
+									</CardDepth>
+								</div>
+
+
+							</Grid>
+							<Grid item sm={6} xs={12} className={sty.selectI}>
+								<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Chapter (step 4)</p>
+								<div className={sty.inputDiv}>
+									<CardDepth >
+										<Select
+											{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
+											MenuProps={{
+												anchorOrigin: {
+													vertical: 'bottom',
+													horizontal: 'center',
+												}
+											}}
+											value={chapter.length === 0 ? "loading" : chapterValue}
+											onChange={handleChange4}
+											input={<Input />}
+											MenuProps={MenuProps}
+										>
+											{chapter.length === 0 ?
+												<MenuItem value="loading">loading</MenuItem> :
+												chapter.map((name) => (
 													<MenuItem key={name.ID} value={name.name}>
 														{name.name}
 
 													</MenuItem>
-												)) : <MenuItem disabled value='loading' >loading</MenuItem>}
-											</Select>
-										</CardDepth>
-									</div>
-								</Grid>
+												))
+											}
+										</Select>
+									</CardDepth>
+								</div>
 							</Grid>
-							<Grid container item xs={12} justify='space-around'>
-								<Grid item sm={6} xs={12} className={sty.selectI} >
-									<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Subject (step 3)</p>
-									<div className={sty.inputDiv}>
-										<CardDepth >
-											<Select
-												{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-												MenuProps={{
-													anchorOrigin: {
-														vertical: 'bottom',
-														horizontal: 'center',
-													}
-												}}
-												value={subject.length === 0 ? 'loading' : subjectValue}
-												onChange={handleChange3}
-												input={<Input />}
-												MenuProps={MenuProps}
-											>
-												{subject.length === 0 ?
-													<MenuItem value="loading">loading</MenuItem>
-													: subject.map((name) => (
-														<MenuItem key={name.ID} value={name.name}>{name.name}</MenuItem>
-													))}
-											</Select>
-										</CardDepth>
-									</div>
+						</Grid>
+						<Grid container item xs={12} justify='center' >
+							{/*<Grid item sm={6} xs={12} className={sty.selectI} >*/}
+							{/*	<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Image (if any)</p>*/}
+							{/*		/!* {iup.processing && <Progress value={iup} />} *!/*/}
+							{/*	</Grid>*/}
+							{/*	<div className={sty.inputDiv}>*/}
+							{/*		<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>*/}
+							{/*			<input accept="image/jpeg, image/png" type='file' onChange={selectImage} style={{ width: '100%', padding: 6 }}></input>*/}
+							{/*			/!* <Fab variant='extended' classes={{ label: "", }}*/}
+							{/*			style={iup.uploadFinished === true ? {*/}
+							{/*				backgroundColor: '#0f0', height: 35,*/}
+							{/*				width: '40%',*/}
+							{/*				borderRadius: 0,*/}
+							{/*			} : {*/}
+							{/*					height: 35,*/}
+							{/*					width: '40%',*/}
+							{/*					borderRadius: 0,*/}
+
+							{/*				}}*/}
+							{/*			onClick={imageUpload} >{iup.uploadFinished === true ? "Success" : "Upload Image"}</Fab> *!/*/}
+							{/*		</CardDepth>*/}
+							{/*	</div>*/}
 
 
+							{/*</Grid>*/}
+
+							<Grid container justify="center">
+								<Grid container justify='center'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Video (if any)</p>
+									{/* {vup.processing && <Progress value={vup} />} */}
 								</Grid>
-								<Grid item sm={6} xs={12} className={sty.selectI}>
-									<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Select Chapter (step 4)</p>
-									<div className={sty.inputDiv}>
-										<CardDepth >
-											<Select
-												{...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-												MenuProps={{
-													anchorOrigin: {
-														vertical: 'bottom',
-														horizontal: 'center',
-													}
-												}}
-												value={chapter.length === 0 ? "loading" : chapterValue}
-												onChange={handleChange4}
-												input={<Input />}
-												MenuProps={MenuProps}
-											>
-												{chapter.length === 0 ?
-													<MenuItem value="loading">loading</MenuItem> :
-													chapter.map((name) => (
-														<MenuItem key={name.ID} value={name.name}>
-															{name.name}
-
-														</MenuItem>
-													))
-												}
-											</Select>
-										</CardDepth>
-									</div>
-								</Grid>
-							</Grid>
-							<Grid container item xs={12} justify='center' >
-								{/*<Grid item sm={6} xs={12} className={sty.selectI} >*/}
-								{/*	<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Image (if any)</p>*/}
-								{/*		/!* {iup.processing && <Progress value={iup} />} *!/*/}
-								{/*	</Grid>*/}
-								{/*	<div className={sty.inputDiv}>*/}
-								{/*		<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>*/}
-								{/*			<input accept="image/jpeg, image/png" type='file' onChange={selectImage} style={{ width: '100%', padding: 6 }}></input>*/}
-								{/*			/!* <Fab variant='extended' classes={{ label: "", }}*/}
-								{/*			style={iup.uploadFinished === true ? {*/}
-								{/*				backgroundColor: '#0f0', height: 35,*/}
-								{/*				width: '40%',*/}
-								{/*				borderRadius: 0,*/}
-								{/*			} : {*/}
-								{/*					height: 35,*/}
-								{/*					width: '40%',*/}
-								{/*					borderRadius: 0,*/}
-
-								{/*				}}*/}
-								{/*			onClick={imageUpload} >{iup.uploadFinished === true ? "Success" : "Upload Image"}</Fab> *!/*/}
-								{/*		</CardDepth>*/}
-								{/*	</div>*/}
-
-
-								{/*</Grid>*/}
-
-								<Grid container justify="center">
-									<Grid container justify='center'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Video (if any)</p>
-										{/* {vup.processing && <Progress value={vup} />} */}
-									</Grid>
-									<div className={sty.inputDiv}>
-										<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
-											<input accept="video/mp4" type='file' onChange={selectVideo} style={{ width: '100%', padding: 6 }}></input>
-											{/* <Fab variant='extended' classes={{ label: "", }}
+								<div className={sty.inputDiv}>
+									<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
+										<input accept="video/mp4" type='file' onChange={selectVideo} style={{ width: '100%', padding: 6 }}></input>
+										{/* <Fab variant='extended' classes={{ label: "", }}
 										style={vup.uploadFinished === true ? {
 											backgroundColor: '#0f0', height: 35,
 											width: '40%',
@@ -541,92 +541,92 @@ const UploadQBook = (props) => {
 												borderRadius: 0,
 
 											}} onClick={videoUpload} >{vup.uploadFinished === true ? "Success" : "Upload Video"}</Fab> */}
-										</CardDepth>
-									</div>
-								</Grid>
-
-
-
-
-
-							</Grid>
-
-
-							<Grid container justify='space-around' style={{ padding: '12px 0 20px' }}>
-
-								{/* <Grid item container sm={6} className={sty.upload} justify='space-around'>
-							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={imageUpload} >Upload Image</Fab>
-							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={uploadVideo} >Upload Video</Fab>
-						</Grid> */}
-								<Grid container justify='flex-start' style={{ paddingLeft: '7%' }} item >
-									<Checkbox disableRipple onChange={(e) => { setHasOption(e.target.checked) }} style={{ padding: '0 3px', color: '#fff', alignSelf: 'center' }} /><Typography style={{ alignSelf: 'center', color: '#fff' }}>Has Options</Typography>
-								</Grid>
-							</Grid>
-
-							<Grid style={{ padding: '0 5%' }} item container justify='center' >
-								<div className={sty.inputDivText}>
-
-									<CardDepth style={{ borderRadius: 12 }}>
-										<EditorJS onChange={(e) => { handleChangeQ(e, "question") }} placeholder={"Type your question here ..."} />
 									</CardDepth>
 								</div>
 							</Grid>
 
-							{hasOption &&
-								<Grid item justify='space-between' container style={{ padding: ' 30px 5% 0 ' }} >
-									<div className={sty.inputDivText}>
-										<CardDepth style={{ borderRadius: 12 }}>
-											<EditorJS onChange={(e) => { handleChangeQ(e, "ans") }} placeholder={"Type your correct answer here ..."} />
-										</CardDepth>
-									</div>
-									<div className={sty.inputDivText}>
-										<CardDepth style={{ borderRadius: 12 }}>
-											<EditorJS onChange={(e) => { handleChangeQ(e, "ans1") }} placeholder={"Type your correct answer here ..."} />
-										</CardDepth>
-									</div>
-									<div className={sty.inputDivText}>
-										<CardDepth style={{ borderRadius: 12 }}>
-											<EditorJS onChange={(e) => { handleChangeQ(e, "ans2") }} placeholder={"Type your correct answer here ..."} />
-										</CardDepth>
-									</div>
-									<div className={sty.inputDivText}>
-										<CardDepth style={{ borderRadius: 12 }}>
-											<EditorJS onChange={(e) => { handleChangeQ(e, "ans3") }} placeholder={"Type your correct answer here ..."} />
-										</CardDepth>
-									</div>
-									<div className={sty.inputDivText}>
-										<CardDepth style={{ borderRadius: 12 }}>
-											<EditorJS onChange={(e) => { handleChangeQ(e, "ans4") }} placeholder={"Type your correct answer here ..."} />
-										</CardDepth>
-									</div>
-								</Grid>
 
-							}
 
-							<Grid container justify='space-evenly' style={{ paddingBottom: 22, paddingTop: 12 }} >
-								<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={submit} >Submit</Fab>
 
+
+						</Grid>
+
+
+						<Grid container justify='space-around' style={{ padding: '12px 0 20px' }}>
+
+							{/* <Grid item container sm={6} className={sty.upload} justify='space-around'>
+							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={imageUpload} >Upload Image</Fab>
+							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={uploadVideo} >Upload Video</Fab>
+						</Grid> */}
+							<Grid container justify='flex-start' style={{ paddingLeft: '7%' }} item >
+								<Checkbox disableRipple onChange={(e) => { setHasOption(e.target.checked) }} style={{ padding: '0 3px', color: '#fff', alignSelf: 'center' }} /><Typography style={{ alignSelf: 'center', color: '#fff' }}>Has Options</Typography>
+							</Grid>
+						</Grid>
+
+						<Grid style={{ padding: '0 5%' }} item container justify='center' >
+							<div className={sty.inputDivText}>
+
+								<CardDepth style={{ borderRadius: 12 }}>
+									<EditorJS onChange={(e) => { handleChangeQ(e, "question") }} placeholder={"Type your question here ..."} />
+								</CardDepth>
+							</div>
+						</Grid>
+
+						{hasOption &&
+							<Grid item justify='space-between' container style={{ padding: ' 30px 5% 0 ' }} >
+								<div className={sty.inputDivText}>
+									<CardDepth style={{ borderRadius: 12 }}>
+										<EditorJS onChange={(e) => { handleChangeQ(e, "ans") }} placeholder={"Type your correct answer here ..."} />
+									</CardDepth>
+								</div>
+								<div className={sty.inputDivText}>
+									<CardDepth style={{ borderRadius: 12 }}>
+										<EditorJS onChange={(e) => { handleChangeQ(e, "ans1") }} placeholder={"Type your correct answer here ..."} />
+									</CardDepth>
+								</div>
+								<div className={sty.inputDivText}>
+									<CardDepth style={{ borderRadius: 12 }}>
+										<EditorJS onChange={(e) => { handleChangeQ(e, "ans2") }} placeholder={"Type your correct answer here ..."} />
+									</CardDepth>
+								</div>
+								<div className={sty.inputDivText}>
+									<CardDepth style={{ borderRadius: 12 }}>
+										<EditorJS onChange={(e) => { handleChangeQ(e, "ans3") }} placeholder={"Type your correct answer here ..."} />
+									</CardDepth>
+								</div>
+								<div className={sty.inputDivText}>
+									<CardDepth style={{ borderRadius: 12 }}>
+										<EditorJS onChange={(e) => { handleChangeQ(e, "ans4") }} placeholder={"Type your correct answer here ..."} />
+									</CardDepth>
+								</div>
 							</Grid>
 
+						}
 
-						</CardComponent>}
-						{loading && <Grid container justify='center'>
-							<Progress value={iup} />
-						</Grid>}
-					</Grid>
-				}</Grid>
+						<Grid container justify='space-evenly' style={{ paddingBottom: 22, paddingTop: 12 }} >
+							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={submit} >Submit</Fab>
 
-		);
-	};
-	UploadQBook.propType = {
-		checkTeacher: PropTypes.func.isRequired,
-		teacherAuth: PropTypes.object.isRequired
+						</Grid>
 
-	}
-	const mapToState = (state) => ({
-		teacherAuth: state.admin.teacherAuth
-	})
-	const mapToProps = {
-		checkTeacher
-	}
-	export default connect(mapToState, mapToProps)(UploadQBook);
+
+					</CardComponent>}
+					{loading && <Grid container justify='center'>
+						<Progress value={iup} />
+					</Grid>}
+				</Grid>
+			}</Grid>
+
+	);
+};
+UploadQBook.propType = {
+	checkTeacher: PropTypes.func.isRequired,
+	teacherAuth: PropTypes.object.isRequired
+
+}
+const mapToState = (state) => ({
+	teacherAuth: state.admin.teacherAuth
+})
+const mapToProps = {
+	checkTeacher
+}
+export default connect(mapToState, mapToProps)(UploadQBook);
