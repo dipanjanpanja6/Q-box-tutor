@@ -1,4 +1,4 @@
-import { TEACHERLOGIN, TEACHERAUTH, REJECTQBook,REJECTQBank,REJECTMonthlyTest ,REJECTWeeklyTest} from '../type';
+import { TEACHERLOGIN, TEACHERAUTH, REJECTQBook, REJECTQBank, REJECTMonthlyTest, REJECTWeeklyTest } from '../type';
 
 const initialState = {
   teacherLogin: {},

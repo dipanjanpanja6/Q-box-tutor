@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Loading from './Components/loading';
 
-import TLogin from './Views/teacherLogin';
-
-// import Dashboard from './Views/Dashboard';
+import TeacherLogin from './Views/teacherLogin';
 
 import Appbar from './Components/AppBar';
 
@@ -19,7 +17,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Console from './Views/Console';
 
-// import Upload from './Views/selectUpload'
 import UploadBank from './Views/UploadQBank';
 import UploadBook from './Views/UploadQbook';
 import Alert from './Views/alert';
@@ -29,7 +26,6 @@ import MonthlyTest from './Views/monthly-test';
 import { connect } from 'react-redux';
 import { checkTeacher, logout } from './redux/actions/teacher';
 import PropType from 'prop-types';
-import { url } from './config/config';
 
 const App = (props) => {
   useEffect(() => {
@@ -57,8 +53,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <UploadBook islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -70,8 +66,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <UploadBook islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -84,8 +80,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <UploadBank islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -97,8 +93,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <UploadBank islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -111,8 +107,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <MonthlyTest islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -125,8 +121,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <MonthlyTest islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -139,8 +135,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <WeeklyTest islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -153,8 +149,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <WeeklyTest islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           <Route
@@ -166,15 +162,15 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <Alert islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
 
           <Route
             exact
             path="/"
-            render={() => <TLogin islogin={props.auth} />}
+            render={() => <TeacherLogin islogin={props.auth} />}
           />
 
           <Route
@@ -186,8 +182,8 @@ const App = (props) => {
               ) : props.auth === true ? (
                 <Console islogin={props.auth} />
               ) : (
-                <Redirect to={{ pathname: '/', state: { from: location } }} />
-              )
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
             }
           />
           {/* <Route exact path="/console" render={() => <Console islogin={props.auth} />} /> */}
