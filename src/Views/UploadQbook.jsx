@@ -28,6 +28,7 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import EditorJS from '../Components/Editor';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 const styles = makeStyles((t) => ({
   baseStyle: {
     borderRadius: '50%',
@@ -158,13 +159,13 @@ const UploadQBank = (props) => {
   var edit = id ? true : false;
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:7000/api/course/admin/getqbookquestion`, {
+      fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${id}`, {
         method: 'GET',
         credentials: 'include',
       })
         .then((res) => {
           res.json().then((d) => {
-            setQData({ title: d.data[0].title, body: d.data[0].body });
+            setQData({ title: d.data.title, body: d.data.body });
             console.log(d);
           });
         })
@@ -258,8 +259,6 @@ const UploadQBank = (props) => {
   const handleChangeTitle = (e) => {
     setQData({ ...QData, title: e.target.value });
   };
-
-  console.log(QData, 'qdata');
 
   const submit = () => {
     if (QData.title === '' || QData.title === null) {
