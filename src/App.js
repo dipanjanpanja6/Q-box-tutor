@@ -17,11 +17,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Console from './Views/Console';
 
+import Alert from './Views/alert';
 import UploadBank from './Views/UploadQBank';
 import UploadBook from './Views/UploadQbook';
-import Alert from './Views/alert';
 import WeeklyTest from './Views/weekly-test';
 import MonthlyTest from './Views/monthly-test';
+import UploadBankShow from './Views/alertShow/UploadQBank';
+import UploadBookShow from './Views/alertShow/UploadQbook';
+import WeeklyTestShow from './Views/alertShow/weekly-test';
+import MonthlyTestShow from './Views/alertShow/monthly-test';
 
 import { connect } from 'react-redux';
 import { checkTeacher, logout } from './redux/actions/teacher';
@@ -62,7 +66,7 @@ const App = (props) => {
               props.auth === null ? (
                 <Loading />
               ) : props.auth === true ? (
-                <UploadBook islogin={props.auth} />
+                <UploadBookShow islogin={props.auth} />
               ) : (
                     <Redirect to={{ pathname: '/', state: { from: location } }} />
                   )
@@ -89,7 +93,7 @@ const App = (props) => {
               props.auth === null ? (
                 <Loading />
               ) : props.auth === true ? (
-                <UploadBank islogin={props.auth} />
+                <UploadBankShow islogin={props.auth} />
               ) : (
                     <Redirect to={{ pathname: '/', state: { from: location } }} />
                   )
@@ -117,7 +121,7 @@ const App = (props) => {
               props.auth === null ? (
                 <Loading />
               ) : props.auth === true ? (
-                <MonthlyTest islogin={props.auth} />
+                <MonthlyTestShow islogin={props.auth} />
               ) : (
                     <Redirect to={{ pathname: '/', state: { from: location } }} />
                   )
@@ -145,7 +149,7 @@ const App = (props) => {
               props.auth === null ? (
                 <Loading />
               ) : props.auth === true ? (
-                <WeeklyTest islogin={props.auth} />
+                <WeeklyTestShow islogin={props.auth} />
               ) : (
                     <Redirect to={{ pathname: '/', state: { from: location } }} />
                   )
