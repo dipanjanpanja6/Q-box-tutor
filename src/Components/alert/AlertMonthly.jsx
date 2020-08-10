@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { useHistory } from 'react-router-dom';
 import { Skeleton } from '@material-ui/lab';
@@ -16,6 +15,7 @@ import {
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { GetRejectCourse, DeleteCourse } from '../../redux/actions/course';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,7 +77,7 @@ const AlertMonthly = (props) => {
               <DeleteForeverIcon />
             </IconButton>
             <IconButton onClick={() => edit(e.ID)}>
-              <EditIcon />
+              <VisibilityIcon/>
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>

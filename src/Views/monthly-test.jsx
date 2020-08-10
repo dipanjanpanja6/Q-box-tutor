@@ -153,10 +153,8 @@ const MonthlyTest = (props) => {
   var { id } = useParams();
 
 
-  // const [hasOption, setHasOption] = React.useState(false)
 
   const [loading, setLoading] = React.useState(false);
-  const [course, setCourse] = React.useState([]);
   const [questionData,SetquestionData] = React.useState([])
   const [value, setValue] = React.useState("");
 
@@ -192,6 +190,7 @@ const option = [
   ];
 
   const handleChange = (event) => {
+    console.log(event.target.value,'event.target.value')
     setValue(event.target.value);
   };
  
@@ -211,7 +210,7 @@ const option = [
         <Grid container justify="center" className={classes.content}>
           {!!!loading && (
             <CardComponent>
-          <Box container className={classes.question}>
+          <Box className={classes.question}>
             <Typography
               variant="h6"
               noWrap={false}
@@ -257,6 +256,7 @@ const option = [
                   ? questionData.course.map((data, index) => {
                       return (
                         <Typography
+                        key={index}
                           variant="p"
                           style={{
                             color: "#000",
@@ -283,7 +283,7 @@ const option = [
             </Box>
           </Box>
 
-          <Box container className={classes.optionContainer}>
+          <Box className={classes.optionContainer}>
             <Box>
               <RadioGroup
                 aria-label="gender"
@@ -295,6 +295,7 @@ const option = [
                 {option.map((data, index) => {
                   return (
                     <FormControlLabel
+                    key={index}
                       value={data}
                       className={classes.radioLabelStyle}
                       control={<Radio className={classes.radioButtonStyle} />}

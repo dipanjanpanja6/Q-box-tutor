@@ -226,7 +226,7 @@ const UploadQBank = (props) => {
         <Grid container className={classes.content}>
           {!!!loading && (
             <CardComponent>
-              <Box container className={classes.question}>
+              <Box className={classes.question}>
                 <Typography
                   variant="h6"
                   style={{ color: "white", marginBottom: 10 }}
@@ -297,7 +297,7 @@ const UploadQBank = (props) => {
                 </Box>
               </Box>
 
-              <Box container className={classes.optionContainer}>
+              <Box className={classes.optionContainer}>
                 <Box>
                   <RadioGroup
                     aria-label="gender"

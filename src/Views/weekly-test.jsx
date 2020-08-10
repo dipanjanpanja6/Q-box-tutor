@@ -278,7 +278,7 @@ const WeeklyTest = (props) => {
             </Box>
           </Box>
 
-          <Box container className={classes.optionContainer}>
+          <Box className={classes.optionContainer}>
             <Box>
               <RadioGroup
                 aria-label="gender"

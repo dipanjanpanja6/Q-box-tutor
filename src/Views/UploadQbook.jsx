@@ -218,7 +218,7 @@ const [questionData,SetquestionData] = React.useState([])
       ) : props.teacherAuth === true ? (
         <Grid container className={classes.content}>
         <CardComponent>
-          <Box container className={classes.question}>
+          <Box className={classes.question}>
             <Box display="flex" justifyContent="space-between" mt={1}>
               <Typography variant="p" style={{ color: "white" }}>
                 <strong>Stream : </strong>
