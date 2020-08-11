@@ -270,6 +270,7 @@ const UploadQBank = (props) => {
                       ? questionData.course.map((data, index) => {
                         return (
                           <Typography
+                            key={index}
                             variant="p"
                             style={{
                               color: "#000",

@@ -24,7 +24,7 @@ import { connect } from 'react-redux';
 import { checkTeacher } from '../redux/actions/teacher';
 import PropTypes from 'prop-types';
 import Loading from '../Components/loading';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import EditorJS from '../Components/edit/Editor';
 

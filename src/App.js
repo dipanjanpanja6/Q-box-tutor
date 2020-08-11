@@ -22,6 +22,7 @@ import UploadBank from './Views/UploadQBank';
 import UploadBook from './Views/UploadQbook';
 import WeeklyTest from './Views/weekly-test';
 import MonthlyTest from './Views/monthly-test';
+import Demo from './Views/Demo';
 import UploadBankShow from './Views/alertShow/UploadQBank';
 import UploadBookShow from './Views/alertShow/UploadQbook';
 import WeeklyTestShow from './Views/alertShow/weekly-test';
@@ -189,8 +190,20 @@ const App = (props) => {
             }
           />
           {/* <Route exact path="/console" render={() => <Console islogin={props.auth} />} /> */}
-
-          <Route exact component={NotFound} />
+          <Route
+            exact
+            path="/demo"
+            component={({ location }) =>
+              props.auth === null ? (
+                <Loading />
+              ) : props.auth === true ? (
+                <Demo islogin={props.auth} />
+              ) : (
+                    <Redirect to={{ pathname: '/', state: { from: location } }} />
+                  )
+            }
+          />
+          <Route exact component={NotFound} path='/notfound' />
         </Switch>
       </Router>
       <ToastContainer />
