@@ -28,7 +28,7 @@ const styles = makeStyles((t) => ({
     },
   },
   paper: {
-    width: 500,
+    width: pxToVh(780),
     height: 530,
     overflow: 'auto',
     background: Theme.boxColor,
@@ -36,6 +36,14 @@ const styles = makeStyles((t) => ({
     // height: '100%',
     // width: '100%',
     borderRadius: pxToVh(80),
+    [t.breakpoints.down('md')]: {
+      width: pxToVh(600),
+      height: 530,
+    },
+    [t.breakpoints.down('sm')]: {
+      width: pxToVh(500),
+      height: 530,
+    },
     [t.breakpoints.down('xs')]: {
       // borderRadius: 111,
       width: 200,
@@ -75,12 +83,6 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 const Qbank = () => {
-  //   const history = useHistory();
-
-  //   const register = () => {
-  //     history.push('/signup');
-  //   };
-
   const classes = styles();
   const [checked, setChecked] = React.useState([]);
   const [left, setLeft] = React.useState([0, 1, 2, 3]);
