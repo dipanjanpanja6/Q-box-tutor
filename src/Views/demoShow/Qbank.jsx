@@ -75,6 +75,7 @@ const styles = makeStyles((t) => ({
     padding: '0 12px',
   },
 }));
+
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
 }
