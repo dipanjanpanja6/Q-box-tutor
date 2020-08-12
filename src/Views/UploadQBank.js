@@ -382,12 +382,12 @@ const UploadQBook = (props) => {
                   <CardDepth >
                     <Select
                       {...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-                      MenuProps={{
-                        anchorOrigin: {
-                          vertical: 'bottom',
-                          horizontal: 'center',
-                        }
-                      }}
+                      // MenuProps={{
+                      //   anchorOrigin: {
+                      //     vertical: 'bottom',
+                      //     horizontal: 'center',
+                      //   }
+                      // }}
                       labelId="demo-mutiple-checkbox-label"
                       id="demo-mutiple-checkbox"
                       multiple
@@ -415,12 +415,12 @@ const UploadQBook = (props) => {
                   <CardDepth >
                     <Select
                       {...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-                      MenuProps={{
-                        anchorOrigin: {
-                          vertical: 'bottom',
-                          horizontal: 'center',
-                        }
-                      }}
+                      // MenuProps={{
+                      //   anchorOrigin: {
+                      //     vertical: 'bottom',
+                      //     horizontal: 'center',
+                      //   }
+                      // }}
                       value={stream.length !== 0 ? streamValue : 'loading'}
                       onChange={handleChange2}
                       input={<Input />}
@@ -444,12 +444,12 @@ const UploadQBook = (props) => {
                   <CardDepth >
                     <Select
                       {...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-                      MenuProps={{
-                        anchorOrigin: {
-                          vertical: 'bottom',
-                          horizontal: 'center',
-                        }
-                      }}
+                      // MenuProps={{
+                      //   anchorOrigin: {
+                      //     vertical: 'bottom',
+                      //     horizontal: 'center',
+                      //   }
+                      // }}
                       value={subject.length === 0 ? 'loading' : subjectValue}
                       onChange={handleChange3}
                       input={<Input />}
@@ -472,12 +472,12 @@ const UploadQBook = (props) => {
                   <CardDepth >
                     <Select
                       {...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-                      MenuProps={{
-                        anchorOrigin: {
-                          vertical: 'bottom',
-                          horizontal: 'center',
-                        }
-                      }}
+                      // MenuProps={{
+                      //   anchorOrigin: {
+                      //     vertical: 'bottom',
+                      //     horizontal: 'center',
+                      //   }
+                      // }}
                       value={chapter.length === 0 ? "loading" : chapterValue}
                       onChange={handleChange4}
                       input={<Input />}

@@ -203,7 +203,7 @@ const App = (props) => {
                   )
             }
           />
-          <Route exact component={NotFound} path='/notfound' />
+          <Route exact component={NotFound} />
         </Switch>
       </Router>
       <ToastContainer />

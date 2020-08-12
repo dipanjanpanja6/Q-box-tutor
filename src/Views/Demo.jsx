@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { pxToVh, Theme } from '../theme';
-import { makeStyles, Toolbar, AppBar, Tabs, Tab, Fab } from '@material-ui/core';
+import { makeStyles, Toolbar, Tabs, Tab, Fab } from '@material-ui/core';
 
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { TabPanel } from '@material-ui/lab';
+import Qapprove from '../Components/Qapprove';
 
 const styles = makeStyles((t) => ({
   root: {
@@ -97,12 +97,22 @@ function not(a, b) {
 function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
-const Qbank = () => {
+const Demo = () => {
   const classes = styles();
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState([0, 1, 2, 3]);
+  const [value, setValue] = React.useState(0);
+  // const something = Qapprove('Qbank');
+  // console.log(something, 'something');
+  const [left, setLeft] = React.useState([]);
+  useEffect(() => {
+    // var xx = Qapprove('Qbank');
+    setLeft([Qapprove('Qbank')]);
+    console.log('xx');
+  }, []);
+
   const [center, setCenter] = React.useState([4, 5, 6, 7]);
   const [right, setRight] = React.useState([8, 9, 10, 11]);
+  console.log(left, 'left');
 
   const leftChecked = intersection(checked, left);
   const centerChecked = intersection(checked, center);
@@ -151,7 +161,6 @@ const Qbank = () => {
     setCenter(center.concat(forcenter));
     setRight([]);
   };
-  const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -177,31 +186,33 @@ const Qbank = () => {
       </Tabs>
       {value === 0 && (
         <List dense component="div" role="list">
-          {left.map((value) => {
-            const labelId = `transfer-list-item-${value}-label`;
-            return (
-              <ListItem
-                key={value}
-                role="listitem"
-                button
-                onClick={handleToggle(value)}
-              >
-                <ListItemIcon>
-                  <Checkbox
-                    checked={checked.indexOf(value) !== -1}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
+          {left !== [] &&
+            left.map((value, index) => {
+              console.log(value, 'value');
+              // const labelId = `transfer-list-item-${value}-label`;
+              return (
+                <ListItem
+                  key={value}
+                  role="listitem"
+                  button
+                  onClick={handleToggle(value)}
+                >
+                  <ListItemIcon>
+                    <Checkbox
+                      checked={checked.indexOf(value) !== -1}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ 'aria-labelledby': index }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    id={index}
+                    primary={value}
+                    style={{ color: 'white' }}
                   />
-                </ListItemIcon>
-                <ListItemText
-                  id={labelId}
-                  primary={`List item ${value + 1}`}
-                  style={{ color: 'white' }}
-                />
-              </ListItem>
-            );
-          })}
+                </ListItem>
+              );
+            })}
           <ListItem />
         </List>
       )}
@@ -357,4 +368,4 @@ const Qbank = () => {
   );
 };
 
-export default Qbank;
+export default Demo;
