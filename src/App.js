@@ -108,7 +108,7 @@ const App = (props) => {
               props.auth === null ? (
                 <Loading />
               ) : props.auth === true ? (
-                <MonthlyTest islogin={props.auth} />
+                <Demo islogin={props.auth} />
               ) : (
                     <Redirect to={{ pathname: '/', state: { from: location } }} />
                   )

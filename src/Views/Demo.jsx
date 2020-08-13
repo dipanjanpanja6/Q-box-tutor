@@ -1,6 +1,15 @@
 import React, { useEffect } from 'react';
 import { pxToVh, Theme } from '../theme';
-import { makeStyles, Toolbar, Tabs, Tab, Fab, CircularProgress, LinearProgress } from '@material-ui/core';
+import {
+  makeStyles,
+  Toolbar,
+  Tabs,
+  Tab,
+  Fab,
+  LinearProgress,
+  ListItemSecondaryAction,
+  IconButton,
+} from '@material-ui/core';
 
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -10,7 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Qapprove from '../Components/Qapprove';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { url } from '../config/config';
 import { toast } from 'react-toastify';
 
@@ -89,6 +98,10 @@ const styles = makeStyles((t) => ({
       width: '70%',
       margin: '5% 0',
     },
+    [t.breakpoints.down('md')]: {
+      width: '20%',
+      margin: '5% 0',
+    },
   },
 }));
 
@@ -107,7 +120,6 @@ const Demo = () => {
   const [center, setCenter] = React.useState();
   const [right, setRight] = React.useState([8, 9, 10, 11]);
 
-
   useEffect(() => {
     var file = [];
     fetch(`${url}/api/course/Qbank/getapprovequestion`, {
@@ -123,7 +135,8 @@ const Demo = () => {
           }
           setLeft(file);
         } else {
-          toast.error(d.message)
+          setLeft([]);
+          toast.error(d.message + 'in QBank');
         }
       });
     });
@@ -143,17 +156,16 @@ const Demo = () => {
           }
           setCenter(file);
         } else {
-          toast.error(d.message)
+          setCenter([]);
+          toast.error(d.message + ' in WeeklyTest');
         }
       });
     });
   }, []);
 
-
-
   const leftChecked = intersection(checked, left);
   const centerChecked = intersection(checked, center);
-  const rightChecked = intersection(checked, right);
+  // const rightChecked = intersection(checked, right);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -170,33 +182,21 @@ const Demo = () => {
 
   const handleAllRight = () => {
     setRight(right.concat(left, center));
-    setLeft();
-    setCenter([]);
   };
 
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked, centerChecked));
-    setLeft(not(left, leftChecked));
-    setCenter(not(center, centerChecked));
+    // setLeft(not(left, leftChecked));
+    // setCenter(not(center, centerChecked));
     setChecked(not(checked, leftChecked));
     setChecked(not(checked, centerChecked));
   };
-
-  const handleCheckedLeft = () => {
-    const forleft = rightChecked.filter((item) => item < 11);
-    const forcenter = rightChecked.filter((item) => item > 10);
-    setLeft(left.concat(forleft));
-    setCenter(center.concat(forcenter));
-    setRight(not(right, rightChecked));
-    setChecked(not(checked, rightChecked));
+  const handleDelete = (value) => () => {
+    const xx = right.filter((item) => item !== value);
+    setRight(xx);
   };
-
-  const handleAllLeft = () => {
-    // const forleft = right.filter((item) => item < 11);
-    // const forcenter = right.filter((item) => item > 10);
-    // setLeft(left.concat(forleft));
-    // setCenter(center.concat(forcenter));
-    // setRight([]);
+  const submit = () => {
+    console.log(right, 'right');
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -207,58 +207,62 @@ const Demo = () => {
       'aria-controls': `scrollable-auto-tabpanel-${index}`,
     };
   }
-  const QbankList = left ? left.map((value, index) => {
-    console.log(value, 'value');
-    return (
-      <ListItem
-        key={value}
-        role="listitem"
-        button
-        onClick={handleToggle(value)}
-      >
-        <ListItemIcon>
-          <Checkbox
-            checked={checked.indexOf(value) !== -1}
-            tabIndex={-1}
-            disableRipple
-            inputProps={{ 'aria-labelledby': index }}
-          />
-        </ListItemIcon>
-        <ListItemText
-          id={index}
-          primary={value}
-          style={{ color: 'white' }}
-        />
-      </ListItem>
-    );
-  }) : <LinearProgress />
-  const WeeklyTestList = center ? center.map((value) => {
-    const labelId = `transfer-list-item-${value}-label`;
+  const QbankList = left ? (
+    left.map((value, index) => {
+      return (
+        <ListItem
+          key={value}
+          role="listitem"
+          button
+          onClick={handleToggle(value)}
+        >
+          <ListItemIcon>
+            <Checkbox
+              checked={checked.indexOf(value) !== -1}
+              tabIndex={-1}
+              disableRipple
+              inputProps={{ 'aria-labelledby': index }}
+            />
+          </ListItemIcon>
+          <ListItemText id={index} primary={value} style={{ color: 'white' }} />
+        </ListItem>
+      );
+    })
+  ) : (
+    <LinearProgress />
+  );
 
-    return (
-      <ListItem
-        key={value}
-        role="listitem"
-        button
-        onClick={handleToggle(value)}
-      >
-        <ListItemIcon>
-          <Checkbox
-            checked={checked.indexOf(value) !== -1}
-            tabIndex={-1}
-            disableRipple
-            inputProps={{ 'aria-labelledby': labelId }}
+  const WeeklyTestList = center ? (
+    center.map((value) => {
+      const labelId = `transfer-list-item-${value}-label`;
+
+      return (
+        <ListItem
+          key={value}
+          role="listitem"
+          button
+          onClick={handleToggle(value)}
+        >
+          <ListItemIcon>
+            <Checkbox
+              checked={checked.indexOf(value) !== -1}
+              tabIndex={-1}
+              disableRipple
+              inputProps={{ 'aria-labelledby': labelId }}
+            />
+          </ListItemIcon>
+          <ListItemText
+            id={labelId}
+            primary={`List item ${value + 1}`}
+            style={{ color: 'white' }}
           />
-        </ListItemIcon>
-        <ListItemText
-          id={labelId}
-          primary={`List item ${value + 1}`}
-          style={{ color: 'white' }}
-        />
-      </ListItem>
-    );
-  }) : <LinearProgress />
-  const customListLeft = (left, center) => (
+        </ListItem>
+      );
+    })
+  ) : (
+    <LinearProgress />
+  );
+  const customListLeft = () => (
     <Paper className={classes.paper}>
       <Tabs
         value={value}
@@ -281,7 +285,6 @@ const Demo = () => {
       {value === 1 && (
         <List dense component="div" role="list">
           {WeeklyTestList}
-
           <ListItem />
         </List>
       )}
@@ -292,7 +295,6 @@ const Demo = () => {
       <List dense component="div" role="list">
         {items.map((value) => {
           const labelId = `transfer-list-item-${value}-label`;
-
           return (
             <ListItem
               key={value}
@@ -313,6 +315,14 @@ const Demo = () => {
                 primary={`List item ${value + 1}`}
                 style={{ color: 'white' }}
               />
+              <ListItemSecondaryAction
+                style={{ paddingRight: 22 }}
+                onClick={handleDelete(value)}
+              >
+                <IconButton edge="end" aria-label="delete">
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
             </ListItem>
           );
         })}
@@ -336,7 +346,7 @@ const Demo = () => {
           alignItems="center"
           className={classes.content}
         >
-          <Grid item>{customListLeft(left, center)}</Grid>
+          <Grid item>{customListLeft()}</Grid>
           <Grid item className={classes.buttonGroup}>
             <Grid container direction="column" alignItems="center">
               <Button
@@ -361,28 +371,6 @@ const Demo = () => {
               >
                 &gt;
               </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                classes={{ label: classes.label }}
-                className={classes.button}
-                onClick={handleCheckedLeft}
-                disabled={rightChecked.length === 0}
-                aria-label="move selected left"
-              >
-                &lt;
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                classes={{ label: classes.label }}
-                className={classes.button}
-                onClick={handleAllLeft}
-                disabled={right.length === 0}
-                aria-label="move all left"
-              >
-                ≪
-              </Button>
             </Grid>
           </Grid>
           <Grid item>{customListRight(right)}</Grid>
@@ -396,7 +384,7 @@ const Demo = () => {
             variant="extended"
             classes={{ label: classes.label }}
             className={classes.released}
-          // onClick={submit}
+            onClick={submit}
           >
             Submit
           </Fab>
