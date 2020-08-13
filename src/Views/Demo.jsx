@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { pxToVh, Theme } from '../theme';
-import { makeStyles, Toolbar, Tabs, Tab, Fab } from '@material-ui/core';
+import { makeStyles, Toolbar, Tabs, Tab, Fab, CircularProgress, LinearProgress } from '@material-ui/core';
 
 import Grid from '@material-ui/core/Grid';
 import List from '@material-ui/core/List';
@@ -11,6 +11,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Qapprove from '../Components/Qapprove';
+import { url } from '../config/config';
+import { toast } from 'react-toastify';
 
 const styles = makeStyles((t) => ({
   root: {
@@ -101,18 +103,53 @@ const Demo = () => {
   const classes = styles();
   const [checked, setChecked] = React.useState([]);
   const [value, setValue] = React.useState(0);
-  // const something = Qapprove('Qbank');
-  // console.log(something, 'something');
-  const [left, setLeft] = React.useState([]);
+  const [left, setLeft] = React.useState();
+  const [center, setCenter] = React.useState();
+  const [right, setRight] = React.useState([8, 9, 10, 11]);
+
+
   useEffect(() => {
-    // var xx = Qapprove('Qbank');
-    setLeft([Qapprove('Qbank')]);
-    console.log('xx');
+    var file = [];
+    fetch(`${url}/api/course/Qbank/getapprovequestion`, {
+      method: 'GET',
+      credentials: 'include',
+    }).then((res) => {
+      res.json().then((d) => {
+        if (d.success) {
+          const { data } = d;
+          for (var i = 0; i < data.length; i++) {
+            var question = JSON.parse(data[i].question).blocks[0].text;
+            file.push(question);
+          }
+          setLeft(file);
+        } else {
+          toast.error(d.message)
+        }
+      });
+    });
+  }, []);
+  useEffect(() => {
+    var file = [];
+    fetch(`${url}/api/course/WeeklyTest/getapprovequestion`, {
+      method: 'GET',
+      credentials: 'include',
+    }).then((res) => {
+      res.json().then((d) => {
+        if (d.success) {
+          const { data } = d;
+          for (var i = 0; i < data.length; i++) {
+            var question = JSON.parse(data[i].question).blocks[0].text;
+            file.push(question);
+          }
+          setCenter(file);
+        } else {
+          toast.error(d.message)
+        }
+      });
+    });
   }, []);
 
-  const [center, setCenter] = React.useState([4, 5, 6, 7]);
-  const [right, setRight] = React.useState([8, 9, 10, 11]);
-  console.log(left, 'left');
+
 
   const leftChecked = intersection(checked, left);
   const centerChecked = intersection(checked, center);
@@ -133,7 +170,7 @@ const Demo = () => {
 
   const handleAllRight = () => {
     setRight(right.concat(left, center));
-    setLeft([]);
+    setLeft();
     setCenter([]);
   };
 
@@ -155,11 +192,11 @@ const Demo = () => {
   };
 
   const handleAllLeft = () => {
-    const forleft = right.filter((item) => item < 11);
-    const forcenter = right.filter((item) => item > 10);
-    setLeft(left.concat(forleft));
-    setCenter(center.concat(forcenter));
-    setRight([]);
+    // const forleft = right.filter((item) => item < 11);
+    // const forcenter = right.filter((item) => item > 10);
+    // setLeft(left.concat(forleft));
+    // setCenter(center.concat(forcenter));
+    // setRight([]);
   };
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -170,6 +207,57 @@ const Demo = () => {
       'aria-controls': `scrollable-auto-tabpanel-${index}`,
     };
   }
+  const QbankList = left ? left.map((value, index) => {
+    console.log(value, 'value');
+    return (
+      <ListItem
+        key={value}
+        role="listitem"
+        button
+        onClick={handleToggle(value)}
+      >
+        <ListItemIcon>
+          <Checkbox
+            checked={checked.indexOf(value) !== -1}
+            tabIndex={-1}
+            disableRipple
+            inputProps={{ 'aria-labelledby': index }}
+          />
+        </ListItemIcon>
+        <ListItemText
+          id={index}
+          primary={value}
+          style={{ color: 'white' }}
+        />
+      </ListItem>
+    );
+  }) : <LinearProgress />
+  const WeeklyTestList = center ? center.map((value) => {
+    const labelId = `transfer-list-item-${value}-label`;
+
+    return (
+      <ListItem
+        key={value}
+        role="listitem"
+        button
+        onClick={handleToggle(value)}
+      >
+        <ListItemIcon>
+          <Checkbox
+            checked={checked.indexOf(value) !== -1}
+            tabIndex={-1}
+            disableRipple
+            inputProps={{ 'aria-labelledby': labelId }}
+          />
+        </ListItemIcon>
+        <ListItemText
+          id={labelId}
+          primary={`List item ${value + 1}`}
+          style={{ color: 'white' }}
+        />
+      </ListItem>
+    );
+  }) : <LinearProgress />
   const customListLeft = (left, center) => (
     <Paper className={classes.paper}>
       <Tabs
@@ -186,64 +274,14 @@ const Demo = () => {
       </Tabs>
       {value === 0 && (
         <List dense component="div" role="list">
-          {left !== [] &&
-            left.map((value, index) => {
-              console.log(value, 'value');
-              // const labelId = `transfer-list-item-${value}-label`;
-              return (
-                <ListItem
-                  key={value}
-                  role="listitem"
-                  button
-                  onClick={handleToggle(value)}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      checked={checked.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ 'aria-labelledby': index }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText
-                    id={index}
-                    primary={value}
-                    style={{ color: 'white' }}
-                  />
-                </ListItem>
-              );
-            })}
+          {QbankList}
           <ListItem />
         </List>
       )}
       {value === 1 && (
         <List dense component="div" role="list">
-          {center.map((value) => {
-            const labelId = `transfer-list-item-${value}-label`;
+          {WeeklyTestList}
 
-            return (
-              <ListItem
-                key={value}
-                role="listitem"
-                button
-                onClick={handleToggle(value)}
-              >
-                <ListItemIcon>
-                  <Checkbox
-                    checked={checked.indexOf(value) !== -1}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  id={labelId}
-                  primary={`List item ${value + 1}`}
-                  style={{ color: 'white' }}
-                />
-              </ListItem>
-            );
-          })}
           <ListItem />
         </List>
       )}
@@ -307,7 +345,7 @@ const Demo = () => {
                 classes={{ label: classes.label }}
                 className={classes.button}
                 onClick={handleAllRight}
-                disabled={left.length === 0}
+                disabled={left ? left.length === 0 : false}
                 aria-label="move all right"
               >
                 ≫
@@ -358,7 +396,7 @@ const Demo = () => {
             variant="extended"
             classes={{ label: classes.label }}
             className={classes.released}
-            // onClick={submit}
+          // onClick={submit}
           >
             Submit
           </Fab>
