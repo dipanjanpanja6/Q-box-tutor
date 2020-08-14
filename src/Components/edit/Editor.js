@@ -53,4 +53,3 @@ const EditorJS = (props) => {
 export default EditorJS
 
 
-
