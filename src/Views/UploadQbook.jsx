@@ -253,10 +253,7 @@ const UploadQBank = (props) => {
   let [iup, setImageUploadProgress] = useState({});
 
   const handleChangeQ = (e, i) => {
-    console.log(e, 'e');
-    console.log(e.entityMap, 'e.entityMap');
     const xx = e.entityMap;
-
     setImage(xx);
     const h = JSON.stringify(e);
     setQData({ ...QData, [i]: h });
@@ -307,16 +304,19 @@ const UploadQBank = (props) => {
           formData.append('video', video);
         }
         if (image !== []) {
-          console.log(image, 'image1');
+          console.log(image, 'image');
           data.noImage = false;
-          data.image = image;
-          formData.append('image', image);
+          const xx = [];
+          for (var i = 0; image[i] !== undefined; i++) {
+            xx.push(image[i].data.src);
+          }
+          data.image = xx;
         }
 
         formData.append('document', JSON.stringify(data));
         setLoading(true);
-        console.log(data, 'data');
-        console.log(formData, 'formData');
+        console.log(data.image, 'data image');
+        // console.log(formData, 'formData');
         // axios(`${url}/api/upload/qbook`, {
         //   method: 'POST',
         //   withCredentials: true,
@@ -592,7 +592,7 @@ const UploadQBank = (props) => {
                   </CardDepth>
                 </div>
                 <div className={sty.inputDivText}>
-{/* <p>show img url here using [] chip</p> */}
+                  {/* <p>show img url here using [] chip</p> */}
                   <CardDepth style={{ borderRadius: 12 }}>
                     <div>
                       <EditorJS
