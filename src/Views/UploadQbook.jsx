@@ -179,7 +179,7 @@ const UploadQBank = (props) => {
   const [streamValue, setStreamValue] = React.useState('');
   const [subjectValue, setSubjectValue] = React.useState('');
   const [chapterValue, setChapterValue] = React.useState('');
-
+  const [image, setImage] = React.useState([]);
   function filter(array, value, key) {
     return array.filter(
       key
@@ -253,6 +253,11 @@ const UploadQBank = (props) => {
   let [iup, setImageUploadProgress] = useState({});
 
   const handleChangeQ = (e, i) => {
+    console.log(e, 'e');
+    console.log(e.entityMap, 'e.entityMap');
+    const xx = e.entityMap;
+
+    setImage(xx);
     const h = JSON.stringify(e);
     setQData({ ...QData, [i]: h });
   };
@@ -301,45 +306,52 @@ const UploadQBank = (props) => {
 
           formData.append('video', video);
         }
+        if (image !== []) {
+          console.log(image, 'image1');
+          data.noImage = false;
+          data.image = image;
+          formData.append('image', image);
+        }
 
         formData.append('document', JSON.stringify(data));
         setLoading(true);
-
-        axios(`${url}/api/upload/qbook`, {
-          method: 'POST',
-          withCredentials: true,
-          data: formData,
-          onUploadProgress: (progressEvent) => {
-            let percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setImageUploadProgress({
-              progress: percentCompleted,
-              processing: true,
-            });
-            if (percentCompleted === 100) {
-              setImageUploadProgress({
-                processing: false,
-                uploadFinished: true,
-                progress: 100,
-              });
-            }
-          },
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-          .then((d) => {
-            setLoading(false);
-            toast.success('Data successfully added. Video on progress.');
-          })
-          .catch((r) => {
-            console.log(r);
-            toast.error('Failed!!! Try again');
-            setVideo('');
-            setLoading(false);
-          });
+        console.log(data, 'data');
+        console.log(formData, 'formData');
+        // axios(`${url}/api/upload/qbook`, {
+        //   method: 'POST',
+        //   withCredentials: true,
+        //   data: formData,
+        //   onUploadProgress: (progressEvent) => {
+        //     let percentCompleted = Math.round(
+        //       (progressEvent.loaded * 100) / progressEvent.total
+        //     );
+        //     setImageUploadProgress({
+        //       progress: percentCompleted,
+        //       processing: true,
+        //     });
+        //     if (percentCompleted === 100) {
+        //       setImageUploadProgress({
+        //         processing: false,
+        //         uploadFinished: true,
+        //         progress: 100,
+        //       });
+        //     }
+        //   },
+        //   headers: {
+        //     Accept: 'application/json',
+        //     'Content-Type': 'multipart/form-data',
+        //   },
+        // })
+        //   .then((d) => {
+        //     setLoading(false);
+        //     toast.success('Data successfully added. Video on progress.');
+        //   })
+        //   .catch((r) => {
+        //     console.log(r);
+        //     toast.error('Failed!!! Try again');
+        //     setVideo('');
+        //     setLoading(false);
+        //   });
       }
     }
   };
@@ -579,8 +591,8 @@ const UploadQBank = (props) => {
                     ></Input>
                   </CardDepth>
                 </div>
-
                 <div className={sty.inputDivText}>
+{/* <p>show img url here using [] chip</p> */}
                   <CardDepth style={{ borderRadius: 12 }}>
                     <div>
                       <EditorJS
