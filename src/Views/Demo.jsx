@@ -118,7 +118,7 @@ const Demo = () => {
   const [value, setValue] = React.useState(0);
   const [left, setLeft] = React.useState();
   const [center, setCenter] = React.useState();
-  const [right, setRight] = React.useState([8, 9, 10, 11]);
+  const [right, setRight] = React.useState([]);
 
   useEffect(() => {
     var file = [];
@@ -253,7 +253,7 @@ const Demo = () => {
           </ListItemIcon>
           <ListItemText
             id={labelId}
-            primary={`List item ${value + 1}`}
+            primary={value}
             style={{ color: 'white' }}
           />
         </ListItem>
@@ -312,7 +312,7 @@ const Demo = () => {
               </ListItemIcon>
               <ListItemText
                 id={labelId}
-                primary={`List item ${value + 1}`}
+                primary={value}
                 style={{ color: 'white' }}
               />
               <ListItemSecondaryAction
