@@ -1,5 +1,6 @@
 import { url } from '../../config/config';
 import { toast } from 'react-toastify';
+import { IMAGEURL } from '../type';
 
 export const GetRejectCourse = (sub) => (dispatch) => {
   fetch(`${url}/api/course/teacher/${sub}/rejectedquestion`, {
@@ -52,3 +53,11 @@ export const DeleteCourse = (sub, e) => (dispatch) => {
       toast.error('Something went wrong ! Try again');
     });
 };
+
+export const allimage = (response) => (dispatch) => {
+  console.log("allimage")
+  dispatch({
+    type: IMAGEURL,
+    payload: response.data.link
+  })
+}

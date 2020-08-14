@@ -6,3 +6,4 @@ export const REJECTQBook = 'REJECTQBook';
 export const REJECTQBank = 'REJECTQBank';
 export const REJECTWeeklyTest = 'REJECTWeeklyTest';
 export const REJECTMonthlyTest = 'REJECTMonthlyTest';
+export const IMAGEURL = 'IMAGEURL'

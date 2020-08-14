@@ -1,36 +1,53 @@
 import React from 'react';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { connect } from 'react-redux';
+import { allimage } from '../../redux/actions/course';
+
+// export const allimage = (response) => (dispatch) => {
+//     console.log("allimage")
+//     dispatch({
+//         type: IMAGEURL,
+//         payload: response.data.link
+//     })
+// }
+
+
+function uploadImageCallBack(file) {
+    return new Promise(
+        (resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://api.imgur.com/3/image');
+            xhr.setRequestHeader('Authorization', 'Client-ID 8d26ccd12712fca');
+            const data = new FormData();
+            data.append('image', file);
+            xhr.send(data);
+            xhr.addEventListener('load', () => {
+                const response = JSON.parse(xhr.responseText);
+                console.log(response.data.link, 'response')
+                allimage(response)
+                //collect img url from here ////
+                resolve(response);
+            });
+            xhr.addEventListener('error', () => {
+                const error = JSON.parse(xhr.responseText);
+                reject(error);
+            });
+        }
+    );
+}
+const maptoprop = {
+    allimage
+}
+connect(maptoprop)(uploadImageCallBack)
 
 const EditorJS = (props) => {
-    const [image, setimage] = React.useState([])
 
     const onEditorStateChange = (newData) => {
         props.onChange(newData);
         // console.log(newData)
     }
-    function uploadImageCallBack(file) {
-        return new Promise(
-            (resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'https://api.imgur.com/3/image');
-                xhr.setRequestHeader('Authorization', 'Client-ID 8d26ccd12712fca');
-                const data = new FormData();
-                data.append('image', file);
-                xhr.send(data);
-                xhr.addEventListener('load', () => {
-                    const response = JSON.parse(xhr.responseText);
-                    // console.log(response, 'response')
-                    //collect img url from here ////
-                    resolve(response);
-                });
-                xhr.addEventListener('error', () => {
-                    const error = JSON.parse(xhr.responseText);
-                    reject(error);
-                });
-            }
-        );
-    }
+
     // console.log(props.data);
     return (
         <Editor

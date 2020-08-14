@@ -1,4 +1,4 @@
-import { TEACHERLOGIN, TEACHERAUTH, REJECTQBook, REJECTQBank, REJECTMonthlyTest, REJECTWeeklyTest } from '../type';
+import { TEACHERLOGIN, TEACHERAUTH, REJECTQBook, REJECTQBank, REJECTMonthlyTest, REJECTWeeklyTest, IMAGEURL } from '../type';
 
 const initialState = {
   teacherLogin: {},
@@ -8,7 +8,9 @@ const initialState = {
   rejectQBank: null,
   rejectWeekly: null,
   rejectMonthly: null,
+  imageUrl: {}
 };
+console.log(initialState.imageUrl, 'admin')
 
 export default function (state = initialState, actions) {
   switch (actions.type) {
@@ -45,6 +47,12 @@ export default function (state = initialState, actions) {
         ...state,
         rejectWeekly: actions.payload,
       };
+    }
+    case IMAGEURL: {
+      return {
+        ...state,
+        imageUrl: actions.payload
+      }
     }
     default:
       return state;
