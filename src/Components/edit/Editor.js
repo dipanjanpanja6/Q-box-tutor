@@ -2,15 +2,17 @@ import React from 'react';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { connect } from 'react-redux';
-import { allimage } from '../../redux/actions/course';
+// import { allimage } from '../../redux/actions/course';
+import store from '../../redux/store'
+import { IMAGEURL } from '../../redux/type';
 
-// export const allimage = (response) => (dispatch) => {
-//     console.log("allimage")
-//     dispatch({
-//         type: IMAGEURL,
-//         payload: response.data.link
-//     })
-// }
+export const allimage = (response) => {
+    console.log("allimage")
+    store.dispatch({
+        type: IMAGEURL,
+        payload: response.data.link
+    })
+}
 
 
 function uploadImageCallBack(file) {
@@ -36,10 +38,10 @@ function uploadImageCallBack(file) {
         }
     );
 }
-const maptoprop = {
-    allimage
-}
-connect(maptoprop)(uploadImageCallBack)
+// const maptoprop = {
+//     allimage
+// }
+// connect(maptoprop)(uploadImageCallBack)
 
 const EditorJS = (props) => {
 
