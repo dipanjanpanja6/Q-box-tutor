@@ -10,7 +10,6 @@ const initialState = {
   rejectMonthly: null,
   imageUrl: {}
 };
-console.log(initialState.imageUrl, 'admin')
 
 export default function (state = initialState, actions) {
   switch (actions.type) {

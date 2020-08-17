@@ -1,18 +1,9 @@
 import React from 'react';
 import { Editor } from "react-draft-wysiwyg";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 // import { allimage } from '../../redux/actions/course';
-import store from '../../redux/store'
-import { IMAGEURL } from '../../redux/type';
 
-export const allimage = (response) => {
-    console.log("allimage")
-    store.dispatch({
-        type: IMAGEURL,
-        payload: response.data.link
-    })
-}
 
 
 function uploadImageCallBack(file) {
@@ -27,7 +18,7 @@ function uploadImageCallBack(file) {
             xhr.addEventListener('load', () => {
                 const response = JSON.parse(xhr.responseText);
                 console.log(response.data.link, 'response')
-                allimage(response)
+                // allimage(response)
                 //collect img url from here ////
                 resolve(response);
             });
