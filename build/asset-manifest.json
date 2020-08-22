@@ -1,28 +1,28 @@
 {
   "files": {
-    "main.css": "/static/css/main.2df4e5e2.chunk.css",
-    "main.js": "/static/js/main.ed656eaf.chunk.js",
-    "main.js.map": "/static/js/main.ed656eaf.chunk.js.map",
+    "main.css": "/static/css/main.63ee62bf.chunk.css",
+    "main.js": "/static/js/main.4f49839e.chunk.js",
+    "main.js.map": "/static/js/main.4f49839e.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.c38104fd.js",
     "runtime-main.js.map": "/static/js/runtime-main.c38104fd.js.map",
-    "static/css/2.8f9db780.chunk.css": "/static/css/2.8f9db780.chunk.css",
-    "static/js/2.ee7113dc.chunk.js": "/static/js/2.ee7113dc.chunk.js",
-    "static/js/2.ee7113dc.chunk.js.map": "/static/js/2.ee7113dc.chunk.js.map",
+    "static/css/2.af81f7ae.chunk.css": "/static/css/2.af81f7ae.chunk.css",
+    "static/js/2.be4efce1.chunk.js": "/static/js/2.be4efce1.chunk.js",
+    "static/js/2.be4efce1.chunk.js.map": "/static/js/2.be4efce1.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.c4941bd2b0b7a4c1cc442d7f3d84beaa.js": "/precache-manifest.c4941bd2b0b7a4c1cc442d7f3d84beaa.js",
+    "precache-manifest.482680f668285843447561df25ac6a0b.js": "/precache-manifest.482680f668285843447561df25ac6a0b.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/2.8f9db780.chunk.css.map": "/static/css/2.8f9db780.chunk.css.map",
-    "static/css/main.2df4e5e2.chunk.css.map": "/static/css/main.2df4e5e2.chunk.css.map",
-    "static/js/2.ee7113dc.chunk.js.LICENSE.txt": "/static/js/2.ee7113dc.chunk.js.LICENSE.txt",
+    "static/css/2.af81f7ae.chunk.css.map": "/static/css/2.af81f7ae.chunk.css.map",
+    "static/css/main.63ee62bf.chunk.css.map": "/static/css/main.63ee62bf.chunk.css.map",
+    "static/js/2.be4efce1.chunk.js.LICENSE.txt": "/static/js/2.be4efce1.chunk.js.LICENSE.txt",
     "static/media/404.svg": "/static/media/404.85834a51.svg",
-    "static/media/login.svg": "/static/media/login.816ba4ed.svg",
-    "static/media/q+.6df53b83.svg": "/static/media/q+.6df53b83.svg"
+    "static/media/index.css": "/static/media/Wallman-Bold-free.558cf3a0.ttf",
+    "static/media/login.svg": "/static/media/login.816ba4ed.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.c38104fd.js",
-    "static/css/2.8f9db780.chunk.css",
-    "static/js/2.ee7113dc.chunk.js",
-    "static/css/main.2df4e5e2.chunk.css",
-    "static/js/main.ed656eaf.chunk.js"
+    "static/css/2.af81f7ae.chunk.css",
+    "static/js/2.be4efce1.chunk.js",
+    "static/css/main.63ee62bf.chunk.css",
+    "static/js/main.4f49839e.chunk.js"
   ]
 }
