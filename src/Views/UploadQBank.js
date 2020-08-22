@@ -22,6 +22,7 @@ import { useHistory } from 'react-router-dom';
 
 import EditorJS from '../Components/edit/Editor'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 const styles = makeStyles(t => ({
 
   baseStyle: {
@@ -115,7 +116,9 @@ const styles = makeStyles(t => ({
 const UploadQBook = (props) => {
   const sty = styles()
   const history = useHistory()
-
+  useEffect(()=>{
+    document.title="Upload Q Bank Question | Qrioctybox"
+      },[])
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -126,7 +129,7 @@ const UploadQBook = (props) => {
         // width: 250,
         color: '#fff',
         width: pxToVw(564),
-        backgroundColor: Theme.textColor.heading,
+        background: Theme.boxColor,
         borderRadius: 41
       },
     },
@@ -346,34 +349,11 @@ const UploadQBook = (props) => {
                 alignItems: 'flex-start',
                 boxSizing: 'border-box',
                 paddingTop: '1%',
-              }}>
-              <div style={{
-                paddingTop: '6%',
-
-                height: 54,
-                width: 54,
-              }}>
-                <CardComponent
-                  children={
-                    <div style={{
-                      height: '88%',
-                      width: '88%',
-                    }}>
-                      <CardDepth
-                        children={
-                          <Person style={{
-                            color: '#8d3ddc',
-                            height: 44,
-                            width: 44,
-                          }}
-                          />
-                        }
-                      />
-                    </div>
-                  }
-                />
-              </div>
-            </div>
+                color:'#fff'
+              }}
+            >
+              <h3>Q Bank question upload </h3>
+                </div>
 
             <Grid container item xs={12} justify='space-around'>
               <Grid item sm={6} xs={12} className={sty.selectI}  >
@@ -382,12 +362,7 @@ const UploadQBook = (props) => {
                   <CardDepth >
                     <Select
                       {...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-                      // MenuProps={{
-                      //   anchorOrigin: {
-                      //     vertical: 'bottom',
-                      //     horizontal: 'center',
-                      //   }
-                      // }}
+                   
                       labelId="demo-mutiple-checkbox-label"
                       id="demo-mutiple-checkbox"
                       multiple
@@ -415,12 +390,7 @@ const UploadQBook = (props) => {
                   <CardDepth >
                     <Select
                       {...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-                      // MenuProps={{
-                      //   anchorOrigin: {
-                      //     vertical: 'bottom',
-                      //     horizontal: 'center',
-                      //   }
-                      // }}
+               
                       value={stream.length !== 0 ? streamValue : 'loading'}
                       onChange={handleChange2}
                       input={<Input />}
@@ -444,12 +414,7 @@ const UploadQBook = (props) => {
                   <CardDepth >
                     <Select
                       {...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-                      // MenuProps={{
-                      //   anchorOrigin: {
-                      //     vertical: 'bottom',
-                      //     horizontal: 'center',
-                      //   }
-                      // }}
+                    
                       value={subject.length === 0 ? 'loading' : subjectValue}
                       onChange={handleChange3}
                       input={<Input />}
@@ -472,12 +437,7 @@ const UploadQBook = (props) => {
                   <CardDepth >
                     <Select
                       {...{ disableUnderline: true, className: sty.select, classes: { select: sty.selectInput } }}
-                      // MenuProps={{
-                      //   anchorOrigin: {
-                      //     vertical: 'bottom',
-                      //     horizontal: 'center',
-                      //   }
-                      // }}
+                     
                       value={chapter.length === 0 ? "loading" : chapterValue}
                       onChange={handleChange4}
                       input={<Input />}
@@ -498,66 +458,24 @@ const UploadQBook = (props) => {
               </Grid>
             </Grid>
             <Grid container item xs={12} justify='center' >
-              {/*<Grid item sm={6} xs={12} className={sty.selectI} >*/}
-              {/*	<Grid container justify='space-between'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Image (if any)</p>*/}
-              {/*		/!* {iup.processing && <Progress value={iup} />} *!/*/}
-              {/*	</Grid>*/}
-              {/*	<div className={sty.inputDiv}>*/}
-              {/*		<CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>*/}
-              {/*			<input accept="image/jpeg, image/png" type='file' onChange={selectImage} style={{ width: '100%', padding: 6 }}></input>*/}
-              {/*			/!* <Fab variant='extended' classes={{ label: "", }}*/}
-              {/*			style={iup.uploadFinished === true ? {*/}
-              {/*				backgroundColor: '#0f0', height: 35,*/}
-              {/*				width: '40%',*/}
-              {/*				borderRadius: 0,*/}
-              {/*			} : {*/}
-              {/*					height: 35,*/}
-              {/*					width: '40%',*/}
-              {/*					borderRadius: 0,*/}
-
-              {/*				}}*/}
-              {/*			onClick={imageUpload} >{iup.uploadFinished === true ? "Success" : "Upload Image"}</Fab> *!/*/}
-              {/*		</CardDepth>*/}
-              {/*	</div>*/}
-
-
-              {/*</Grid>*/}
+           
 
               <Grid container justify="center">
                 <Grid container justify='center'>	<p style={{ margin: '0 0 0 25px', color: '#fff' }}>Video (if any)</p>
-                  {/* {vup.processing && <Progress value={vup} />} */}
+             
                 </Grid>
                 <div className={sty.inputDiv}>
                   <CardDepth style={{ overflow: 'hidden', paddingLeft: 12 }}>
                     <input accept="video/mp4" type='file' onChange={selectVideo} style={{ width: '100%', padding: 6 }}></input>
-                    {/* <Fab variant='extended' classes={{ label: "", }}
-										style={vup.uploadFinished === true ? {
-											backgroundColor: '#0f0', height: 35,
-											width: '40%',
-											borderRadius: 0,
-										} : {
-												height: 35,
-												width: '40%',
-												borderRadius: 0,
-
-											}} onClick={videoUpload} >{vup.uploadFinished === true ? "Success" : "Upload Video"}</Fab> */}
-                  </CardDepth>
+                   </CardDepth>
                 </div>
               </Grid>
-
-
-
-
 
             </Grid>
 
 
             <Grid container justify='space-around' style={{ padding: '12px 0 20px' }}>
 
-              {/* <Grid item container sm={6} className={sty.upload} justify='space-around'>
-							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={imageUpload} >Upload Image</Fab>
-							<Fab variant='extended' classes={{ label: sty.label, }} className={sty.released} onClick={uploadVideo} >Upload Video</Fab>
-						</Grid> */}
               <Grid container justify='flex-start' style={{ paddingLeft: '7%' }} item >
                 <Checkbox disableRipple onChange={(e) => { setHasOption(e.target.checked) }} style={{ padding: '0 3px', color: '#fff', alignSelf: 'center' }} /><Typography style={{ alignSelf: 'center', color: '#fff' }}>Has Options</Typography>
               </Grid>

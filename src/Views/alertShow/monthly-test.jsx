@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import { useEffect } from 'react';
 import { url } from '../../config/config';
-import Progress from '../../Components/circularProgressBar';
+import EditorJS from '../../Components/edit/Readeditor';
 
 import { connect } from 'react-redux';
 import { checkTeacher } from '../../redux/actions/teacher';
@@ -151,12 +151,7 @@ const MonthlyTest = (props) => {
   const classes = style();
   const history = useHistory();
   var { id } = useParams();
-
-
-
-  const [loading, setLoading] = React.useState(false);
-  const [questionData,SetquestionData] = React.useState([])
-  const [value, setValue] = React.useState("");
+  const [questionData, SetquestionData] = React.useState([])
 
   useEffect(() => {
     if (props.teacherAuth === null) {
@@ -167,34 +162,17 @@ const MonthlyTest = (props) => {
       credentials: 'include',
     }).then((res) => {
       res.json().then((d) => {
-        console.log(d, 'Monthly-test')
-        SetquestionData(d.data)
+        if (d.success) {
+          console.log(d)
+          SetquestionData(d.data)
+        }
+        if (d.error) {
+          history.goBack()
+        }
       })
     });
-  }, [props]);
+  }, []);
 
-const option = [
-    // JSON.parse(questionData.ans1).blocks[0].text,
-    questionData.ans1
-      ? JSON.parse(questionData.ans1).blocks[0].text
-      : "No Option",
-    questionData.ans2
-      ? JSON.parse(questionData.ans2).blocks[0].text
-      : "No Option",
-    questionData.ans3
-      ? JSON.parse(questionData.ans3).blocks[0].text
-      : "No Option",
-    questionData.ans4
-      ? JSON.parse(questionData.ans4).blocks[0].text
-      : "No Option",
-  ];
-
-  const handleChange = (event) => {
-    console.log(event.target.value,'event.target.value')
-    setValue(event.target.value);
-  };
- 
-  let [iup, setImageUploadProgress] = useState({});
 
   return (
     <Grid
@@ -206,39 +184,26 @@ const option = [
       <Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
       {props.teacherAuth === false && history.push('/')}
       {props.teacherAuth === null && <Loading />}
-      {props.teacherAuth === true && (
+      {props.teacherAuth === true && 
+       questionData.subject !== undefined ? (
         <Grid container justify="center" className={classes.content}>
-          {!!!loading && (
             <CardComponent>
           <Box className={classes.question}>
-            <Typography
-              variant="h6"
-              noWrap={false}
-              style={{
-                color: "white",
-                marginBottom: 10,
-              }}
-            >
-              <strong>Question : </strong>
-              {questionData.question !== undefined
-                ? JSON.parse(questionData.question).blocks[0].text
-                : // ? JSON.parse(questionData.question).blocks[0].text
-                  "Loading..."}
-            </Typography>
+           
             <Box display="flex" justifyContent="space-between" mt={1}>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography  style={{ color: "white" }}>
                 <strong>Stream : </strong>
                 {questionData.stream !== undefined
                   ? questionData.stream
                   : "Loading..."}
               </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography  style={{ color: "white" }}>
                 <strong>Subject : </strong>
                 {questionData.subject !== undefined
                   ? questionData.subject
                   : "Loading..."}
               </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography  style={{ color: "white" }}>
                 <strong>Chapter : </strong>
                 {questionData.chapter !== undefined
                   ? questionData.chapter
@@ -257,7 +222,7 @@ const option = [
                       return (
                         <Typography
                         key={index}
-                          variant="p"
+                          
                           style={{
                             color: "#000",
                             backgroundColor: "#eee",
@@ -274,58 +239,82 @@ const option = [
                     })
                   : "No Course"}
               </Box>
-              <Typography variant="p" style={{ color: "white" }}>
+              <Typography  style={{ color: "white" }}>
                 <strong>Created At : </strong>
                 {questionData.createdAt !== undefined
                   ? questionData.createdAt
                   : "Loading..."}
               </Typography>
             </Box>
-          </Box>
+            <Typography
+              variant="h6"
+              component='div'
+              noWrap={false}
+              style={{
+                color: "white",
+                marginBottom: 10,
+              }}
+            >
+              <strong>Question : </strong>
+              {questionData.question !== undefined
+                ? 
+                <EditorJS data={JSON.parse(questionData.question)} />
+
+:                  "Loading..."}
+            </Typography>
+             </Box>
 
           <Box className={classes.optionContainer}>
             <Box>
               <RadioGroup
                 aria-label="gender"
                 name="gender1"
-                value={value}
-                onChange={handleChange}
+                value=""
                 className={classes.radioGroupStyle}
               >
-                {option.map((data, index) => {
-                  return (
+                  <FormControlLabel
+                      className={classes.radioLabelStyle}
+                      control={<Radio checked={true} className={classes.radioButtonStyle} />}
+                      label={
+
+                        <EditorJS data={JSON.parse(questionData.ans1)} />
+                      }
+                    />
                     <FormControlLabel
-                    key={index}
-                      value={data}
+                      // value={data}
                       className={classes.radioLabelStyle}
                       control={<Radio className={classes.radioButtonStyle} />}
-                      label={data}
+                      label={
+
+                        <EditorJS data={JSON.parse(questionData.ans2)} />
+                      }
                     />
-                  );
-                })}
+                    <FormControlLabel
+                      // value={data}
+                      className={classes.radioLabelStyle}
+                      control={<Radio className={classes.radioButtonStyle} />}
+                      label={
+
+                        <EditorJS data={JSON.parse(questionData.ans3)} />
+                      }
+                    />
+                    <FormControlLabel
+                      // value={data}
+                      className={classes.radioLabelStyle}
+                      control={<Radio className={classes.radioButtonStyle} />}
+                      label={
+
+                        <EditorJS data={JSON.parse(questionData.ans4)} />
+                      } />
               </RadioGroup>
             </Box>
           </Box>
 
-          <br></br>
-          <Box mt={5} mb={5}>
-            <Typography variant="p" style={{ color: "white" }}>
-              <strong>Correct Answer : </strong>
-              {questionData.ans
-                ? JSON.parse(questionData.ans).blocks[0].text
-                : "No Option"}
-            </Typography>
-          </Box>
-
+         
           
         </CardComponent>
-          )}
-          {loading && (
-            <Grid container justify="center">
-              <Progress value={iup} />
-            </Grid>
-          )}
         </Grid>
+        ) : <Loading />}
       )}
     </Grid>
   );

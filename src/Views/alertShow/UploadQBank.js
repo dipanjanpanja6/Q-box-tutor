@@ -20,7 +20,6 @@ import PropTypes from 'prop-types';
 import Loading from '../../Components/loading';
 import { useHistory, useParams } from 'react-router-dom';
 import Videojs from "../../Components/videoPlayer";
-import Progress from '../../Components/circularProgressBar';
 
 
 import EditorJS from '../../Components/edit/Readeditor';
@@ -36,7 +35,7 @@ const style = makeStyles((t) => ({
     paddingLeft: 30,
     paddingRight: 30,
     marginLeft: 50,
-    marginRight: 20,
+    marginBottom: 20,
     paddingTop: 12,
     [t.breakpoints.down("sm")]: {
       marginLeft: 50,
@@ -167,7 +166,7 @@ const videoJsOptions = {
   // poster: require('../static/400.svg')
 };
 
-const UploadQBank = (props) => {
+const AlertShowQbank = (props) => {
   const classes = style();
   const history = useHistory();
   const [questionData, SetquestionData] = React.useState([])
@@ -177,40 +176,27 @@ const UploadQBank = (props) => {
     if (props.teacherAuth === null) {
       props.checkTeacher();
     }
-    fetch(`${url}/api/course/teacher/QBank/rejectedquestion/${id}`, {
+    fetch(`${url}/api/course/teacher/Qbank/rejectedquestion/${id}`, {
       method: 'GET',
       credentials: 'include',
     }).then((res) => {
       res.json().then((d) => {
-        console.log(d, 'uploadqbank')
-        SetquestionData(d.data)
+        if (d.success) {
+          console.log(d, 'uploadqbank')
+          videoJsOptions.sources[0].src = d.data.video_uri;
+          videoJsOptions.sources[0].type = d.data.videoType;
+          SetquestionData(d.data)
+          
+        }
+        if (d.error) {
+          history.goBack()
+        }
       })
     });
-  }, [props]);
-  const option = [
-    // JSON.parse(questionData.ans1).blocks[0].text,
-    questionData.ans1
-      ? JSON.parse(questionData.ans1).blocks[0].text
-      : "No Option",
-    questionData.ans2
-      ? JSON.parse(questionData.ans2).blocks[0].text
-      : "No Option",
-    questionData.ans3
-      ? JSON.parse(questionData.ans3).blocks[0].text
-      : "No Option",
-    questionData.ans4
-      ? JSON.parse(questionData.ans4).blocks[0].text
-      : "No Option",
-  ];
-  const [courseValue, setCourseValue] = React.useState([]);
-  let [iup, setImageUploadProgress] = React.useState({});
+  }, []);
 
-  const [value, setValue] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
 
-  const handleChange = async (event) => {
-    setCourseValue(event.target.value);
-  };
+
 
   return (
     <Grid
@@ -222,37 +208,27 @@ const UploadQBank = (props) => {
       <Toolbar style={{ background: Theme.boxColor, width: '100%' }} />
       {props.teacherAuth === false && history.push('/')}
       {props.teacherAuth === null && <Loading />}
-      {props.teacherAuth === true && (
+      {props.teacherAuth === true && 
+       questionData.subject !== undefined?(
         <Grid container className={classes.content}>
-          {!!!loading && (
+       
             <CardComponent>
               <Box className={classes.question}>
-                <Typography
-                  variant="h6"
-                  style={{ color: "white", marginBottom: 10 }}
-                >
-                  <strong>Question : </strong>
-                  {questionData.question !== undefined ? (
-                    <EditorJS data={JSON.parse(questionData.question)} />
-                  ) : (
-                      // ? JSON.parse(questionData.question).blocks[0].text
-                      "Loading..."
-                    )}
-                </Typography>
+              
                 <Box display="flex" justifyContent="space-between" mt={1}>
-                  <Typography variant="p" style={{ color: "white" }}>
+                  <Typography  style={{ color: "white" }}>
                     <strong>Stream : </strong>
                     {questionData.stream !== undefined
                       ? questionData.stream
                       : "Loading..."}
                   </Typography>
-                  <Typography variant="p" style={{ color: "white" }}>
+                  <Typography  style={{ color: "white" }}>
                     <strong>Subject : </strong>
                     {questionData.subject !== undefined
                       ? questionData.subject
                       : "Loading..."}
                   </Typography>
-                  <Typography variant="p" style={{ color: "white" }}>
+                  <Typography  style={{ color: "white" }}>
                     <strong>Chapter : </strong>
                     {questionData.chapter !== undefined
                       ? questionData.chapter
@@ -271,7 +247,7 @@ const UploadQBank = (props) => {
                         return (
                           <Typography
                             key={index}
-                            variant="p"
+                            
                             style={{
                               color: "#000",
                               backgroundColor: "#eee",
@@ -289,13 +265,26 @@ const UploadQBank = (props) => {
                       : "No Course"}
                   </Box>
 
-                  <Typography variant="p" style={{ color: "white" }}>
+                  <Typography  style={{ color: "white" }}>
                     <strong>Created At : </strong>
                     {questionData.createdAt !== undefined
                       ? questionData.createdAt
                       : "Loading..."}
                   </Typography>
                 </Box>
+                <Typography component='div'
+                  variant="h6"
+                  style={{ color: "white", marginBottom: 10 }}
+                >
+                  <strong>Question : </strong>
+                  {questionData.question !== undefined ? (
+                    <EditorJS data={JSON.parse(questionData.question)} />
+                  ) : (
+                      // ? JSON.parse(questionData.question).blocks[0].text
+                      "Loading..."
+                    )}
+                </Typography>
+               
               </Box>
 
               <Box className={classes.optionContainer}>
@@ -303,20 +292,47 @@ const UploadQBank = (props) => {
                   <RadioGroup
                     aria-label="gender"
                     name="gender1"
-                    value={value}
-                    onChange={handleChange}
+                    value=''
                     className={classes.radioGroupStyle}
                   >
-                    {option.map((data, index) => {
-                      return (
+                  
                         <FormControlLabel
-                          value={data}
+                          className={classes.radioLabelStyle}
+                          control={<Radio checked={true} className={classes.radioButtonStyle} />}
+                          label={
+
+                            <EditorJS data={JSON.parse(questionData.ans1)} />
+                          }
+                        />
+                        <FormControlLabel
+                          // value={data}
                           className={classes.radioLabelStyle}
                           control={<Radio className={classes.radioButtonStyle} />}
-                          label={data}
+                          label={
+
+                            <EditorJS data={JSON.parse(questionData.ans2)} />
+                          }
                         />
-                      );
-                    })}
+                        <FormControlLabel
+                          // value={data}
+                          className={classes.radioLabelStyle}
+                          control={<Radio className={classes.radioButtonStyle} />}
+                          label={
+
+                            <EditorJS data={JSON.parse(questionData.ans3)} />
+                          }
+                        />
+                        <FormControlLabel
+                          // value={data}
+                          className={classes.radioLabelStyle}
+                          control={<Radio className={classes.radioButtonStyle} />}
+                          label={
+
+                            <EditorJS data={JSON.parse(questionData.ans4)} />
+                          }
+                        />
+                     
+
                   </RadioGroup>
                 </Box>
                 {!questionData.noVideo && (
@@ -326,29 +342,17 @@ const UploadQBank = (props) => {
                 )}
               </Box>
 
-              <br></br>
-              <Box mt={5} mb={5}>
-                <Typography variant="p" style={{ color: "white" }}>
-                  <strong>Correct Answer : </strong>
-                  {questionData.ans
-                    ? JSON.parse(questionData.ans).blocks[0].text
-                    : "No Option"}
-                </Typography>
-              </Box>
+             
 
             </CardComponent>
-          )}
-          {loading && (
-            <Grid container justify="center">
-              <Progress value={iup} />
-            </Grid>
-          )}
+         
         </Grid>
-      )}
+      
+            ) : <Loading/>}
     </Grid>
   );
 };
-UploadQBank.propType = {
+AlertShowQbank.propType = {
   checkTeacher: PropTypes.func.isRequired,
   teacherAuth: PropTypes.object.isRequired,
 };
@@ -358,4 +362,4 @@ const mapToState = (state) => ({
 const mapToProps = {
   checkTeacher,
 };
-export default connect(mapToState, mapToProps)(UploadQBank);
+export default connect(mapToState, mapToProps)(AlertShowQbank);

@@ -36,7 +36,9 @@ const styles = makeStyles((t) => ({
 const Console = (props) => {
   const sty = styles();
   const history = useHistory();
-
+  useEffect(() => {
+    document.title = "Teacher Dashboard | Qrioctybox"
+  }, [])
   useEffect(() => {
     if (props.teacherAuth === null) {
       props.checkTeacher();

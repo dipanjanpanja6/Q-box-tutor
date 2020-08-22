@@ -1,4 +1,4 @@
-import { TEACHERLOGIN, TEACHERAUTH, REJECTQBook, REJECTQBank, REJECTMonthlyTest, REJECTWeeklyTest, IMAGEURL } from '../type';
+import { TEACHERLOGIN, TEACHERAUTH, REJECTQBook, REJECTQbank, REJECTMonthlyTest, REJECTWeeklyTest, IMAGEURL } from '../type';
 
 const initialState = {
   teacherLogin: {},
@@ -29,7 +29,7 @@ export default function (state = initialState, actions) {
         rejectQBook: actions.payload,
       };
     }
-    case REJECTQBank: {
+    case REJECTQbank: {
       return {
         ...state,
         rejectQBank: actions.payload,

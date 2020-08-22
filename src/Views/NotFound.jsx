@@ -4,6 +4,7 @@ import { Theme } from '../theme';
 import BadRequest from '../static/404.svg';
 
 import { makeStyles, Toolbar } from '@material-ui/core';
+import { useEffect } from 'react';
 // import { useHistory } from 'react-router-dom';
 
 const styles = makeStyles((t) => ({
@@ -25,6 +26,9 @@ export default function NotFound() {
   //   };
 
   const classes = styles();
+  useEffect(() => {
+    document.title = "Page not found | Qrioctybox"
+  }, [])
 
   return (
     <>

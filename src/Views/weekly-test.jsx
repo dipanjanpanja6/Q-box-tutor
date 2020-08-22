@@ -116,7 +116,9 @@ const styles = makeStyles((t) => ({
 const WeeklyTest = (props) => {
   const sty = styles();
   const history = useHistory();
-
+  useEffect(()=>{
+    document.title="Upload Weekly Quiz Question | Qrioctybox"
+      },[])
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -126,7 +128,7 @@ const WeeklyTest = (props) => {
         // width: 250,
         color: '#fff',
         width: pxToVw(564),
-        backgroundColor: Theme.textColor.heading,
+        background: Theme.boxColor,
         borderRadius: 41,
       },
     },
@@ -338,40 +340,10 @@ const WeeklyTest = (props) => {
                   alignItems: 'flex-start',
                   boxSizing: 'border-box',
                   paddingTop: '1%',
+                  color:'#fff'
                 }}
               >
-                <div
-                  style={{
-                    paddingTop: '6%',
-
-                    height: 54,
-                    width: 54,
-                  }}
-                >
-                  <CardComponent
-                    children={
-                      <div
-                        style={{
-                          height: '88%',
-                          width: '88%',
-                        }}
-                      >
-                        <CardDepth
-                          children={
-                            <Person
-                              style={{
-                                color: '#8d3ddc',
-                                height: 44,
-                                width: 44,
-                              }}
-                            />
-                          }
-                        />
-                      </div>
-                    }
-                  />
-                </div>
-              </div>
+                <h3>Weekly Quiz question upload </h3></div>
 
               <Grid container item xs={12} justify="space-around">
                 <Grid item sm={6} xs={12} className={sty.selectI}>
@@ -433,10 +405,10 @@ const WeeklyTest = (props) => {
                             </MenuItem>
                           ))
                         ) : (
-                          <MenuItem disabled value="loading">
-                            loading
-                          </MenuItem>
-                        )}
+                            <MenuItem disabled value="loading">
+                              loading
+                            </MenuItem>
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -464,12 +436,12 @@ const WeeklyTest = (props) => {
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          subject.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            subject.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -495,12 +467,12 @@ const WeeklyTest = (props) => {
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          chapter.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            chapter.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>

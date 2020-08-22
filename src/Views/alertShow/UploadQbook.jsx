@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
@@ -18,8 +18,9 @@ import { useParams } from 'react-router-dom';
 import Videojs from "../../Components/videoPlayer";
 import Loading from '../../Components/loading';
 import EditorJS from '../../Components/edit/Readeditor';
- import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useHistory } from 'react-router-dom';
+import CardDepth from '../../Components/cardDepth';
 
 const style = makeStyles((t) => ({
   content: {
@@ -68,7 +69,7 @@ const style = makeStyles((t) => ({
     flexDirection: "column",
     minHeight: "40%",
     width: "100%",
-    padding: "5% 5% 12px",
+    padding: "1% 5% 12px",
     fontSize: 17,
     [t.breakpoints.down("xs")]: {
       paddingBottom: 12,
@@ -124,6 +125,7 @@ const style = makeStyles((t) => ({
     marginTop: 15,
   },
   videoContainer: {
+    maxWidth: 500,
     width: "35%",
     marginBottom: 20,
     display: "flex",
@@ -172,7 +174,8 @@ const videoJsOptions = {
   fluid: true,
   cacheEncryptionKeys: true,
   //   aspectRatio: '1:1',
-  sources: [{}],
+  sources: [{
+  }],
   html5: {
     vhs: {
       withCredentials: true,
@@ -180,30 +183,38 @@ const videoJsOptions = {
   },
   // poster: require('../static/400.svg')
 };
-const UploadQBank = (props) => {
+const AlertShowQbook = (props) => {
   const classes = style();
   var { id } = useParams();
-  // var edit = id ? true : false;
   const history = useHistory();
 
-const [questionData,SetquestionData] = React.useState([])
+  const [questionData, SetquestionData] = React.useState([])
 
   useEffect(() => {
     if (props.teacherAuth === null) {
       props.checkTeacher();
     }
-    fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${id}`,{
+    fetch(`${url}/api/course/teacher/QBook/rejectedquestion/${id}`, {
       method: 'GET',
-    credentials: 'include',
+      credentials: 'include',
     }).then((res) => {
-      res.json().then((d)=>{
-        console.log(d,'uploadqbook')
+      res.json().then((d) => {
+        if (d.success) {
+        console.log(d, 'uploadqbook')
+        videoJsOptions.sources[0].src = d.data.video_uri;
+        videoJsOptions.sources[0].type = d.data.videoType;
         SetquestionData(d.data)
+      }
+      if (d.error) {
+        history.goBack()
+      }
       })
     });
-  }, [props]);
+  }, []);
 
+  console.log(videoJsOptions);
   return (
+
     <Grid
       container
       justify="center"
@@ -215,39 +226,48 @@ const [questionData,SetquestionData] = React.useState([])
         history.push('/')
       ) : props.teacherAuth === null ? (
         <Loading />
-      ) : props.teacherAuth === true ? (
+      ) : props.teacherAuth === true ? 
+        questionData.subject !== undefined?(
         <Grid container className={classes.content}>
-        <CardComponent>
-          <Box className={classes.question}>
-            <Box display="flex" justifyContent="space-between" mt={1}>
-              <Typography variant="p" style={{ color: "white" }}>
-                <strong>Stream : </strong>
-                {questionData.stream !== undefined
-                  ? questionData.stream
-                  : "Loading..."}
-              </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
-                <strong>Subject : </strong>
-                {questionData.subject !== undefined
-                  ? questionData.subject
-                  : "Loading..."}
-              </Typography>
-              <Typography variant="p" style={{ color: "white" }}>
-                <strong>Chapter : </strong>
-                {questionData.chapter !== undefined
-                  ? questionData.chapter
-                  : "Loading..."}
-              </Typography>
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Box style={{ color: "#fff" }} mt={1} mb={2}>
-                <strong>Course : </strong>
-                {questionData.course !== undefined
-                  ? questionData.course.map((data, index) => {
+          <CardComponent>
+
+            <Grid container style={{ padding: '1% 5% 12px' }}>
+              <CardDepth>
+
+                <Typography variant='body1' color='error'>{questionData.rejectingcomment}</Typography>
+              </CardDepth>
+            </Grid>
+
+            <Box className={classes.question}>
+              <Box display="flex" justifyContent="space-between" mt={1}>
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Stream : </strong>
+                  {questionData.stream !== undefined
+                    ? questionData.stream
+                    : "Loading..."}
+                </Typography>
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Subject : </strong>
+                  {questionData.subject !== undefined
+                    ? questionData.subject
+                    : "Loading..."}
+                </Typography>
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Chapter : </strong>
+                  {questionData.chapter !== undefined
+                    ? questionData.chapter
+                    : "Loading..."}
+                </Typography>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Box style={{ color: "#fff" }} mt={1} mb={2}>
+                  <strong>Course : </strong>
+                  {questionData.course !== undefined
+                    ? questionData.course.map((data, index) => {
                       return (
                         <Typography
                           variant="p"
@@ -265,59 +285,58 @@ const [questionData,SetquestionData] = React.useState([])
                         </Typography>
                       );
                     })
-                  : "No Course"}
+                    : "No Course"}
+                </Box>
+                <Typography variant="p" style={{ color: "white" }}>
+                  <strong>Created At : </strong>
+                  {questionData.createdAt !== undefined
+                    ? questionData.createdAt
+                    : "Loading..."}
+                </Typography>
               </Box>
-              <Typography variant="p" style={{ color: "white" }}>
-                <strong>Created At : </strong>
-                {questionData.createdAt !== undefined
-                  ? questionData.createdAt
-                  : "Loading..."}
-              </Typography>
-            </Box>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography
-                variant="h6"
-                style={{ color: "white", marginBottom: 10 }}
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                <strong>Title : </strong>
-                {questionData.title !== undefined
-                  ? questionData.title
-                  : "Loading..."}
-              </Typography>
-            </Box>
-          </Box>
-
-          <Box className={classes.bodyvideoContainer}>
-            <Typography variant="h6" className={classes.bodypartstyle}>
-              <strong>Body : </strong>
-              {questionData.body !== undefined ? (
-                <EditorJS data={JSON.parse(questionData.body)} />
-              ) : (
-                // ? JSON.parse(questionData.body).blocks[0].text
-                "Loading..."
-              )}
-            </Typography>
-
-            {!questionData.noVideo && (
-              <Box className={classes.videoContainer}>
-                <Videojs {...videoJsOptions} />
+                <Typography
+                  variant="h6"
+                  style={{ color: "white", marginBottom: 10 }}
+                >
+                  <strong>Title : </strong>
+                  {questionData.title !== undefined
+                    ? questionData.title
+                    : "Loading..."}
+                </Typography>
               </Box>
-            )}
-          </Box>
-        </CardComponent>
-      </Grid>
-      ) : (
-              ''
-            )}
+            </Box>
+
+            <Grid item className={classes.bodyvideoContainer}>
+              <Grid>
+                <Typography variant="h6" className={classes.bodypartstyle}>
+                  <strong>Body : </strong>
+                </Typography>
+                {questionData.body !== undefined ? (
+                  <EditorJS data={JSON.parse(questionData.body)} />
+                ) : (
+                    "Loading..."
+                  )}
+              </Grid>
+              {questionData.noVideo === false && (
+                <Box className={classes.videoContainer}>
+                  <Videojs {...videoJsOptions} />
+                </Box>
+              )}
+            </Grid>
+
+          </CardComponent>
+        </Grid>
+      ) : <Loading/>:""}
     </Grid>
   );
 };
 
-UploadQBank.propType = {
+AlertShowQbook.propType = {
   checkTeacher: PropTypes.func.isRequired,
   teacherAuth: PropTypes.object.isRequired,
 };
@@ -328,4 +347,4 @@ const mapToProps = {
   checkTeacher,
 };
 
-export default connect(mapToState, mapToProps)(UploadQBank);
+export default connect(mapToState, mapToProps)(AlertShowQbook);

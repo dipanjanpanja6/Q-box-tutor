@@ -39,6 +39,7 @@ const AlertQbank = (props) => {
   }, []);
 
   useEffect(() => {
+    console.log(props);
     if (props.panddingcourse) {
       setState(props.panddingcourse);
     }

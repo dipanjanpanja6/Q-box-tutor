@@ -118,7 +118,9 @@ const styles = makeStyles((t) => ({
 const MonthlyTest = (props) => {
   const sty = styles();
   const history = useHistory();
-
+  useEffect(()=>{
+    document.title="Upload Monthly Test Question | Qrioctybox"
+      },[])
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -337,40 +339,11 @@ const MonthlyTest = (props) => {
                   alignItems: 'flex-start',
                   boxSizing: 'border-box',
                   paddingTop: '1%',
+                  color:'#fff'
                 }}
               >
-                <div
-                  style={{
-                    paddingTop: '6%',
-
-                    height: 54,
-                    width: 54,
-                  }}
-                >
-                  <CardComponent
-                    children={
-                      <div
-                        style={{
-                          height: '88%',
-                          width: '88%',
-                        }}
-                      >
-                        <CardDepth
-                          children={
-                            <Person
-                              style={{
-                                color: '#8d3ddc',
-                                height: 44,
-                                width: 44,
-                              }}
-                            />
-                          }
-                        />
-                      </div>
-                    }
-                  />
+                <h3>Monthly Test question upload </h3>
                 </div>
-              </div>
 
               <Grid container item xs={12} justify="space-around">
                 <Grid item sm={6} xs={12} className={sty.selectI}>

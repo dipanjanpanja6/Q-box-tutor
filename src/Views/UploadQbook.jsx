@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
@@ -117,11 +116,13 @@ const styles = makeStyles((t) => ({
 const UploadQBank = (props) => {
   const sty = styles();
   const history = useHistory();
-
+  useEffect(()=>{
+    document.title="Upload Q Book Question | Qrioctybox"
+      },[])
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
-    transformOrigin: { vertical: '', horizontal: 'left' },
+    transformOrigin: { vertical: 'top', horizontal: 'left' },
     PaperProps: {
       style: {
         maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
@@ -131,7 +132,7 @@ const UploadQBank = (props) => {
         background: Theme.boxColor,
         borderRadius: 41,
         // left: '10%',
-        transform: 'translateY(41%)',
+        // transform: 'translateY(41%)',
       },
     },
   };
@@ -316,42 +317,42 @@ const UploadQBank = (props) => {
         formData.append('document', JSON.stringify(data));
         setLoading(true);
         console.log(data.image, 'data image');
-        // console.log(formData, 'formData');
-        // axios(`${url}/api/upload/qbook`, {
-        //   method: 'POST',
-        //   withCredentials: true,
-        //   data: formData,
-        //   onUploadProgress: (progressEvent) => {
-        //     let percentCompleted = Math.round(
-        //       (progressEvent.loaded * 100) / progressEvent.total
-        //     );
-        //     setImageUploadProgress({
-        //       progress: percentCompleted,
-        //       processing: true,
-        //     });
-        //     if (percentCompleted === 100) {
-        //       setImageUploadProgress({
-        //         processing: false,
-        //         uploadFinished: true,
-        //         progress: 100,
-        //       });
-        //     }
-        //   },
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'multipart/form-data',
-        //   },
-        // })
-        //   .then((d) => {
-        //     setLoading(false);
-        //     toast.success('Data successfully added. Video on progress.');
-        //   })
-        //   .catch((r) => {
-        //     console.log(r);
-        //     toast.error('Failed!!! Try again');
-        //     setVideo('');
-        //     setLoading(false);
-        //   });
+        console.log(formData, 'formData');
+        axios(`${url}/api/upload/qbook`, {
+          method: 'POST',
+          withCredentials: true,
+          data: formData,
+          onUploadProgress: (progressEvent) => {
+            let percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setImageUploadProgress({
+              progress: percentCompleted,
+              processing: true,
+            });
+            if (percentCompleted === 100) {
+              setImageUploadProgress({
+                processing: false,
+                uploadFinished: true,
+                progress: 100,
+              });
+            }
+          },
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+          .then((d) => {
+            setLoading(false);
+            toast.success('Data successfully added. Video on progress.');
+          })
+          .catch((r) => {
+            console.log(r);
+            toast.error('Failed!!! Try again');
+            setVideo('');
+            setLoading(false);
+          });
       }
     }
   };
@@ -380,40 +381,11 @@ const UploadQBank = (props) => {
                   alignItems: 'flex-start',
                   boxSizing: 'border-box',
                   paddingTop: '1%',
+                  color:'#fff'
                 }}
               >
-                <div
-                  style={{
-                    paddingTop: '6%',
-
-                    height: 54,
-                    width: 54,
-                  }}
-                >
-                  <CardComponent
-                    children={
-                      <div
-                        style={{
-                          height: '88%',
-                          width: '88%',
-                        }}
-                      >
-                        <CardDepth
-                          children={
-                            <Person
-                              style={{
-                                color: '#8d3ddc',
-                                height: 44,
-                                width: 44,
-                              }}
-                            />
-                          }
-                        />
-                      </div>
-                    }
-                  />
+                <h3>Q Book question upload </h3>
                 </div>
-              </div>
 
               <Grid container item xs={12} justify="space-around">
                 <Grid item sm={6} xs={12} className={sty.selectI}>
@@ -476,10 +448,10 @@ const UploadQBank = (props) => {
                             </MenuItem>
                           ))
                         ) : (
-                          <MenuItem disabled value="loading">
-                            loading
-                          </MenuItem>
-                        )}
+                            <MenuItem disabled value="loading">
+                              loading
+                            </MenuItem>
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -509,12 +481,12 @@ const UploadQBank = (props) => {
                         {subject.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          subject.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            subject.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -541,12 +513,12 @@ const UploadQBank = (props) => {
                         {chapter.length === 0 ? (
                           <MenuItem value="loading">loading</MenuItem>
                         ) : (
-                          chapter.map((name) => (
-                            <MenuItem key={name.ID} value={name.name}>
-                              {name.name}
-                            </MenuItem>
-                          ))
-                        )}
+                            chapter.map((name) => (
+                              <MenuItem key={name.ID} value={name.name}>
+                                {name.name}
+                              </MenuItem>
+                            ))
+                          )}
                       </Select>
                     </CardDepth>
                   </div>
@@ -630,8 +602,8 @@ const UploadQBank = (props) => {
           )}
         </Grid>
       ) : (
-        ''
-      )}
+              ''
+            )}
     </Grid>
   );
 };
